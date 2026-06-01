@@ -1,124 +1,56 @@
-// Three.js 3D Background
-let scene, camera, renderer, particles;
-
-function initThreeJS() {
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
-
-    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    document.getElementById('webgl-container').appendChild(renderer.domElement);
-
-    const geometry = new THREE.SphereGeometry(2, 32, 32);
-    const material = new THREE.MeshBasicMaterial({
-        color: 0x00D4FF,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.1
-    });
-    particles = new THREE.Mesh(geometry, material);
-    scene.add(particles);
-
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 500;
-    const posArray = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 20;
-    }
-
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-    const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.03,
-        color: 0x00D4FF,
-        transparent: true,
-        opacity: 0.6
-    });
-
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
-
-    window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-}
-
-function animate() {
-    requestAnimationFrame(animate);
-    particles.rotation.x += 0.002;
-    particles.rotation.y += 0.002;
-    renderer.render(scene, camera);
-}
-
-// GSAP Animations
-function initGSAP() {
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.from('.hero-title', {
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: 'power3.out'
-    });
-
-    gsap.from('.hero-subtitle', {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        delay: 0.2,
-        ease: 'power3.out'
-    });
-
-    gsap.from('.hero-buttons', {
-        opacity: 0,
-        y: 30,
-        duration: 1,
-        delay: 0.4,
-        ease: 'power3.out'
-    });
-
-    gsap.utils.toArray('.step-card').forEach((card, i) => {
-        gsap.from(card, {
-            opacity: 0,
-            y: 50,
-            duration: 0.8,
-            scrollTrigger: {
-                trigger: card,
-                start: 'top 80%',
+// Animated Counters
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-value');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseFloat(counter.getAttribute('data-target'));
+                let count = 0;
+                const speed = 50;
+                
+                const updateCount = () => {
+                    const increment = target / speed;
+                    if (count < target) {
+                        count = Math.ceil(count + increment);
+                        if (counter.getAttribute('data-target') === '1:2') {
+                            counter.textContent = '1:2';
+                        } else {
+                            counter.textContent = count;
+                        }
+                        requestAnimationFrame(updateCount);
+                    } else {
+                        if (counter.getAttribute('data-target') === '1:2') {
+                            counter.textContent = '1:2';
+                        } else {
+                            counter.textContent = target;
+                        }
+                    }
+                };
+                updateCount();
+                observer.unobserve(counter);
             }
         });
     });
-
-    gsap.utils.toArray('.feature-card').forEach((card, i) => {
-        gsap.from(card, {
-            opacity: 0,
-            y: 50,
-            duration: 0.8,
-            scrollTrigger: {
-                trigger: card,
-                start: 'top 85%',
-            }
-        });
-    });
+    
+    counters.forEach(counter => observer.observe(counter));
 }
 
-// Chart.js Charts
-function initCharts() {
-    const heroCtx = document.getElementById('heroChart').getContext('2d');
-    const heroChart = new Chart(heroCtx, {
+// Hero Chart with Chart.js
+function initHeroChart() {
+    const ctx = document.getElementById('heroChart');
+    if (!ctx) return;
+    
+    const chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
             datasets: [{
                 label: 'Performance',
-                data: [10, 15, 12, 18, 22, 25],
-                borderColor: '#00D4FF',
-                backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                data: [10, 15, 12, 18, 22, 20, 25],
+                borderColor: '#FFD700',
+                backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                borderWidth: 3,
                 tension: 0.4,
                 fill: true
             }]
@@ -130,22 +62,28 @@ function initCharts() {
                 x: { display: false },
                 y: { display: false }
             },
-            plugins: { legend: { display: false } },
-            elements: { line: { borderWidth: 2 } }
+            plugins: { legend: { display: false } }
         }
     });
+}
 
-    const liveCtx = document.getElementById('liveChart').getContext('2d');
-    const liveChart = new Chart(liveCtx, {
-        type: 'candlestick',
-        data: generateCandleData(),
+// Performance Chart
+function initPerformanceChart() {
+    const ctx = document.getElementById('performanceChart');
+    if (!ctx) return;
+    
+    const chart = new Chart(ctx, {
+        type: 'line',
+        data: generateChartData(),
         options: {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                x: { display: false },
-                y: { 
-                    display: true,
+                x: {
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#B8B8C8' }
+                },
+                y: {
                     grid: { color: 'rgba(255,255,255,0.05)' },
                     ticks: { color: '#B8B8C8' }
                 }
@@ -153,70 +91,136 @@ function initCharts() {
             plugins: { legend: { display: false } }
         }
     });
-
+    
     setInterval(() => {
-        liveChart.data = generateCandleData();
-        liveChart.update();
+        chart.data = generateChartData();
+        chart.update();
     }, 3000);
 }
 
-function generateCandleData() {
+function generateChartData() {
+    const labels = [];
     const data = [];
-    for (let i = 0; i < 20; i++) {
-        const open = 100 + Math.random() * 10;
-        const close = open + (Math.random() - 0.5) * 5;
-        data.push({
-            x: i,
-            o: open,
-            h: Math.max(open, close) + Math.random() * 3,
-            l: Math.min(open, close) - Math.random() * 3,
-            c: close
-        });
-    }
-    return { datasets: [{ label: 'EUR/USD', data: data }] };
-}
-
-// Globe Visualization
-function initGlobe() {
-    const globeContainer = document.getElementById('globe-container');
-    if (!globeContainer) return;
-
-    const width = globeContainer.offsetWidth;
-    const height = globeContainer.offsetHeight;
-
-    const globeScene = new THREE.Scene();
-    const globeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    const globeRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const now = new Date();
     
-    globeRenderer.setSize(width, height);
-    globeContainer.appendChild(globeRenderer.domElement);
-
-    const globeGeometry = new THREE.SphereGeometry(5, 32, 32);
-    const globeMaterial = new THREE.MeshBasicMaterial({
-        color: 0x080B14,
-        wireframe: true,
-        opacity: 0.3,
-        transparent: true
-    });
-    const globe = new THREE.Mesh(globeGeometry, globeMaterial);
-    globeScene.add(globe);
-
-    globeCamera.position.z = 10;
-
-    function animateGlobe() {
-        requestAnimationFrame(animateGlobe);
-        globe.rotation.y += 0.005;
-        globeRenderer.render(globeScene, globeCamera);
+    for (let i = 0; i < 30; i++) {
+        labels.push('');
+        data.push(100 + Math.random() * 20);
     }
-
-    animateGlobe();
+    
+    return {
+        labels: labels,
+        datasets: [{
+            label: 'EUR/USD',
+            data: data,
+            borderColor: '#00CFFF',
+            backgroundColor: 'rgba(0, 207, 255, 0.05)',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true
+        }]
+    };
 }
+
+// GSAP Animations
+function initAnimations() {
+    const gsapAvailable = typeof gsap !== 'undefined';
+    
+    if (!gsapAvailable) {
+        console.warn('GSAP not loaded');
+        return;
+    }
+    
+    gsap.registerPlugin(ScrollTrigger);
+    
+    gsap.utils.toArray('section').forEach((section, i) => {
+        gsap.from(section.querySelector('.section-header'), {
+            opacity: 0,
+            y: 30,
+            duration: 0.8,
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 80%'
+            }
+        });
+    });
+    
+    gsap.utils.toArray('.feature-card').forEach((card, i) => {
+        gsap.from(card, {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            delay: i * 0.1,
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%'
+            }
+        });
+    });
+}
+
+// Smooth Scrolling
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+});
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    initThreeJS();
-    initGSAP();
-    initCharts();
-    initGlobe();
-    animate();
+    animateCounters();
+    initHeroChart();
+    initPerformanceChart();
+    initAnimations();
 });
+
+// Particles.js fallback
+function initParticles() {
+    const container = document.getElementById('particles-js');
+    if (!container) return;
+    
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+    
+    const geometry = new THREE.BufferGeometry();
+    const particles = 300;
+    const positions = new Float32Array(particles * 3);
+    
+    for (let i = 0; i < particles * 3; i++) {
+        positions[i] = (Math.random() - 0.5) * 20;
+    }
+    
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const material = new THREE.PointsMaterial({
+        size: 0.05,
+        color: 0x00CFFF,
+        transparent: true,
+        opacity: 0.5
+    });
+    
+    const mesh = new THREE.Points(geometry, material);
+    scene.add(mesh);
+    camera.position.z = 10;
+    
+    function animate() {
+        requestAnimationFrame(animate);
+        mesh.rotation.y += 0.001;
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+    
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+}

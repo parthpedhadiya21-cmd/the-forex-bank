@@ -3,13 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE FOREX BANK - Professional Forex Copy Trading</title>
+    <title>THE FOREX BANK - Premium Forex Copy Trading</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div id="particles-js"></div>
+    <!-- Aurora Background -->
+    <div class="aurora-container">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
+        <div class="aurora aurora-4"></div>
+    </div>
     
+    <!-- 3D Background -->
+    <div id="threejs-bg"></div>
+    
+    <!-- Mouse Glow Effect -->
+    <div class="mouse-glow"></div>
+
+    <!-- Live Ticker -->
+    <div class="ticker-strip">
+        <div class="ticker-content">
+            <span class="ticker-item">EUR/USD: 1.0875 ↑</span>
+            <span class="ticker-item">GBP/USD: 1.2642 ↓</span>
+            <span class="ticker-item">USD/JPY: 151.25 ↑</span>
+            <span class="ticker-item">XAU/USD: 2345.60 ↑</span>
+            <span class="ticker-item">USD/CAD: 1.3642 ↓</span>
+            <span class="ticker-item">BTC/USD: 67,850 ↑</span>
+            <span class="ticker-item">ETH/USD: 3,450 ↓</span>
+            <span class="ticker-item">EUR/USD: 1.0875 ↑</span>
+            <span class="ticker-item">GBP/USD: 1.2642 ↓</span>
+            <span class="ticker-item">USD/JPY: 151.25 ↑</span>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <header class="header">
         <nav class="navbar">
@@ -17,8 +49,11 @@
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#features">Features</a></li>
                 <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#performance">Performance</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#pricing">Pricing</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
@@ -37,70 +72,68 @@
                 <button class="secondary-btn">Book Consultation</button>
             </div>
         </div>
-        <div class="hero-visual">
-            <canvas id="heroChart"></canvas>
-            <div class="currency-ticker">
-                <div class="ticker-item">EUR/USD</div>
-                <div class="ticker-item">GBP/USD</div>
-                <div class="ticker-item">USD/JPY</div>
-                <div class="ticker-item">AUD/USD</div>
-                <div class="ticker-item">USD/CAD</div>
-            </div>
+        <div class="floating-pairs">
+            <div class="pair pair-1">EUR/USD</div>
+            <div class="pair pair-2">GBP/USD</div>
+            <div class="pair pair-3">XAU/USD</div>
+            <div class="pair pair-4">USD/JPY</div>
+            <div class="pair pair-5">USD/CAD</div>
+            <div class="pair pair-6">AUD/USD</div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about section">
-        <div class="section-header">
-            <h2>About THE FOREX BANK</h2>
-            <div class="underline"></div>
-        </div>
+    <!-- About -->
+    <section id="about" class="about section glass-section">
+        <h2 class="section-title">About THE FOREX BANK</h2>
         <div class="about-grid">
             <div class="about-card">
-                <h3>5+ Years Experience</h3>
-                <p>We bring over five years of dedicated market expertise to deliver consistent trading performance.</p>
+                <img src="https://images.unsplash.com/photo-1611974789855-4ecf5bbf9d3a?w=600&h=400&fit=crop&q=80" alt="Trading Desk" class="about-image">
+                <h3>Premium Trading Infrastructure</h3>
+                <p>State-of-the-art infrastructure for algorithmic trading with millisecond execution speeds.</p>
             </div>
             <div class="about-card">
-                <h3>Algorithmic Trading</h3>
-                <p>Our advanced algorithms analyze market conditions and execute trades with precision timing.</p>
-            </div>
-            <div class="about-card">
-                <h3>Risk Management</h3>
-                <p>Every trade includes Stop Loss and Take Profit protection for disciplined risk control.</p>
-            </div>
-            <div class="about-card">
-                <h3>Transparent Service</h3>
-                <p>Clear fee structure and real-time performance tracking for complete transparency.</p>
+                <img src="https://images.unsplash.com/photo-1551288044-1ea2760ab807?w=600&h=400&fit=crop&q=80" alt="Financial Charts" class="about-image">
+                <h3>Data Driven Strategies</h3>
+                <p>Advanced algorithms analyze market data to identify optimal entry and exit points.</p>
             </div>
         </div>
     </section>
 
-    <!-- Why Choose Us -->
-    <section id="why-us" class="why-us section">
-        <div class="section-header">
-            <h2>Why Choose Us</h2>
-            <div class="underline"></div>
+    <!-- Experience -->
+    <section id="experience" class="experience section">
+        <h2 class="section-title">5+ Years Market Experience</h2>
+        <div class="experience-content">
+            <div class="exp-stats">
+                <div class="exp-stat">
+                    <span class="exp-number" data-target="5">0</span>
+                    <span class="exp-label">Years Experience</span>
+                </div>
+                <div class="exp-stat">
+                    <span class="exp-number" data-target="10000">0</span>
+                    <span class="exp-label">Trades Executed</span>
+                </div>
+                <div class="exp-stat">
+                    <span class="exp-number" data-target="78">0</span>
+                    <span class="exp-label">Avg Win Rate %</span>
+                </div>
+            </div>
+            <p class="exp-text">Since 2019, we've been perfecting our trading algorithms and risk management strategies to deliver consistent performance in volatile forex markets.</p>
         </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features section glass-section">
+        <h2 class="section-title">Why Choose THE FOREX BANK</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">🏆</div>
-                <h3>5+ Years Experience</h3>
-                <p>Proven track record in forex markets with consistent strategy execution.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h3>Algo Trading</h3>
-                <p>Advanced algorithmic systems for precise market entry and exit.</p>
+                <div class="feature-icon">🤖</div>
+                <h3>Algorithmic Trading</h3>
+                <p>Advanced algo systems for precise market entry and exit with zero emotional bias.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🛡️</div>
                 <h3>SL & TP Protection</h3>
-                <p>Risk-managed trades with every position having stop loss and take profit.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3>Profit Share Model</h3>
-                <p>Only 30% from generated profit. No profit, no performance fee.</p>
+                <p>Risk-managed trades with Stop Loss and Take Profit on every position.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🤝</div>
@@ -108,109 +141,120 @@
                 <p>Seamlessly integrated with Vantage for optimal trading conditions.</p>
             </div>
             <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>30% Profit Share</h3>
+                <p>Performance-based fee. No profit, no performance fee.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Live Analytics</h3>
+                <p>Real-time performance tracking and detailed analytics.</p>
+            </div>
+            <div class="feature-card">
                 <div class="feature-icon">🎧</div>
                 <h3>Pro Support</h3>
-                <p>Dedicated professional support team available for assistance.</p>
+                <p>Dedicated professional support team for seamless service.</p>
             </div>
         </div>
     </section>
 
     <!-- How It Works -->
     <section id="how-it-works" class="how-it-works section">
-        <div class="section-header">
-            <h2>How Copy Trading Works</h2>
-            <div class="underline"></div>
-        </div>
+        <h2 class="section-title">How Copy Trading Works</h2>
         <div class="steps-container">
             <div class="step">
                 <div class="step-number">01</div>
                 <h3>Open Vantage Account</h3>
-                <p>Create your account with our partner broker Vantage.</p>
+                <p>Create your account with our partner broker.</p>
             </div>
             <div class="step-connector"></div>
             <div class="step">
                 <div class="step-number">02</div>
-                <h3>Connect Trading Account</h3>
+                <h3>Connect Account</h3>
                 <p>Securely link your trading account to our system.</p>
             </div>
             <div class="step-connector"></div>
             <div class="step">
                 <div class="step-number">03</div>
-                <h3>Join Copy System</h3>
+                <h3>Choose Strategy</h3>
                 <p>Select your preferred trading strategy and risk level.</p>
             </div>
             <div class="step-connector"></div>
             <div class="step">
                 <div class="step-number">04</div>
-                <h3>Auto Execute Trades</h3>
-                <p>Trades are automatically copied to your account in real-time.</p>
+                <h3>Auto Execute</h3>
+                <p>Trades automatically copied to your account.</p>
             </div>
             <div class="step-connector"></div>
             <div class="step">
                 <div class="step-number">05</div>
-                <h3>Pay Profit Share</h3>
-                <p>Only 30% from generated profit. We succeed when you succeed.</p>
+                <h3>Profit Share</h3>
+                <p>Only 30% from generated profit.</p>
             </div>
         </div>
     </section>
 
-    <!-- Live Dashboard -->
-    <section id="performance" class="dashboard section">
-        <div class="section-header">
-            <h2>Live Trading Dashboard</h2>
-            <div class="underline"></div>
-        </div>
-        <div class="dashboard-grid">
-            <div class="chart-card">
-                <canvas id="performanceChart"></canvas>
+    <!-- Dashboard -->
+    <section id="dashboard" class="dashboard section glass-section">
+        <h2 class="section-title">Live 3D Trading Dashboard</h2>
+        <div class="dashboard-container">
+            <div class="chart-wrapper">
+                <canvas id="liveChart"></canvas>
             </div>
-            <div class="stats-grid">
+            <div class="dashboard-stats">
                 <div class="stat-card">
+                    <span class="stat-label">Account Growth</span>
                     <span class="stat-value" data-target="12.4">0</span>
-                    <span class="stat-label">Account Growth (%)</span>
                 </div>
                 <div class="stat-card">
+                    <span class="stat-label">Win Rate</span>
                     <span class="stat-value" data-target="78">0</span>
-                    <span class="stat-label">Win Rate (%)</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-value" data-target="1:2">0</span>
-                    <span class="stat-label">Risk Control</span>
+                    <span class="stat-label">Risk Ratio</span>
+                    <span class="stat-value">1:2</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-value" data-target="15">0</span>
                     <span class="stat-label">Active Trades</span>
+                    <span class="stat-value" data-target="15">0</span>
                 </div>
             </div>
         </div>
-        <div class="currency-strength">
-            <div class="strength-meter">
-                <span>EUR</span>
-                <div class="meter-bar">
-                    <div class="meter-fill" style="width: 75%"></div>
-                </div>
-                <span>USD</span>
+        <div id="globe-container"></div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="gallery section">
+        <h2 class="section-title">Trading Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1601198886153-c2b6c2f5c6c4?w=600&h=400&fit=crop&q=80" alt="Trader Desk">
             </div>
-            <div class="strength-meter">
-                <span>GBP</span>
-                <div class="meter-bar">
-                    <div class="meter-fill" style="width: 62%"></div>
-                </div>
-                <span>USD</span>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551288044-1ea2760ab807?w=600&h=400&fit=crop&q=80" alt="Market Chart">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1591696205652-1a7c4722b9c2?w=600&h=400&fit=crop&q=80" alt="Financial Skyline">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1551288044-1ea2760ab807?w=600&h=400&fit=crop&q=80" alt="Trading Setup">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1601198886153-c2b6c2f5c6c4?w=600&h=400&fit=crop&q=80" alt="Gold Trading">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1591696205652-1a7c4722b9c2?w=600&h=400&fit=crop&q=80" alt="Dashboard">
             </div>
         </div>
     </section>
 
     <!-- Pricing -->
     <section id="pricing" class="pricing section">
-        <div class="section-header">
-            <h2>Performance Based Model</h2>
-            <div class="underline"></div>
-        </div>
+        <h2 class="section-title">Performance Based Model</h2>
         <p class="pricing-text">We only earn when our clients earn.</p>
         <div class="pricing-card">
             <div class="price-badge">30%</div>
-            <h3>Profit Share</h3>
+            <h3>Profit Share Fee</h3>
             <ul class="pricing-features">
                 <li>No Setup Fee</li>
                 <li>No Hidden Charges</li>
@@ -221,38 +265,35 @@
     </section>
 
     <!-- FAQ -->
-    <section id="faq" class="faq section">
-        <div class="section-header">
-            <h2>Frequently Asked Questions</h2>
-            <div class="underline"></div>
-        </div>
+    <section id="faq" class="faq section glass-section">
+        <h2 class="section-title">Frequently Asked Questions</h2>
         <div class="faq-container">
             <div class="faq-item">
                 <div class="faq-question">What is copy trading?</div>
-                <div class="faq-answer">Copy trading allows you to automatically replicate trades from experienced traders in real-time.</div>
+                <div class="faq-answer">Copy trading allows you to automatically replicate trades from experienced traders in real-time without manual intervention.</div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">How much is the fee?</div>
-                <div class="faq-answer">We charge only 30% from generated profit. No profit, no fee.</div>
+                <div class="faq-answer">We charge only 30% from generated profit. No profit, no performance fee. This aligns our interests with yours.</div>
             </div>
             <div class="faq-item">
                 <div class="faq-question">Which broker do you use?</div>
-                <div class="faq-answer">We exclusively work with Vantage broker for optimal trading conditions.</div>
+                <div class="faq-answer">We exclusively work with Vantage broker for optimal trading conditions and execution speeds.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Is there risk involved?</div>
+                <div class="faq-answer">Yes, forex trading involves substantial risk. We implement SL/TP on every trade but past performance doesn't guarantee future results.</div>
             </div>
         </div>
     </section>
 
     <!-- Contact -->
     <section id="contact" class="contact section">
-        <div class="section-header">
-            <h2>Contact Us</h2>
-            <div class="underline"></div>
-        </div>
+        <h2 class="section-title">Contact Us</h2>
         <div class="contact-container">
             <div class="contact-buttons">
                 <button class="contact-btn whatsapp">WhatsApp</button>
                 <button class="contact-btn telegram">Telegram</button>
-                <button class="contact-btn consultation">Book Free Consultation</button>
             </div>
             <form class="contact-form">
                 <input type="text" placeholder="Your Name" required>
@@ -260,23 +301,30 @@
                 <textarea placeholder="Your Message" rows="4" required></textarea>
                 <button type="submit" class="submit-btn">Send Message</button>
             </form>
+            <button class="consultation-btn">Book Free Consultation</button>
+        </div>
+    </section>
+
+    <!-- Legal -->
+    <section class="legal section">
+        <div class="legal-content">
+            <strong>Important Risk Disclaimer:</strong> Forex trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Only trade with capital you can afford to lose.
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-brand">
-                <h3>THE FOREX BANK</h3>
-                <p>Professional Forex Copy Trading</p>
-            </div>
-            <div class="legal">
-                <p>Forex trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Trade only with risk capital you can afford to lose.</p>
+            <h3>THE FOREX BANK</h3>
+            <p>Professional Forex Copy Trading Services</p>
+            <div class="footer-links">
+                <a href="#legal">Risk Disclaimer</a>
+                <a href="#terms">Terms</a>
+                <a href="#privacy">Privacy</a>
             </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

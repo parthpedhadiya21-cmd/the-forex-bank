@@ -3,175 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VantageFX Pro - Professional Forex Copy Trading</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>THE FOREX BANK - Professional Forex Copy Trading</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="webgl-container"></div>
+    <div id="particles-js"></div>
     
+    <!-- Navigation -->
     <header class="header">
         <nav class="navbar">
-            <div class="logo">Vantage<span>FX</span>Pro</div>
+            <div class="logo">THE <span>FOREX BANK</span></div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#performance">Performance</a></li>
                 <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="cta-button">Sign In</button>
+            <button class="sign-in-btn">Sign In</button>
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Professional Forex Copy Trading With Algo Precision</h1>
-            <p class="hero-subtitle">Grow with experienced traders using structured risk management, SL/TP based trades, and 30% profit-share model.</p>
+            <h1 class="hero-title">Professional Forex Copy Trading Powered By Advanced Algorithms</h1>
+            <p class="hero-subtitle">Join experienced traders with 5+ years of market expertise, disciplined risk management, and automated forex execution.</p>
             <div class="hero-buttons">
                 <button class="primary-btn">Start Copy Trading</button>
-                <button class="secondary-btn">Book Free Consultation</button>
+                <button class="secondary-btn">Book Consultation</button>
             </div>
         </div>
-        <div class="hero-chart">
+        <div class="hero-visual">
             <canvas id="heroChart"></canvas>
+            <div class="currency-ticker">
+                <div class="ticker-item">EUR/USD</div>
+                <div class="ticker-item">GBP/USD</div>
+                <div class="ticker-item">USD/JPY</div>
+                <div class="ticker-item">AUD/USD</div>
+                <div class="ticker-item">USD/CAD</div>
+            </div>
         </div>
     </section>
 
+    <!-- About Section -->
     <section id="about" class="about section">
-        <h2 class="section-title">About Us</h2>
-        <div class="about-content">
-            <p class="about-text">With 5+ years of market experience, we specialize in algo-based trading systems that prioritize discipline, risk control, and transparency. Our professional team combines algorithmic precision with human oversight to deliver consistent trading performance.</p>
-            <div class="experience-badge">
-                <span class="exp-years">5+</span>
-                <span class="exp-label">Years Experience</span>
+        <div class="section-header">
+            <h2>About THE FOREX BANK</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>5+ Years Experience</h3>
+                <p>We bring over five years of dedicated market expertise to deliver consistent trading performance.</p>
+            </div>
+            <div class="about-card">
+                <h3>Algorithmic Trading</h3>
+                <p>Our advanced algorithms analyze market conditions and execute trades with precision timing.</p>
+            </div>
+            <div class="about-card">
+                <h3>Risk Management</h3>
+                <p>Every trade includes Stop Loss and Take Profit protection for disciplined risk control.</p>
+            </div>
+            <div class="about-card">
+                <h3>Transparent Service</h3>
+                <p>Clear fee structure and real-time performance tracking for complete transparency.</p>
             </div>
         </div>
     </section>
 
-    <section id="how-it-works" class="how-it-works section">
-        <h2 class="section-title">How Copy Trading Works</h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-number">01</div>
-                <h3>Open Vantage Account</h3>
-                <p>Connect your Vantage broker account to our platform securely</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">02</div>
-                <h3>Join Copy System</h3>
-                <p>Select your preferred strategy and risk level</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">03</div>
-                <h3>Auto Copy Trades</h3>
-                <p>Trades execute automatically with SL/TP protection</p>
-            </div>
-            <div class="step-card">
-                <div class="step-number">04</div>
-                <h3>Profit Share 30%</h3>
-                <p>We charge only 30% from generated profit</p>
-            </div>
+    <!-- Why Choose Us -->
+    <section id="why-us" class="why-us section">
+        <div class="section-header">
+            <h2>Why Choose Us</h2>
+            <div class="underline"></div>
         </div>
-    </section>
-
-    <section id="features" class="features section">
-        <h2 class="section-title">Why Choose Us</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Algo Trading Strategy</h3>
-                <p>Automated precision trading with algorithmic signals</p>
+                <div class="feature-icon">🏆</div>
+                <h3>5+ Years Experience</h3>
+                <p>Proven track record in forex markets with consistent strategy execution.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Algo Trading</h3>
+                <p>Advanced algorithmic systems for precise market entry and exit.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🛡️</div>
                 <h3>SL & TP Protection</h3>
-                <p>Every trade includes stop loss and take profit levels</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Risk Management</h3>
-                <p>Professional risk control protocols in place</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🤝</div>
-                <h3>Vantage Broker</h3>
-                <p>Integrated with Vantage for seamless trading</p>
+                <p>Risk-managed trades with every position having stop loss and take profit.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💰</div>
                 <h3>Profit Share Model</h3>
-                <p>Only 30% from profit - no profit, no fee</p>
+                <p>Only 30% from generated profit. No profit, no performance fee.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">🏆</div>
-                <h3>5+ Years Experience</h3>
-                <p>Proven track record in forex markets</p>
+                <div class="feature-icon">🤝</div>
+                <h3>Vantage Broker</h3>
+                <p>Seamlessly integrated with Vantage for optimal trading conditions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎧</div>
+                <h3>Pro Support</h3>
+                <p>Dedicated professional support team available for assistance.</p>
             </div>
         </div>
     </section>
 
-    <section id="dashboard" class="dashboard section">
-        <h2 class="section-title">Live Trading Dashboard</h2>
-        <div class="dashboard-container">
-            <div class="chart-container">
-                <canvas id="liveChart"></canvas>
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works section">
+        <div class="section-header">
+            <h2>How Copy Trading Works</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">01</div>
+                <h3>Open Vantage Account</h3>
+                <p>Create your account with our partner broker Vantage.</p>
             </div>
-            <div class="dashboard-stats">
+            <div class="step-connector"></div>
+            <div class="step">
+                <div class="step-number">02</div>
+                <h3>Connect Trading Account</h3>
+                <p>Securely link your trading account to our system.</p>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+                <div class="step-number">03</div>
+                <h3>Join Copy System</h3>
+                <p>Select your preferred trading strategy and risk level.</p>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+                <div class="step-number">04</div>
+                <h3>Auto Execute Trades</h3>
+                <p>Trades are automatically copied to your account in real-time.</p>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step">
+                <div class="step-number">05</div>
+                <h3>Pay Profit Share</h3>
+                <p>Only 30% from generated profit. We succeed when you succeed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Dashboard -->
+    <section id="performance" class="dashboard section">
+        <div class="section-header">
+            <h2>Live Trading Dashboard</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="dashboard-grid">
+            <div class="chart-card">
+                <canvas id="performanceChart"></canvas>
+            </div>
+            <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-label">Account Growth</span>
-                    <span class="stat-value">+12.4%</span>
+                    <span class="stat-value" data-target="12.4">0</span>
+                    <span class="stat-label">Account Growth (%)</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">Win Rate</span>
-                    <span class="stat-value">78%</span>
+                    <span class="stat-value" data-target="78">0</span>
+                    <span class="stat-label">Win Rate (%)</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">Risk Ratio</span>
-                    <span class="stat-value">1:2</span>
+                    <span class="stat-value" data-target="1:2">0</span>
+                    <span class="stat-label">Risk Control</span>
                 </div>
                 <div class="stat-card">
+                    <span class="stat-value" data-target="15">0</span>
                     <span class="stat-label">Active Trades</span>
-                    <span class="stat-value">12</span>
                 </div>
             </div>
         </div>
-        <div id="globe-container"></div>
-    </section>
-
-    <section id="pricing" class="pricing section">
-        <h2 class="section-title">Profit Share Model</h2>
-        <div class="pricing-content">
-            <div class="pricing-card">
-                <h3>Performance Fee</h3>
-                <div class="price">30% <span>Only From Profit</span></div>
-                <p>No profit, no performance fee. Transparent, fair pricing.</p>
-                <ul class="pricing-features">
-                    <li>No upfront fees</li>
-                    <li>No subscription charges</li>
-                    <li>Pay only from profits generated</li>
-                </ul>
+        <div class="currency-strength">
+            <div class="strength-meter">
+                <span>EUR</span>
+                <div class="meter-bar">
+                    <div class="meter-fill" style="width: 75%"></div>
+                </div>
+                <span>USD</span>
+            </div>
+            <div class="strength-meter">
+                <span>GBP</span>
+                <div class="meter-bar">
+                    <div class="meter-fill" style="width: 62%"></div>
+                </div>
+                <span>USD</span>
             </div>
         </div>
     </section>
 
-    <section id="disclaimer" class="disclaimer section">
-        <p><strong>Important Risk Disclaimer:</strong> Forex trading involves substantial risk of loss. Past performance does not guarantee future results. Trading with leverage carries high risk and may not be suitable for all investors. Only trade with capital you can afford to lose. Our services are for educational and informational purposes only.</p>
+    <!-- Pricing -->
+    <section id="pricing" class="pricing section">
+        <div class="section-header">
+            <h2>Performance Based Model</h2>
+            <div class="underline"></div>
+        </div>
+        <p class="pricing-text">We only earn when our clients earn.</p>
+        <div class="pricing-card">
+            <div class="price-badge">30%</div>
+            <h3>Profit Share</h3>
+            <ul class="pricing-features">
+                <li>No Setup Fee</li>
+                <li>No Hidden Charges</li>
+                <li>No Monthly Fee</li>
+                <li>Performance Based</li>
+            </ul>
+        </div>
     </section>
 
+    <!-- FAQ -->
+    <section id="faq" class="faq section">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What is copy trading?</div>
+                <div class="faq-answer">Copy trading allows you to automatically replicate trades from experienced traders in real-time.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How much is the fee?</div>
+                <div class="faq-answer">We charge only 30% from generated profit. No profit, no fee.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Which broker do you use?</div>
+                <div class="faq-answer">We exclusively work with Vantage broker for optimal trading conditions.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
     <section id="contact" class="contact section">
-        <h2 class="section-title">Contact Us</h2>
+        <div class="section-header">
+            <h2>Contact Us</h2>
+            <div class="underline"></div>
+        </div>
         <div class="contact-container">
             <div class="contact-buttons">
-                <button class="whatsapp-btn">WhatsApp</button>
-                <button class="telegram-btn">Telegram</button>
+                <button class="contact-btn whatsapp">WhatsApp</button>
+                <button class="contact-btn telegram">Telegram</button>
+                <button class="contact-btn consultation">Book Free Consultation</button>
             </div>
             <form class="contact-form">
                 <input type="text" placeholder="Your Name" required>
@@ -179,18 +260,23 @@
                 <textarea placeholder="Your Message" rows="4" required></textarea>
                 <button type="submit" class="submit-btn">Send Message</button>
             </form>
-            <button class="consultation-btn">Book Free Consultation</button>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2026 VantageFX Pro. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="#disclaimer">Risk Disclaimer</a>
-            <a href="#terms">Terms</a>
-            <a href="#privacy">Privacy</a>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>THE FOREX BANK</h3>
+                <p>Professional Forex Copy Trading</p>
+            </div>
+            <div class="legal">
+                <p>Forex trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Trade only with risk capital you can afford to lose.</p>
+            </div>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
-</body></html>
+</body>
+</html>

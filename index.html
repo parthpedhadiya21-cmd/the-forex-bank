@@ -1,49 +1,536 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Forex Bank</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE FOREX BANK - Premium Forex Copy Trading</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-<div class="bg"></div>
-<nav>
-<div class="logo">THE FOREX BANK</div>
-<a href="#contact" class="btn">Start Trading</a>
-</nav>
+<body class="app-shell">
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">THE FOREX BANK</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="loading-text">Loading Premium Experience</div>
+        </div>
+    </div>
 
-<section class="hero">
-<h1>Elite Forex Copy Trading</h1>
-<p>Advanced algorithms, risk management and professional execution.</p>
-<div class="stats">
-<div><span id="p1">0</span>% Win Rate</div>
-<div><span id="p2">0</span>+ Clients</div>
-<div><span id="p3">0</span> Years</div>
-</div>
-</section>
+    <!-- Aurora Background -->
+    <div class="aurora-container">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+        <div class="aurora aurora-3"></div>
+        <div class="aurora aurora-4"></div>
+    </div>
+    
+    <!-- 3D Background -->
+    <div id="threejs-bg"></div>
+    
+    <!-- Mouse Glow Effect -->
+    <div class="mouse-glow"></div>
+    <div class="scene-grid"></div>
+    <div class="scene-halo halo-1"></div>
+    <div class="scene-halo halo-2"></div>
 
-<section class="cards">
-<div class="card">Automated Execution</div>
-<div class="card">SL / TP Protection</div>
-<div class="card">Live Analytics</div>
-<div class="card">24/7 Support</div>
-</section>
+    <!-- Live Ticker -->
+    <div class="ticker-strip">
+        <div class="ticker-content" id="ticker-content">
+            <span class="ticker-item">EUR/USD: 1.0875 <span class="up">↑</span></span>
+            <span class="ticker-item">GBP/USD: 1.2642 <span class="down">↓</span></span>
+            <span class="ticker-item">USD/JPY: 151.25 <span class="up">↑</span></span>
+            <span class="ticker-item">XAU/USD: 2345.60 <span class="up">↑</span></span>
+            <span class="ticker-item">BTC/USD: 67,850 <span class="up">↑</span></span>
+            <span class="ticker-item">NAS100: 19845 <span class="down">↓</span></span>
+            <span class="ticker-item">US30: 42,150 <span class="up">↑</span></span>
+            <span class="ticker-item">USD/CAD: 1.3642 <span class="down">↓</span></span>
+            <span class="ticker-item">ETH/USD: 3,450 <span class="down">↓</span></span>
+            <span class="ticker-item">AUD/USD: 0.6542 <span class="up">↑</span></span>
+        </div>
+    </div>
 
-<section class="performance">
-<h2>Performance Dashboard</h2>
-<div class="chart">
-<div class="line"></div>
-</div>
-</section>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">THE <span>FOREX BANK</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#about">ABOUT US</a></li>
+                <li><a href="#features">WHY CHOOSE US</a></li>
+                <li><a href="#global">GLOBAL MARKETS</a></li>
+                <li><a href="#how-it-works">HOW IT WORKS</a></li>
+                <li><a href="#dashboard">PERFORMANCE</a></li>
+                <li><a href="#gallery">GALLERY</a></li>
+                <li><a href="#pricing">PRICING</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+            <button class="sign-in-btn">SIGN IN</button>
+        </nav>
+    </header>
 
-<section id="contact">
-<h2>Contact</h2>
-<a class="btn" href="#">WhatsApp</a>
-</section>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <!-- Left Side -->
+            <div class="hero-left">
+                <h1 class="hero-title">
+                    <span class="title-main">THE FOREX BANK</span>
+                    <span class="title-sub">Professional Forex Copy Trading</span>
+                    <span class="title-tagline">Powered By Advanced Algorithms</span>
+                </h1>
+                <p class="hero-description">
+                    Institutional-grade forex trading with algorithmic precision. Our elite team delivers consistent performance through strategic risk management, automated execution, and transparent profit-sharing.
+                </p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">5+</span>
+                        <span class="stat-label-inline">Years Experience</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">Algorithmic</span>
+                        <span class="stat-label-inline">Execution</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">SL/TP</span>
+                        <span class="stat-label-inline">Every Trade</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">30%</span>
+                        <span class="stat-label-inline">Profit Share</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="primary-btn">START COPY TRADING</button>
+                    <button class="secondary-btn">BOOK CONSULTATION</button>
+                </div>
+            </div>
 
-<script src="script.js"></script>
+            <!-- Right Side - Trading Terminal -->
+            <div class="hero-right">
+                <div class="trading-terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-title">LIVE TRADING TERMINAL</div>
+                        <div class="terminal-status">
+                            <span class="status-dot"></span>
+                            CONNECTED
+                        </div>
+                    </div>
+                    <div class="terminal-content">
+                        <div class="terminal-chart">
+                            <canvas id="terminalChart"></canvas>
+                        </div>
+                        <div class="terminal-widgets">
+                            <div class="widget profit-widget">
+                                <div class="widget-label">PROFIT TODAY</div>
+                                <div class="widget-value profit">+2,450.00</div>
+                            </div>
+                            <div class="widget equity-widget">
+                                <div class="widget-label">ACCOUNT EQUITY</div>
+                                <div class="widget-value">$124,580.00</div>
+                            </div>
+                            <div class="widget trades-widget">
+                                <div class="widget-label">OPEN TRADES</div>
+                                <div class="widget-value">12</div>
+                            </div>
+                            <div class="currency-pairs">
+                                <div class="pair-item">EUR/USD <span class="pair-value">1.0875</span></div>
+                                <div class="pair-item">GBP/USD <span class="pair-value">1.2642</span></div>
+                                <div class="pair-item">USD/JPY <span class="pair-value">151.25</span></div>
+                                <div class="pair-item">XAU/USD <span class="pair-value">2345.60</span></div>
+                            </div>
+                        </div>
+                        <div class="terminal-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Currency Symbols -->
+        <div class="currency-symbols">
+            <div class="currency-symbol sym-1">$</div>
+            <div class="currency-symbol sym-2">€</div>
+            <div class="currency-symbol sym-3">£</div>
+            <div class="currency-symbol sym-4">¥</div>
+            <div class="currency-symbol sym-5">$</div>
+            <div class="currency-symbol sym-6">€</div>
+            <div class="currency-symbol sym-7">£</div>
+            <div class="currency-symbol sym-8">¥</div>
+            <div class="currency-symbol sym-9">$</div>
+            <div class="currency-symbol sym-10">€</div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about section">
+        <div class="section-container">
+            <div class="about-left">
+                <div class="about-image-container">
+                    <img src="https://images.unsplash.com/photo-1559526323-cb238f3d3b2b?w=1200&h=800&fit=crop&q=90" alt="Luxury Trading Floor" class="about-image">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="about-right">
+                <h2 class="section-title">ABOUT THE FOREX BANK</h2>
+                <div class="glass-cards">
+                    <div class="glass-card card-1">
+                        <div class="card-icon">🏦</div>
+                        <h3>5+ Years Experience</h3>
+                        <p>Decade of market expertise in institutional trading</p>
+                    </div>
+                    <div class="glass-card card-2">
+                        <div class="card-icon">🤖</div>
+                        <h3>Algorithmic Trading</h3>
+                        <p>Advanced algorithms execute with precision</p>
+                    </div>
+                    <div class="glass-card card-3">
+                        <div class="card-icon">🛡️</div>
+                        <h3>Risk Management</h3>
+                        <p>Every trade protected with SL/TP protocols</p>
+                    </div>
+                    <div class="glass-card card-4">
+                        <div class="card-icon">⚡</div>
+                        <h3>Professional Execution</h3>
+                        <p>Millisecond execution on Vantage infrastructure</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="features" class="features section">
+        <div class="section-container">
+            <h2 class="section-title">WHY CHOOSE THE FOREX BANK</h2>
+            <div class="premium-cards">
+                <div class="premium-card">
+                    <div class="card-number">01</div>
+                    <h3>5+ Years Experience</h3>
+                    <p>Our team has over five years of institutional trading experience</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">02</div>
+                    <h3>Algo Trading</h3>
+                    <p>Advanced algorithms execute trades with zero emotional bias</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">03</div>
+                    <h3>Stop Loss Protection</h3>
+                    <p>Risk-managed positions with strict stop loss protocols</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">04</div>
+                    <h3>Take Profit Management</h3>
+                    <p>Strategic take profit levels optimize returns</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">05</div>
+                    <h3>Vantage Integration</h3>
+                    <p>Seamless integration with premium broker Vantage</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">06</div>
+                    <h3>Performance Fee Only</h3>
+                    <p>No monthly fees, only 30% from generated profit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3D Global Market Section -->
+    <section id="global" class="global-markets section">
+        <div class="section-container">
+            <h2 class="section-title">GLOBAL MARKET CONNECTIONS</h2>
+            <div class="globe-section">
+                <div id="global-globe"></div>
+                <div class="market-data">
+                    <div class="market-item">
+                        <span class="market-label">EUROPE</span>
+                        <span class="market-value">ACTIVE</span>
+                    </div>
+                    <div class="market-item">
+                        <span class="market-label">AMERICAS</span>
+                        <span class="market-value">LIVE</span>
+                    </div>
+                    <div class="market-item">
+                        <span class="market-label">ASIA</span>
+                        <span class="market-value">TRADING</span>
+                    </div>
+                    <div class="market-item">
+                        <span class="market-label">OCEANIA</span>
+                        <span class="market-value">CONNECTED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How Copy Trading Works Section -->
+    <section id="how-it-works" class="how-it-works section">
+        <div class="section-container">
+            <h2 class="section-title">HOW COPY TRADING WORKS</h2>
+            <div class="timeline">
+                <div class="timeline-step" data-step="1">
+                    <div class="step-content">
+                        <div class="step-number">01</div>
+                        <h3>Open Vantage Account</h3>
+                        <p>Create your premium trading account with our partner broker</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="2">
+                    <div class="step-content">
+                        <div class="step-number">02</div>
+                        <h3>Connect Account</h3>
+                        <p>Securely link your account to our trading system</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="3">
+                    <div class="step-content">
+                        <div class="step-number">03</div>
+                        <h3>Activate Copy Trading</h3>
+                        <p>Choose your strategy and risk parameters</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="4">
+                    <div class="step-content">
+                        <div class="step-number">04</div>
+                        <h3>Trades Execute Automatically</h3>
+                        <p>Our algorithms trade directly to your account</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="5">
+                    <div class="step-content">
+                        <div class="step-number">05</div>
+                        <h3>Pay Only From Profit</h3>
+                        <p>We earn only 30% from your generated profits</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Performance Dashboard Section -->
+    <section id="dashboard" class="dashboard section">
+        <div class="section-container">
+            <h2 class="section-title">LIVE PERFORMANCE DASHBOARD</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-widget widget-large">
+                    <div class="widget-header">
+                        <h3>Account Growth Chart</h3>
+                        <span class="widget-indicator live">LIVE</span>
+                    </div>
+                    <div class="widget-chart">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-widget">
+                    <div class="widget-header">
+                        <h3>Monthly Growth</h3>
+                    </div>
+                    <div class="widget-value large">+12.4%</div>
+                    <div class="widget-trend up">↑ 2.3%</div>
+                </div>
+                <div class="dashboard-widget">
+                    <div class="widget-header">
+                        <h3>Risk Meter</h3>
+                    </div>
+                    <div class="risk-meter">
+                        <div class="risk-fill"></div>
+                        <span class="risk-text">MODERATE</span>
+                    </div>
+                </div>
+                <div class="dashboard-widget">
+                    <div class="widget-header">
+                        <h3>Currency Strength</h3>
+                    </div>
+                    <div class="strength-bars">
+                        <div class="strength-bar">
+                            <span>EUR</span>
+                            <div class="bar"><div class="bar-fill" style="width: 78%"></div></div>
+                        </div>
+                        <div class="strength-bar">
+                            <span>USD</span>
+                            <div class="bar"><div class="bar-fill" style="width: 65%"></div></div>
+                        </div>
+                        <div class="strength-bar">
+                            <span>GBP</span>
+                            <div class="bar"><div class="bar-fill" style="width: 52%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-widget">
+                    <div class="widget-header">
+                        <h3>Open Trades</h3>
+                    </div>
+                    <div class="widget-value large">15</div>
+                </div>
+                <div class="dashboard-widget">
+                    <div class="widget-header">
+                        <h3>Strategy Status</h3>
+                    </div>
+                    <div class="strategy-indicators">
+                        <span class="strategy active">SCALPING</span>
+                        <span class="strategy active">SWING</span>
+                        <span class="strategy">NEWS</span>
+                    </div>
+                </div>
+                <div class="dashboard-widget">
+                    <div class="widget-header">
+                        <h3>Market Activity</h3>
+                    </div>
+                    <div class="activity-indicator">
+                        <div class="pulse-dot"></div>
+                        <span>HIGH VOLATILITY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery section">
+        <div class="section-container">
+            <h2 class="section-title">TRADING GALLERY</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="Forex Trading Desk">
+                    <img src="https://images.unsplash.com/photo-1601198886153-c2b6c2f5c6c4?w=800&h=600&fit=crop&q=90" alt="Forex Trading Desk">
+                    <div class="gallery-overlay">
+                        <span>Forex Trading Desk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Trading Screens">
+                    <img src="https://images.unsplash.com/photo-1551288044-1ea2760ab807?w=800&h=600&fit=crop&q=90" alt="Trading Screens">
+                    <div class="gallery-overlay">
+                        <span>Trading Screens</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Financial City">
+                    <img src="https://images.unsplash.com/photo-1480714678956-c1228afea382?w=800&h=600&fit=crop&q=90" alt="Financial City">
+                    <div class="gallery-overlay">
+                        <span>Financial City</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Luxury Office">
+                    <img src="https://images.unsplash.com/photo-1556767521-2b08032234e1?w=800&h=600&fit=crop&q=90" alt="Luxury Office">
+                    <div class="gallery-overlay">
+                        <span>Luxury Office</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Gold Trading">
+                    <img src="https://images.unsplash.com/photo-1611974789855-4ecf5bbf9d3a?w=800&h=600&fit=crop&q=90" alt="Gold Trading">
+                    <div class="gallery-overlay">
+                        <span>Gold Trading</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Market Analysis">
+                    <img src="https://images.unsplash.com/photo-1591696205652-1a7c4722b9c2?w=800&h=600&fit=crop&q=90" alt="Market Analysis">
+                    <div class="gallery-overlay">
+                        <span>Market Analysis</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Professional Trader">
+                    <img src="https://images.unsplash.com/photo-1579165469999-c028be0c26de?w=800&h=600&fit=crop&q=90" alt="Professional Trader">
+                    <div class="gallery-overlay">
+                        <span>Professional Trader</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Global Finance">
+                    <img src="https://images.unsplash.com/photo-1559526323-cb238f3d3b2b?w=800&h=600&fit=crop&q=90" alt="Global Finance">
+                    <div class="gallery-overlay">
+                        <span>Global Finance</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Investment Bank">
+                    <img src="https://images.unsplash.com/photo-1551650975-87d5498c1a6e?w=800&h=600&fit=crop&q=90" alt="Investment Bank">
+                    <div class="gallery-overlay">
+                        <span>Investment Bank</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Trading Setup">
+                    <img src="https://images.unsplash.com/photo-1552664528-0a15a1b7a4fc?w=800&h=600&fit=crop&q=90" alt="Trading Setup">
+                    <div class="gallery-overlay">
+                        <span>Trading Setup</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing section">
+        <div class="section-container">
+            <h2 class="section-title">PRICING MODEL</h2>
+            <div class="pricing-card-premium">
+                <div class="pricing-badge">30% PROFIT SHARE</div>
+                <h3>PERFORMANCE BASED FEES</h3>
+                <p class="pricing-desc">We only earn when you earn. No upfront costs, no hidden charges.</p>
+                <ul class="pricing-features-premium">
+                    <li><span class="check">✓</span> No Monthly Fee</li>
+                    <li><span class="check">✓</span> No Hidden Charges</li>
+                    <li><span class="check">✓</span> No Setup Cost</li>
+                    <li><span class="check">✓</span> Performance Based Only</li>
+                </ul>
+                <button class="pricing-btn">START COPY TRADING</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+        <div class="section-container">
+            <h2 class="section-title">CONTACT US</h2>
+            <div class="contact-wrapper">
+                <div class="contact-background">
+                    <img src="https://images.unsplash.com/photo-1556767521-2b08032234e1?w=1600&h=900&fit=crop&q=90" alt="Luxury Office">
+                    <div class="contact-overlay"></div>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-buttons">
+                        <button class="contact-btn whatsapp">WhatsApp</button>
+                        <button class="contact-btn telegram">Telegram</button>
+                    </div>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="submit-btn">SEND MESSAGE</button>
+                    </form>
+                    <button class="consultation-btn">BOOK CONSULTATION</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal -->
+    <section id="legal" class="legal section">
+        <div class="legal-content">
+            <strong>RISK DISCLAIMER:</strong> Forex trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Only trade with capital you can afford to lose.
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>THE FOREX BANK</h3>
+            <p>Premium Forex Copy Trading Services</p>
+            <div class="footer-links">
+                <a href="#legal">Risk Disclaimer</a>
+                <a href="#terms">Terms</a>
+                <a href="#privacy">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

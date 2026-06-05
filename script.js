@@ -794,23 +794,27 @@
         const equityValue = $('.equity-widget .widget-value');
         const tradesValue = $('.trades-widget .widget-value');
         const growthValue = $('.dashboard-widget .widget-value.large');
+        const hasStaticMyfxbookTerminal = Boolean($('[data-static-myfxbook]'));
 
-        if (profitValue) profitValue.dataset.currentValue = '2450';
-        if (equityValue) equityValue.dataset.currentValue = '124580';
-        if (tradesValue) tradesValue.dataset.currentValue = '12';
+        if (!hasStaticMyfxbookTerminal && profitValue) profitValue.dataset.currentValue = '2450';
+        if (!hasStaticMyfxbookTerminal && equityValue) equityValue.dataset.currentValue = '124580';
+        if (!hasStaticMyfxbookTerminal && tradesValue) tradesValue.dataset.currentValue = '12';
         if (growthValue) growthValue.dataset.currentValue = '12.4';
 
         window.setInterval(() => {
             if (document.hidden) return;
 
-            const profit = randomWalk(parseFloat(profitValue?.dataset.currentValue || '2450'), 2100, 3050, 65);
-            const equity = randomWalk(parseFloat(equityValue?.dataset.currentValue || '124580'), 123000, 130500, 180);
-            const trades = clamp(Math.round(randomWalk(parseFloat(tradesValue?.dataset.currentValue || '12'), 8, 18, 1)), 8, 18);
             const growth = randomWalk(parseFloat(growthValue?.dataset.currentValue || '12.4'), 10.2, 16.5, 0.18);
 
-            setTextValue(profitValue, profit, (value) => `+${formatNumber(value, 2)}`);
-            setTextValue(equityValue, equity, (value) => `$${formatNumber(value, 2)}`);
-            setTextValue(tradesValue, trades, (value) => `${Math.round(value)}`);
+            if (!hasStaticMyfxbookTerminal) {
+                const profit = randomWalk(parseFloat(profitValue?.dataset.currentValue || '2450'), 2100, 3050, 65);
+                const equity = randomWalk(parseFloat(equityValue?.dataset.currentValue || '124580'), 123000, 130500, 180);
+                const trades = clamp(Math.round(randomWalk(parseFloat(tradesValue?.dataset.currentValue || '12'), 8, 18, 1)), 8, 18);
+
+                setTextValue(profitValue, profit, (value) => `+${formatNumber(value, 2)}`);
+                setTextValue(equityValue, equity, (value) => `$${formatNumber(value, 2)}`);
+                setTextValue(tradesValue, trades, (value) => `${Math.round(value)}`);
+            }
             setTextValue(growthValue, growth, (value) => `+${Number(value).toFixed(1)}%`);
         }, 4200);
     }

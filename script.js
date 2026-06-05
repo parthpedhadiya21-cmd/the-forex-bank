@@ -276,12 +276,30 @@
             const button = $('.submit-btn', form);
             if (!button) return;
 
+            const formData = new FormData(form);
+            const name = String(formData.get('name') || '').trim();
+            const email = String(formData.get('email') || '').trim();
+            const phone = String(formData.get('phone') || '').trim();
+            const message = String(formData.get('message') || '').trim();
+            const subject = `THE FOREX BANK inquiry from ${name || 'website visitor'}`;
+            const body = [
+                `Name: ${name}`,
+                `Email: ${email}`,
+                `WhatsApp: ${phone || 'Not provided'}`,
+                '',
+                'Message:',
+                message
+            ].join('\n');
+            const mailto = `mailto:theforexbank.000@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
             const originalText = button.textContent;
-            button.textContent = 'MESSAGE QUEUED';
+            button.textContent = 'OPENING EMAIL';
+            window.location.href = mailto;
+
             window.setTimeout(() => {
                 button.textContent = originalText;
                 form.reset();
-            }, 1400);
+            }, 900);
         });
     }
 

@@ -238,6 +238,10 @@ a.contact-btn {
     color: var(--red);
 }
 
+.flat {
+    color: var(--blue);
+}
+
 @keyframes ticker-scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }

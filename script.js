@@ -522,17 +522,16 @@
         const textureLoader = new THREE.TextureLoader();
 
         const countries = [
-            ['USA', 'USD', 38, -97], ['Canada', 'CAD', 56, -106], ['Mexico', 'MXN', 23, -102],
-            ['Brazil', 'BRL', -14, -52], ['Argentina', 'ARS', -34, -64], ['UK', 'GBP', 55, -3],
-            ['Eurozone', 'EUR', 50, 10], ['Switzerland', 'CHF', 47, 8], ['Norway', 'NOK', 61, 8],
-            ['Sweden', 'SEK', 62, 15], ['Russia', 'RUB', 61, 90], ['UAE', 'AED', 24, 54],
-            ['Saudi', 'SAR', 24, 45], ['South Africa', 'ZAR', -30, 25], ['India', 'INR', 22, 79],
-            ['China', 'CNY', 35, 104], ['Japan', 'JPY', 36, 138], ['Korea', 'KRW', 36, 128],
-            ['Singapore', 'SGD', 1, 104], ['Thailand', 'THB', 15, 101], ['Malaysia', 'MYR', 4, 102],
-            ['Indonesia', 'IDR', -2, 118], ['Australia', 'AUD', -25, 134], ['New Zealand', 'NZD', -41, 174],
-            ['Turkey', 'TRY', 39, 35], ['Egypt', 'EGP', 27, 30], ['Nigeria', 'NGN', 9, 8],
-            ['Kenya', 'KES', 0, 37], ['Pakistan', 'PKR', 30, 70], ['Hong Kong', 'HKD', 22, 114],
-            ['Philippines', 'PHP', 13, 122], ['Vietnam', 'VND', 16, 108]
+            ['USA', 'USD', 38, -97],
+            ['Canada', 'CAD', 56, -106],
+            ['UK', 'GBP', 55, -3],
+            ['Eurozone', 'EUR', 50, 10],
+            ['UAE', 'AED', 24, 54],
+            ['India', 'INR', 22, 79],
+            ['China', 'CNY', 35, 104],
+            ['Japan', 'JPY', 36, 138],
+            ['Singapore', 'SGD', 1, 104],
+            ['Australia', 'AUD', -25, 134]
         ].map(([name, currency, lat, lng]) => ({
             name,
             currency,
@@ -543,8 +542,8 @@
 
         const routePairs = [
             ['USA', 'UK'], ['USA', 'Japan'], ['USA', 'Singapore'], ['UK', 'India'],
-            ['Eurozone', 'UAE'], ['China', 'Australia'], ['Japan', 'Australia'], ['India', 'Singapore'],
-            ['Brazil', 'USA'], ['South Africa', 'UAE'], ['Canada', 'Eurozone'], ['Hong Kong', 'UK']
+            ['Eurozone', 'UAE'], ['China', 'Australia'], ['Japan', 'Australia'],
+            ['India', 'Singapore'], ['Canada', 'Eurozone'], ['UAE', 'Australia']
         ];
 
         const scene = new THREE.Scene();

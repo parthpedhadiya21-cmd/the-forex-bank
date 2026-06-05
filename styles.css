@@ -456,14 +456,32 @@ a.contact-btn {
 .terminal-content {
     display: grid;
     grid-template-columns: 1fr 180px;
+    align-items: stretch;
     gap: 18px;
     padding: 18px;
 }
 
-.terminal-chart,
 .widget-chart {
     height: clamp(285px, 18vw, 420px);
     min-height: 0;
+}
+
+.terminal-chart {
+    min-height: clamp(420px, 30vw, 560px);
+    overflow: hidden;
+    border-radius: 6px;
+    background: #0f151d;
+}
+
+.xau-live-chart,
+.xau-live-chart .tradingview-widget-container__widget,
+.xau-live-chart iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.xau-live-chart iframe {
+    border: 0;
 }
 
 .terminal-widgets,
@@ -1648,6 +1666,10 @@ a.contact-btn {
     .terminal-chart,
     .widget-chart {
         height: 190px;
+    }
+
+    .terminal-chart {
+        min-height: 190px;
     }
 
     .terminal-content {

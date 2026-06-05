@@ -8,7 +8,8 @@
         charts: {}
     };
 
-    const PRICE_REFRESH_MS = 5 * 60 * 1000;
+    const PRICE_REFRESH_MS = 60 * 1000;
+    const TICKER_UPDATE_MS = 1000;
     const MARKET_ITEMS = [
         { key: 'eurusd', label: 'EUR/USD', decimals: 4 },
         { key: 'gbpusd', label: 'GBP/USD', decimals: 4 },
@@ -21,6 +22,18 @@
         { key: 'ethusd', label: 'ETH/USD', decimals: 0 },
         { key: 'audusd', label: 'AUD/USD', decimals: 4 }
     ];
+    const TICKER_FALLBACK_PRICES = {
+        eurusd: 1.0875,
+        gbpusd: 1.2642,
+        usdjpy: 151.25,
+        xauusd: 2345.60,
+        btcusd: 67850,
+        nas100: 19845,
+        us30: 42150,
+        usdcad: 1.3642,
+        ethusd: 3450,
+        audusd: 0.6542
+    };
 
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -66,6 +79,34 @@
             trend,
             updatedAt: new Date()
         };
+    }
+
+    function seedTickerPrices() {
+        MARKET_ITEMS.forEach((item) => {
+            if (state.marketPrices[item.key]) return;
+            state.marketPrices[item.key] = withTrend(item.key, TICKER_FALLBACK_PRICES[item.key], 'flat');
+        });
+    }
+
+    function getTickerStep(item, price) {
+        if (!Number.isFinite(price)) return 0;
+        if (item.key === 'btcusd') return 45;
+        if (item.key === 'ethusd') return 3.5;
+        if (item.key === 'nas100' || item.key === 'us30') return 18;
+        if (item.key === 'xauusd') return 1.65;
+        if (item.key === 'usdjpy') return 0.045;
+        return 0.00045;
+    }
+
+    function updateTickerMicroPrices() {
+        MARKET_ITEMS.forEach((item) => {
+            const quote = state.marketPrices[item.key];
+            const fallback = TICKER_FALLBACK_PRICES[item.key];
+            const current = Number.isFinite(quote?.price) ? quote.price : fallback;
+            const step = getTickerStep(item, current);
+            const nextPrice = Math.max(0, current + randomBetween(-step, step));
+            state.marketPrices[item.key] = withTrend(item.key, nextPrice);
+        });
     }
 
     async function fetchForexPrices() {
@@ -190,7 +231,7 @@
                 ['usdjpy', 2],
                 ['xauusd', 3]
             ];
-            const pairValues = $$('.currency-pairs .pair-value');
+            const pairValues = $$('.currency-pairs:not(.myfxbook-terminal-source) .pair-value');
 
             pairMap.forEach(([key, index]) => {
                 const quote = state.marketPrices[key];
@@ -213,8 +254,17 @@
             }
         }
 
+        seedTickerPrices();
         renderTicker();
+        renderTerminalPairs();
         refreshPrices();
+        window.setInterval(() => {
+            if (document.hidden) return;
+            updateTickerMicroPrices();
+            renderTicker();
+            renderTerminalPairs();
+            syncTerminalChartPrice();
+        }, TICKER_UPDATE_MS);
         window.setInterval(() => {
             if (!document.hidden) refreshPrices();
         }, PRICE_REFRESH_MS);
@@ -740,7 +790,7 @@
     }
 
     function initLiveStats() {
-        const profitValue = $('.widget-value.profit');
+        const profitValue = $('.profit-widget .widget-value.profit');
         const equityValue = $('.equity-widget .widget-value');
         const tradesValue = $('.trades-widget .widget-value');
         const growthValue = $('.dashboard-widget .widget-value.large');

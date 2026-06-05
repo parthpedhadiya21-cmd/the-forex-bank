@@ -6,7 +6,605 @@
     <title>THE FOREX BANK - Institutional Forex Capital Desk</title>
     <link rel="stylesheet" href="styles.css?v=4">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE FOREX BANK - Institutional Forex Capital Desk</title>
+    <link rel="stylesheet" href="styles.css?v=5">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+<body class="app-shell">
+    <!-- Loading Screen -->
+    <div class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">THE FOREX BANK</div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="loading-text">Preparing Capital Desk</div>
+        </div>
+    </div>
+
+    <div class="scene-grid"></div>
+
+    <!-- Live Ticker -->
+    <div class="ticker-strip">
+        <div class="ticker-content" id="ticker-content">
+            <span class="ticker-item">EUR/USD: 1.0875 <span class="up">UP</span></span>
+            <span class="ticker-item">GBP/USD: 1.2642 <span class="down">DN</span></span>
+            <span class="ticker-item">USD/JPY: 151.25 <span class="up">UP</span></span>
+            <span class="ticker-item">XAU/USD: 2345.60 <span class="up">UP</span></span>
+            <span class="ticker-item">BTC/USD: 67,850 <span class="up">UP</span></span>
+            <span class="ticker-item">NAS100: 19845 <span class="down">DN</span></span>
+            <span class="ticker-item">US30: 42,150 <span class="up">UP</span></span>
+            <span class="ticker-item">USD/CAD: 1.3642 <span class="down">DN</span></span>
+            <span class="ticker-item">ETH/USD: 3,450 <span class="down">DN</span></span>
+            <span class="ticker-item">AUD/USD: 0.6542 <span class="up">UP</span></span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">THE <span>FOREX BANK</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#about">ABOUT US</a></li>
+                <li><a href="#features">WHY CHOOSE US</a></li>
+                <li><a href="#global">GLOBAL MARKETS</a></li>
+                <li><a href="#how-it-works">HOW IT WORKS</a></li>
+                <li><a href="#dashboard">PERFORMANCE</a></li>
+                <li><a href="#gallery">GALLERY</a></li>
+                <li><a href="#pricing">PRICING</a></li>
+                <li><a href="#partnership">PARTNERSHIP</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <!-- Left Side -->
+            <div class="hero-left">
+                <h1 class="hero-title">
+                    <span class="title-main">THE FOREX BANK</span>
+                    <span class="title-sub">Institutional Forex Capital Desk</span>
+                    <span class="title-tagline">Discretion. Discipline. Execution.</span>
+                </h1>
+                <p class="hero-description">
+                    A private-market inspired forex copy trading desk with disciplined risk control, clean reporting, and a restrained interface built for serious capital.
+                </p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">AUM</span>
+                        <span class="stat-label-inline">Capital Desk</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">Algo</span>
+                        <span class="stat-label-inline">Execution</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">Risk</span>
+                        <span class="stat-label-inline">First</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value-inline">30%</span>
+                        <span class="stat-label-inline">Performance Fee</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a class="primary-btn" id="viewStrategyBtn" href="./strategies.html">VIEW STRATEGY</a>
+                    <a class="secondary-btn" id="bookPrivateCallBtn" href="#contact">BOOK PRIVATE CALL</a>
+                </div>
+            </div>
+
+            <!-- Right Side - Trading Terminal -->
+            <div class="hero-right">
+                <div class="trading-terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-title">PORTFOLIO COMMAND CENTER</div>
+                        <div class="terminal-status">
+                            <span class="status-dot"></span>
+                            CONNECTED
+                        </div>
+                    </div>
+                    <div class="terminal-content">
+                        <div class="terminal-chart">
+                            <div class="tradingview-widget-container xau-live-chart">
+                                <div class="tradingview-widget-container__widget"></div>
+                                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                                {
+                                    "autosize": true,
+                                    "symbol": "OANDA:XAUUSD",
+                                    "interval": "1",
+                                    "timezone": "Etc/UTC",
+                                    "theme": "dark",
+                                    "style": "1",
+                                    "locale": "en",
+                                    "backgroundColor": "#0f151d",
+                                    "gridColor": "rgba(214, 185, 112, 0.10)",
+                                    "hide_volume": true,
+                                    "overrides": {
+                                        "paneProperties.background": "#0f151d",
+                                        "paneProperties.backgroundType": "solid",
+                                        "paneProperties.vertGridProperties.color": "rgba(214, 185, 112, 0.10)",
+                                        "paneProperties.horzGridProperties.color": "rgba(214, 185, 112, 0.10)",
+                                        "scalesProperties.textColor": "#aeb7c2",
+                                        "mainSeriesProperties.candleStyle.upColor": "#d6b970",
+                                        "mainSeriesProperties.candleStyle.downColor": "#e07171",
+                                        "mainSeriesProperties.candleStyle.borderUpColor": "#f2dd9a",
+                                        "mainSeriesProperties.candleStyle.borderDownColor": "#e07171",
+                                        "mainSeriesProperties.candleStyle.wickUpColor": "#f2dd9a",
+                                        "mainSeriesProperties.candleStyle.wickDownColor": "#e07171",
+                                        "mainSeriesProperties.priceLineColor": "#d6b970"
+                                    },
+                                    "hide_top_toolbar": true,
+                                    "hide_legend": true,
+                                    "hide_side_toolbar": true,
+                                    "allow_symbol_change": false,
+                                    "save_image": false,
+                                    "calendar": false,
+                                    "support_host": "https://www.tradingview.com"
+                                }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="terminal-widgets">
+                            <div class="widget profit-widget">
+                                <div class="widget-label">PROFIT TODAY</div>
+                                <div class="widget-value profit">+2,450.00</div>
+                            </div>
+                            <div class="widget equity-widget">
+                                <div class="widget-label">ACCOUNT EQUITY</div>
+                                <div class="widget-value">$124,580.00</div>
+                            </div>
+                            <div class="widget trades-widget">
+                                <div class="widget-label">OPEN TRADES</div>
+                                <div class="widget-value">12</div>
+                            </div>
+                            <div class="currency-pairs">
+                                <div class="pair-item">EUR/USD <span class="pair-value">1.0875</span></div>
+                                <div class="pair-item">GBP/USD <span class="pair-value">1.2642</span></div>
+                                <div class="pair-item">USD/JPY <span class="pair-value">151.25</span></div>
+                                <div class="pair-item">XAU/USD <span class="pair-value">2345.60</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about section">
+        <div class="section-container">
+            <div class="about-left">
+                <div class="about-image-container">
+                    <img src="https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=1200&h=800&fit=crop&q=80" alt="Luxury Trading Floor" class="about-image" loading="lazy" decoding="async">
+                    <div class="image-overlay"></div>
+                </div>
+            </div>
+            <div class="about-right">
+                <h2 class="section-title">ABOUT THE FOREX BANK</h2>
+                <div class="glass-cards">
+                    <div class="glass-card card-1">
+                        <div class="card-icon">IB</div>
+                        <h3>5+ Years Experience</h3>
+                        <p>Decade of market expertise in institutional trading</p>
+                    </div>
+                    <div class="glass-card card-2">
+                        <div class="card-icon">AI</div>
+                        <h3>Algorithmic Trading</h3>
+                        <p>Advanced algorithms execute with precision</p>
+                    </div>
+                    <div class="glass-card card-3">
+                        <div class="card-icon">RM</div>
+                        <h3>Risk Management</h3>
+                        <p>Every trade protected with SL/TP protocols</p>
+                    </div>
+                    <div class="glass-card card-4">
+                        <div class="card-icon">EX</div>
+                        <h3>Professional Execution</h3>
+                        <p>Millisecond execution on Vantage infrastructure</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="features" class="features section">
+        <div class="section-container">
+            <h2 class="section-title">WHY CHOOSE THE FOREX BANK</h2>
+            <div class="premium-cards">
+                <div class="premium-card">
+                    <div class="card-number">01</div>
+                    <h3>5+ Years Experience</h3>
+                    <p>Our team has over five years of institutional trading experience</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">02</div>
+                    <h3>Algo Trading</h3>
+                    <p>Advanced algorithms execute trades with zero emotional bias</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">03</div>
+                    <h3>Stop Loss Protection</h3>
+                    <p>Risk-managed positions with strict stop loss protocols</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">04</div>
+                    <h3>Take Profit Management</h3>
+                    <p>Strategic take profit levels optimize returns</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">05</div>
+                    <h3>Vantage Integration</h3>
+                    <p>Seamless integration with premium broker Vantage</p>
+                </div>
+                <div class="premium-card">
+                    <div class="card-number">06</div>
+                    <h3>Performance Fee Only</h3>
+                    <p>No monthly fees, only 30% from generated profit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Market Section -->
+    <section id="global" class="global-markets section">
+        <div class="section-container">
+            <h2 class="section-title">GLOBAL MARKET CONNECTIONS</h2>
+            <div class="globe-section">
+                <div id="global-globe"></div>
+                <div class="market-data">
+                    <div class="market-item">
+                        <span class="market-label">EUROPE</span>
+                        <span class="market-value">ACTIVE</span>
+                    </div>
+                    <div class="market-item">
+                        <span class="market-label">AMERICAS</span>
+                        <span class="market-value">LIVE</span>
+                    </div>
+                    <div class="market-item">
+                        <span class="market-label">ASIA</span>
+                        <span class="market-value">TRADING</span>
+                    </div>
+                    <div class="market-item">
+                        <span class="market-label">OCEANIA</span>
+                        <span class="market-value">CONNECTED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How Copy Trading Works Section -->
+    <section id="how-it-works" class="how-it-works section">
+        <div class="section-container">
+            <h2 class="section-title">HOW COPY TRADING WORKS</h2>
+            <div class="timeline">
+                <div class="timeline-step" data-step="1">
+                    <div class="step-content">
+                        <div class="step-number">01</div>
+                        <h3>Open Vantage Account</h3>
+                        <p>Create your premium trading account with our partner broker</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="2">
+                    <div class="step-content">
+                        <div class="step-number">02</div>
+                        <h3>Connect Account</h3>
+                        <p>Securely link your account to our trading system</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="3">
+                    <div class="step-content">
+                        <div class="step-number">03</div>
+                        <h3>Activate Copy Trading</h3>
+                        <p>Choose your strategy and risk parameters</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="4">
+                    <div class="step-content">
+                        <div class="step-number">04</div>
+                        <h3>Trades Execute Automatically</h3>
+                        <p>Our algorithms trade directly to your account</p>
+                    </div>
+                </div>
+                <div class="timeline-connector"></div>
+                <div class="timeline-step" data-step="5">
+                    <div class="step-content">
+                        <div class="step-number">05</div>
+                        <h3>Pay Only From Profit</h3>
+                        <p>We earn only 30% from your generated profits</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Performance Dashboard Section -->
+    <section id="dashboard" class="dashboard section">
+        <div class="section-container">
+            <h2 class="section-title">LIVE PERFORMANCE DASHBOARD</h2>
+            <div class="myfxbook-dashboard">
+                <div class="dashboard-widget myfxbook-live-panel">
+                    <div class="widget-header">
+                        <h3>SANGITABEN NIKULKUMAR DESAI</h3>
+                        <span class="widget-indicator live">MYFXBOOK LIVE</span>
+                    </div>
+                    <div class="myfxbook-widget-wrap">
+                        <img
+                            class="myfxbook-widget-image"
+                            data-myfxbook-widget
+                            src="https://widgets.myfxbook.com/api/get-custom-widget.png?id=12049136&amp;width=760&amp;height=420&amp;bart=1&amp;linet=0&amp;bgColor=0b1118&amp;gridColor=2b3440&amp;lineColor=D6B970&amp;barColor=63D690&amp;fontColor=FFFFFF&amp;title=&amp;titles=20&amp;chartbgc=101720"
+                            alt="Live Myfxbook verified gain chart for SANGITABEN NIKULKUMAR DESAI"
+                            loading="lazy"
+                            decoding="async">
+                        <div class="myfxbook-widget-fallback">
+                            <strong>Live Myfxbook statement</strong>
+                            <span>If the chart image does not load, open the verified portfolio directly.</span>
+                            <a href="https://www.myfxbook.com/portfolio/sangitaben-nikulkumar-desai/12049136" target="_blank" rel="noopener">OPEN MYFXBOOK</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-widget myfxbook-stat">
+                    <div class="widget-header">
+                        <h3>Gain</h3>
+                    </div>
+                    <div class="live-stat-value">+51.64%</div>
+                    <div class="live-stat-label">Abs. gain +33.27%</div>
+                </div>
+                <div class="dashboard-widget myfxbook-stat">
+                    <div class="widget-header">
+                        <h3>Monthly</h3>
+                    </div>
+                    <div class="live-stat-value">51.64%</div>
+                    <div class="live-stat-label">Daily 2.34%</div>
+                </div>
+                <div class="dashboard-widget myfxbook-stat">
+                    <div class="widget-header">
+                        <h3>Drawdown</h3>
+                    </div>
+                    <div class="live-stat-value">12.39%</div>
+                    <div class="live-stat-label">Risk shown by Myfxbook</div>
+                </div>
+                <div class="dashboard-widget myfxbook-stat">
+                    <div class="widget-header">
+                        <h3>Open Trades</h3>
+                    </div>
+                    <div class="live-stat-value">9</div>
+                    <div class="live-stat-label">Current open positions</div>
+                </div>
+                <div class="dashboard-widget myfxbook-stat">
+                    <div class="widget-header">
+                        <h3>Balance</h3>
+                    </div>
+                    <div class="live-stat-value">USC66,629.22</div>
+                    <div class="live-stat-label">Equity USC68,216.20</div>
+                </div>
+                <div class="dashboard-widget myfxbook-stat">
+                    <div class="widget-header">
+                        <h3>Verified Source</h3>
+                    </div>
+                    <div class="live-stat-value">Myfxbook</div>
+                    <div class="live-stat-label">Updated 2 hours ago</div>
+                    <a class="myfxbook-link" href="https://www.myfxbook.com/portfolio/sangitaben-nikulkumar-desai/12049136" target="_blank" rel="noopener">VIEW FULL REPORT</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery section">
+        <div class="section-container">
+            <h2 class="section-title">TRADING GALLERY</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-category="Forex Trading Desk">
+                    <img src="https://images.unsplash.com/photo-1535320903710-d993d3d77d29?w=800&h=600&fit=crop&q=76" alt="Forex Trading Desk" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Forex Trading Desk</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Trading Screens">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&q=76" alt="Trading Screens" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Trading Screens</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Financial City">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop&q=76" alt="Financial City" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Financial City</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Luxury Office">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=800&h=600&fit=crop&q=76" alt="Luxury Office" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Luxury Office</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Gold Trading">
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&q=76" alt="Gold Trading" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Gold Trading</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Market Analysis">
+                    <img src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&h=600&fit=crop&q=76" alt="Market Analysis" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Market Analysis</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Professional Trader">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&h=600&fit=crop&q=76" alt="Professional Trader" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Professional Trader</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Global Finance">
+                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop&q=76" alt="Global Finance" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Global Finance</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Investment Bank">
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&h=600&fit=crop&q=76" alt="Investment Bank" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Investment Bank</span>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="Trading Setup">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop&q=76" alt="Trading Setup" loading="lazy" decoding="async">
+                    <div class="gallery-overlay">
+                        <span>Trading Setup</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing section">
+        <div class="section-container">
+            <h2 class="section-title">PRICING MODEL</h2>
+            <div class="pricing-card-premium">
+                <div class="pricing-badge">30% PROFIT SHARE</div>
+                <h3>PERFORMANCE BASED FEES</h3>
+                <p class="pricing-desc">We only earn when you earn. No upfront costs, no hidden charges.</p>
+                <ul class="pricing-features-premium">
+                    <li><span class="check">OK</span> No Monthly Fee</li>
+                    <li><span class="check">OK</span> No Hidden Charges</li>
+                    <li><span class="check">OK</span> No Setup Cost</li>
+                    <li><span class="check">OK</span> Performance Based Only</li>
+                </ul>
+                <a class="pricing-btn" id="openCapitalAccessBtn" href="./strategies.html">OPEN CAPITAL ACCESS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partnership Section -->
+    <section id="partnership" class="partnership section">
+        <div class="section-container">
+            <div class="partnership-layout">
+                <div class="partnership-content">
+                    <span class="partnership-kicker">Partner With The Forex Bank</span>
+                    <h2 class="section-title">EARN UP TO 50% PROFIT SHARE</h2>
+                    <p class="partnership-lead">
+                        Build a premium referral channel with THE FOREX BANK. Introduce serious investors, traders, and network partners to our copy trading desk and earn performance-based sharing from qualified referrals.
+                    </p>
+                    <div class="partnership-stats">
+                        <div>
+                            <span class="partner-stat-value">Up to 50%</span>
+                            <span class="partner-stat-label">Referral Profit Share</span>
+                        </div>
+                        <div>
+                            <span class="partner-stat-value">25+</span>
+                            <span class="partner-stat-label">Currency Markets</span>
+                        </div>
+                        <div>
+                            <span class="partner-stat-value">SL/TP</span>
+                            <span class="partner-stat-label">Managed Execution</span>
+                        </div>
+                        <div>
+                            <span class="partner-stat-value">Private</span>
+                            <span class="partner-stat-label">Partner Desk</span>
+                        </div>
+                    </div>
+                    <div class="partnership-steps">
+                        <div class="partner-step">
+                            <span>01</span>
+                            <strong>Refer Qualified Clients</strong>
+                            <p>Share THE FOREX BANK with traders, investors, and capital partners who want copy trading access.</p>
+                        </div>
+                        <div class="partner-step">
+                            <span>02</span>
+                            <strong>Client Activates Strategy</strong>
+                            <p>Our desk helps them choose a suitable strategy profile and complete onboarding.</p>
+                        </div>
+                        <div class="partner-step">
+                            <span>03</span>
+                            <strong>Earn Performance Share</strong>
+                            <p>Receive up to 50% partner sharing from eligible profit-share revenue generated by your referrals.</p>
+                        </div>
+                    </div>
+                    <div class="partnership-actions">
+                        <a class="primary-btn" href="https://wa.me/919898444955?text=Hello%20THE%20FOREX%20BANK%2C%20I%20want%20to%20become%20a%20partnership%20referral%20partner." target="_blank" rel="noopener">BECOME A PARTNER</a>
+                        <a class="secondary-btn" href="#contact">TALK TO PARTNER DESK</a>
+                    </div>
+                </div>
+                <div class="partnership-image">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1400&h=900&fit=crop&q=80" alt="Professional partnership meeting" loading="lazy" decoding="async">
+                    <div class="partnership-card">
+                        <span>Partner Program</span>
+                        <strong>Referral revenue built for serious networks.</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+        <div class="section-container">
+            <h2 class="section-title">CONTACT US</h2>
+            <div class="contact-wrapper">
+                <div class="contact-background">
+                    <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?w=1600&h=900&fit=crop&q=80" alt="Luxury Office" loading="lazy" decoding="async">
+                    <div class="contact-overlay"></div>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-buttons">
+                        <a class="contact-btn whatsapp" href="https://wa.me/919898444955" target="_blank" rel="noopener">WhatsApp</a>
+                        <a class="contact-btn telegram" href="https://t.me/TFB_2019" target="_blank" rel="noopener">Telegram</a>
+                        <a class="contact-btn email" href="mailto:theforexbank.000@gmail.com">Email</a>
+                    </div>
+                    <form class="contact-form">
+                        <input type="text" name="name" placeholder="Your Name" required>
+                        <input type="email" name="email" placeholder="Your Email" required>
+                        <input type="tel" name="phone" placeholder="Your WhatsApp Number">
+                        <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit" class="submit-btn">SEND MESSAGE</button>
+                    </form>
+                    <a class="consultation-btn" href="https://wa.me/919898444955?text=Hello%20THE%20FOREX%20BANK%2C%20I%20want%20to%20book%20a%20private%20consultation." target="_blank" rel="noopener">BOOK CONSULTATION</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal -->
+    <section id="legal" class="legal section">
+        <div class="legal-content">
+            <strong>RISK DISCLAIMER:</strong> Forex trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Only trade with capital you can afford to lose.
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>THE FOREX BANK</h3>
+            <p>Premium Forex Copy Trading Services</p>
+            <div class="footer-links">
+                <a href="#legal">Risk Disclaimer</a>
+                <a href="#terms">Terms</a>
+                <a href="#privacy">Privacy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="script.js?v=7"></script>
+</body>
+</html>
+
 <body class="app-shell">
     <!-- Loading Screen -->
     <div class="loading-screen">

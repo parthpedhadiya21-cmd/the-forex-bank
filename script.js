@@ -137,7 +137,7 @@
     }
 
     function initRevealObserver() {
-        const targets = $$('.section, .dashboard-widget, .premium-card, .glass-card, .gallery-item, .timeline-step, .pricing-card-premium, .contact-content');
+        const targets = $$('.section, .dashboard-widget, .premium-card, .glass-card, .gallery-item, .timeline-step, .pricing-card-premium, .partnership-content, .partnership-image, .contact-content');
         targets.forEach((item) => item.classList.add('reveal-ready'));
 
         if (!('IntersectionObserver' in window) || prefersReducedMotion) {

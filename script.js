@@ -518,6 +518,9 @@
         const container = $('#global-globe');
         if (!container || typeof THREE === 'undefined') return;
 
+        const textureBase = 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r160/examples/textures/planets/';
+        const textureLoader = new THREE.TextureLoader();
+
         const countries = [
             ['USA', 'USD', 38, -97], ['Canada', 'CAD', 56, -106], ['Mexico', 'MXN', 23, -102],
             ['Brazil', 'BRL', -14, -52], ['Argentina', 'ARS', -34, -64], ['UK', 'GBP', 55, -3],
@@ -567,22 +570,72 @@
         const globe = new THREE.Mesh(
             new THREE.SphereGeometry(1, 72, 72),
             new THREE.MeshPhongMaterial({
-                color: 0xf2dd9a,
+                color: 0xffffff,
                 map: createWorldMapTexture(),
-                emissive: 0x050608,
-                shininess: 26,
+                emissive: 0x06120f,
+                emissiveIntensity: 0.18,
+                specular: 0x123c3a,
+                shininess: 38,
                 transparent: true,
-                opacity: 0.94
+                opacity: 0.98
             })
         );
         group.add(globe);
 
-        const atmosphere = new THREE.Mesh(
-            new THREE.SphereGeometry(1.035, 72, 72),
+        textureLoader.load(`${textureBase}earth_atmos_2048.jpg`, (texture) => {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.anisotropy = 8;
+            globe.material.map = texture;
+            globe.material.needsUpdate = true;
+        });
+
+        const cityLights = new THREE.Mesh(
+            new THREE.SphereGeometry(1.004, 72, 72),
             new THREE.MeshBasicMaterial({
-                color: 0x8bb8d8,
+                color: 0x70fff0,
                 transparent: true,
-                opacity: 0.08,
+                opacity: 0,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            })
+        );
+        group.add(cityLights);
+
+        textureLoader.load(`${textureBase}earth_lights_2048.png`, (texture) => {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.anisotropy = 8;
+            cityLights.material.map = texture;
+            cityLights.material.opacity = 0.72;
+            cityLights.material.needsUpdate = true;
+        });
+
+        const clouds = new THREE.Mesh(
+            new THREE.SphereGeometry(1.018, 72, 72),
+            new THREE.MeshLambertMaterial({
+                color: 0xbff7ef,
+                transparent: true,
+                opacity: 0,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            })
+        );
+        group.add(clouds);
+
+        textureLoader.load(`${textureBase}earth_clouds_1024.png`, (texture) => {
+            texture.colorSpace = THREE.SRGBColorSpace;
+            texture.anisotropy = 8;
+            clouds.material.map = texture;
+            clouds.material.opacity = 0.26;
+            clouds.material.needsUpdate = true;
+        });
+
+        const atmosphere = new THREE.Mesh(
+            new THREE.SphereGeometry(1.055, 72, 72),
+            new THREE.MeshBasicMaterial({
+                color: 0x55ffe7,
+                transparent: true,
+                opacity: 0.16,
+                blending: THREE.AdditiveBlending,
                 side: THREE.BackSide
             })
         );
@@ -590,7 +643,7 @@
 
         const wire = new THREE.LineSegments(
             new THREE.WireframeGeometry(new THREE.SphereGeometry(1.012, 36, 18)),
-            new THREE.LineBasicMaterial({ color: 0xd6b970, transparent: true, opacity: 0.15 })
+            new THREE.LineBasicMaterial({ color: 0xd6b970, transparent: true, opacity: 0.07 })
         );
         group.add(wire);
 
@@ -626,10 +679,13 @@
             return line;
         }).filter(Boolean);
 
-        scene.add(new THREE.AmbientLight(0x9fb2c2, 0.7));
-        const keyLight = new THREE.DirectionalLight(0xf2dd9a, 1.5);
-        keyLight.position.set(3, 2, 4);
+        scene.add(new THREE.AmbientLight(0x9fb2c2, 0.24));
+        const keyLight = new THREE.DirectionalLight(0xe9fff9, 2.6);
+        keyLight.position.set(-3, 2.4, 4.4);
         scene.add(keyLight);
+        const rimLight = new THREE.DirectionalLight(0x55ffe7, 1.5);
+        rimLight.position.set(3.2, 0.2, -2.4);
+        scene.add(rimLight);
 
         const rayTarget = new THREE.Vector3();
 
@@ -661,6 +717,7 @@
             if (!prefersReducedMotion) {
                 group.rotation.y += 0.0028;
                 group.rotation.x = Math.sin(time * 0.00045) * 0.08;
+                clouds.rotation.y += 0.0007;
             }
 
             routes.forEach((route, index) => {

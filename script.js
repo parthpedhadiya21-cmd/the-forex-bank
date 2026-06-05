@@ -101,6 +101,41 @@
         });
     }
 
+    function scrollToContact() {
+        const target = $('#contact');
+        if (!target) {
+            window.location.href = 'index.html#contact';
+            return;
+        }
+
+        const headerHeight = $('.header')?.offsetHeight || 0;
+        const tickerHeight = $('.ticker-strip')?.offsetHeight || 0;
+        const top = window.scrollY + target.getBoundingClientRect().top - headerHeight - tickerHeight - 12;
+        window.scrollTo({ top: Math.max(top, 0), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    }
+
+    function initHeroActions() {
+        const viewStrategyBtn = $('#viewStrategyBtn');
+        const openCapitalAccessBtn = $('#openCapitalAccessBtn');
+        const bookPrivateCallBtn = $('#bookPrivateCallBtn');
+
+        [viewStrategyBtn, openCapitalAccessBtn].forEach((button) => {
+            if (!button) return;
+
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.location.href = './strategies.html';
+            });
+        });
+
+        if (bookPrivateCallBtn) {
+            bookPrivateCallBtn.addEventListener('click', (event) => {
+                event.preventDefault();
+                scrollToContact();
+            });
+        }
+    }
+
     function initRevealObserver() {
         const targets = $$('.section, .dashboard-widget, .premium-card, .glass-card, .gallery-item, .timeline-step, .pricing-card-premium, .contact-content');
         targets.forEach((item) => item.classList.add('reveal-ready'));
@@ -307,6 +342,7 @@
         initLoadingScreen();
         initTicker();
         initSmoothScrolling();
+        initHeroActions();
         initRevealObserver();
         initLiveStats();
         initContactForm();

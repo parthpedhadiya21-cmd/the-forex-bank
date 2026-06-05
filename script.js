@@ -4,14 +4,23 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const state = {
-        ticker: {
-            eur: 1.0875,
-            gbp: 1.2642,
-            jpy: 151.25,
-            xau: 2345.6
-        },
+        marketPrices: {},
         charts: {}
     };
+
+    const PRICE_REFRESH_MS = 5 * 60 * 1000;
+    const MARKET_ITEMS = [
+        { key: 'eurusd', label: 'EUR/USD', decimals: 4 },
+        { key: 'gbpusd', label: 'GBP/USD', decimals: 4 },
+        { key: 'usdjpy', label: 'USD/JPY', decimals: 2 },
+        { key: 'xauusd', label: 'XAU/USD', decimals: 2 },
+        { key: 'btcusd', label: 'BTC/USD', decimals: 0 },
+        { key: 'nas100', label: 'NAS100', decimals: 0 },
+        { key: 'us30', label: 'US30', decimals: 0 },
+        { key: 'usdcad', label: 'USD/CAD', decimals: 4 },
+        { key: 'ethusd', label: 'ETH/USD', decimals: 0 },
+        { key: 'audusd', label: 'AUD/USD', decimals: 4 }
+    ];
 
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -31,6 +40,95 @@
             minimumFractionDigits: decimals,
             maximumFractionDigits: decimals
         });
+    }
+
+    function parseMarketNumber(value) {
+        if (typeof value === 'number') return value;
+        return Number(String(value || '').replace(/[$,%\s,]/g, ''));
+    }
+
+    async function fetchJson(url) {
+        const response = await fetch(url, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`Market request failed: ${response.status}`);
+        return response.json();
+    }
+
+    function withTrend(key, price, trendHint) {
+        const previous = state.marketPrices[key]?.price;
+        let trend = trendHint || 'flat';
+
+        if (Number.isFinite(previous) && previous !== price) {
+            trend = price > previous ? 'up' : 'down';
+        }
+
+        return {
+            price,
+            trend,
+            updatedAt: new Date()
+        };
+    }
+
+    async function fetchForexPrices() {
+        const data = await fetchJson('https://open.er-api.com/v6/latest/USD');
+        const rates = data?.rates || {};
+
+        return {
+            eurusd: withTrend('eurusd', 1 / rates.EUR),
+            gbpusd: withTrend('gbpusd', 1 / rates.GBP),
+            usdjpy: withTrend('usdjpy', rates.JPY),
+            usdcad: withTrend('usdcad', rates.CAD),
+            audusd: withTrend('audusd', 1 / rates.AUD)
+        };
+    }
+
+    async function fetchMetalPrices() {
+        const data = await fetchJson('https://api.gold-api.com/price/XAU');
+        return {
+            xauusd: withTrend('xauusd', parseMarketNumber(data?.price))
+        };
+    }
+
+    async function fetchCryptoPrices() {
+        const data = await fetchJson('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_change=true');
+        const btcChange = parseMarketNumber(data?.bitcoin?.usd_24h_change);
+        const ethChange = parseMarketNumber(data?.ethereum?.usd_24h_change);
+
+        return {
+            btcusd: withTrend('btcusd', parseMarketNumber(data?.bitcoin?.usd), btcChange >= 0 ? 'up' : 'down'),
+            ethusd: withTrend('ethusd', parseMarketNumber(data?.ethereum?.usd), ethChange >= 0 ? 'up' : 'down')
+        };
+    }
+
+    async function fetchIndexPrices() {
+        const [nasdaqData, fearGreedData] = await Promise.all([
+            fetchJson('https://api.nfin.dev/v1/quotes/indices'),
+            fetchJson('https://feargreedchart.com/api/?action=all')
+        ]);
+
+        const indices = nasdaqData?.data?.data || [];
+        const ndx = indices.find((item) => item.symbol === 'NDX') || indices.find((item) => item.symbol === 'QMI');
+        const dia = fearGreedData?.market?.DIA;
+
+        return {
+            nas100: withTrend('nas100', parseMarketNumber(ndx?.lastSalePrice), ndx?.deltaIndicator === 'up' ? 'up' : 'down'),
+            us30: withTrend('us30', parseMarketNumber(dia?.price) * 100, parseMarketNumber(dia?.pct) >= 0 ? 'up' : 'down')
+        };
+    }
+
+    async function fetchMarketPrices() {
+        const results = await Promise.allSettled([
+            fetchForexPrices(),
+            fetchMetalPrices(),
+            fetchCryptoPrices(),
+            fetchIndexPrices()
+        ]);
+
+        return results.reduce((prices, result) => {
+            if (result.status === 'fulfilled') {
+                Object.assign(prices, result.value);
+            }
+            return prices;
+        }, {});
     }
 
     function initLoadingScreen() {
@@ -73,24 +171,56 @@
         const ticker = $('#ticker-content');
         if (!ticker) return;
 
-        ticker.innerHTML += ticker.innerHTML;
+        function renderTicker() {
+            const markup = MARKET_ITEMS.map((item) => {
+                const quote = state.marketPrices[item.key];
+                const trend = quote?.trend === 'down' ? 'down' : quote?.trend === 'up' ? 'up' : 'flat';
+                const trendText = trend === 'down' ? 'DN' : trend === 'up' ? 'UP' : 'LIVE';
+                const price = Number.isFinite(quote?.price) ? formatNumber(quote.price, item.decimals) : '...';
+                return `<span class="ticker-item">${item.label}: ${price} <span class="${trend}">${trendText}</span></span>`;
+            }).join('');
 
+            ticker.innerHTML = markup + markup;
+        }
+
+        function renderTerminalPairs() {
+            const pairMap = [
+                ['eurusd', 0],
+                ['gbpusd', 1],
+                ['usdjpy', 2],
+                ['xauusd', 3]
+            ];
+            const pairValues = $$('.currency-pairs .pair-value');
+
+            pairMap.forEach(([key, index]) => {
+                const quote = state.marketPrices[key];
+                const config = MARKET_ITEMS.find((item) => item.key === key);
+                if (!pairValues[index] || !quote || !config || !Number.isFinite(quote.price)) return;
+                pairValues[index].textContent = formatNumber(quote.price, config.decimals);
+            });
+        }
+
+        async function refreshPrices() {
+            try {
+                const prices = await fetchMarketPrices();
+                state.marketPrices = { ...state.marketPrices, ...prices };
+                renderTicker();
+                renderTerminalPairs();
+                syncTerminalChartPrice();
+            } catch (error) {
+                console.warn('Live market prices unavailable', error);
+                renderTicker();
+            }
+        }
+
+        renderTicker();
+        refreshPrices();
         window.setInterval(() => {
-            if (document.hidden) return;
-
-            state.ticker.eur = randomWalk(state.ticker.eur, 1.05, 1.12, 0.0018);
-            state.ticker.gbp = randomWalk(state.ticker.gbp, 1.22, 1.31, 0.002);
-            state.ticker.jpy = randomWalk(state.ticker.jpy, 149.5, 153.5, 0.08);
-            state.ticker.xau = randomWalk(state.ticker.xau, 2290, 2388, 1.6);
-
-            const items = $$('.ticker-item', ticker);
-            if (items.length < 4) return;
-
-            items[0].firstChild.textContent = `EUR/USD: ${formatNumber(state.ticker.eur, 4)} `;
-            items[1].firstChild.textContent = `GBP/USD: ${formatNumber(state.ticker.gbp, 4)} `;
-            items[2].firstChild.textContent = `USD/JPY: ${formatNumber(state.ticker.jpy, 2)} `;
-            items[3].firstChild.textContent = `XAU/USD: ${formatNumber(state.ticker.xau, 2)} `;
-        }, 3200);
+            if (!document.hidden) refreshPrices();
+        }, PRICE_REFRESH_MS);
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) refreshPrices();
+        });
     }
 
     function initSmoothScrolling() {
@@ -213,6 +343,27 @@
         };
     }
 
+    function syncTerminalChartPrice() {
+        const chart = state.charts.terminal;
+        const quote = state.marketPrices.xauusd || state.marketPrices.eurusd;
+        if (!chart || !quote || !Number.isFinite(quote.price)) return;
+
+        const dataset = chart.data.datasets[0].data;
+
+        if (!chart.marketSynced) {
+            chart.data.labels = dataset.map((_, index) => index + 1);
+            chart.data.datasets[0].data = dataset.map(() => quote.price);
+            chart.marketSynced = true;
+        } else {
+            chart.data.labels.shift();
+            chart.data.labels.push(chart.data.labels[chart.data.labels.length - 1] + 1);
+            chart.data.datasets[0].data.shift();
+            chart.data.datasets[0].data.push(quote.price);
+        }
+
+        chart.update('none');
+    }
+
     function initCharts() {
         if (typeof Chart === 'undefined') return;
 
@@ -268,16 +419,7 @@
             });
         }
 
-        if (prefersReducedMotion) return;
-
-        window.setInterval(() => {
-            if (document.hidden || !state.charts.terminal) return;
-            const dataset = state.charts.terminal.data.datasets[0].data;
-            const last = dataset[dataset.length - 1] || 100;
-            dataset.shift();
-            dataset.push(Number(randomWalk(last, 94, 108, 0.8).toFixed(2)));
-            state.charts.terminal.update('none');
-        }, 2400);
+        syncTerminalChartPrice();
     }
 
     function setTextValue(element, nextValue, formatter) {

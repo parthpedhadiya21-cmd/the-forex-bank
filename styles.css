@@ -823,6 +823,179 @@ a.contact-btn {
     color: var(--muted);
 }
 
+.partnership {
+    padding-top: 92px;
+}
+
+.partnership-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
+    gap: 34px;
+    align-items: stretch;
+}
+
+.partnership-content,
+.partnership-image {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.04), transparent 38%),
+        var(--panel);
+    box-shadow: var(--shadow);
+}
+
+.partnership-content {
+    padding: 34px;
+}
+
+.partnership-kicker {
+    display: inline-flex;
+    margin-bottom: 12px;
+    color: var(--gold-soft);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.partnership .section-title {
+    margin-bottom: 20px;
+}
+
+.partnership-lead {
+    max-width: 740px;
+    color: var(--muted);
+}
+
+.partnership-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 26px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.partnership-stats > div {
+    padding: 16px;
+    border-right: 1px solid var(--line);
+}
+
+.partnership-stats > div:last-child {
+    border-right: 0;
+}
+
+.partner-stat-value {
+    display: block;
+    color: var(--gold-soft);
+    font-size: 1.08rem;
+    font-weight: 900;
+}
+
+.partner-stat-label {
+    display: block;
+    margin-top: 4px;
+    color: var(--subtle);
+    font-size: 0.68rem;
+    font-weight: 850;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.partnership-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.partner-step {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.025);
+    padding: 16px;
+}
+
+.partner-step span {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--gold-soft);
+    font-size: 0.76rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+}
+
+.partner-step strong {
+    display: block;
+    color: var(--text);
+    line-height: 1.25;
+}
+
+.partner-step p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.partnership-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.partnership-image {
+    position: relative;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+.partnership-image img {
+    width: 100%;
+    height: 100%;
+    min-height: 580px;
+    object-fit: cover;
+    filter: saturate(0.84) contrast(1.08);
+}
+
+.partnership-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(6, 8, 11, 0.06), rgba(6, 8, 11, 0.82)),
+        linear-gradient(90deg, rgba(6, 8, 11, 0.42), transparent);
+}
+
+.partnership-card {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+    z-index: 1;
+    border: 1px solid rgba(214, 185, 112, 0.32);
+    border-radius: 6px;
+    background: rgba(8, 11, 15, 0.78);
+    backdrop-filter: blur(10px);
+    padding: 18px;
+}
+
+.partnership-card span {
+    display: block;
+    color: var(--gold-soft);
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.partnership-card strong {
+    display: block;
+    margin-top: 8px;
+    color: var(--text);
+    font-size: 1.28rem;
+    line-height: 1.2;
+}
+
 .contact-wrapper {
     position: relative;
 }
@@ -1186,7 +1359,8 @@ a.contact-btn {
     .hero-container,
     .about .section-container,
     .globe-section,
-    .contact-wrapper {
+    .contact-wrapper,
+    .partnership-layout {
         grid-template-columns: 1fr;
     }
 
@@ -1214,6 +1388,10 @@ a.contact-btn {
 
     .strategy-summary {
         max-width: 560px;
+    }
+
+    .partnership-image img {
+        min-height: 380px;
     }
 }
 
@@ -1280,6 +1458,28 @@ a.contact-btn {
 
     .about-image-container,
     .contact-background {
+        min-height: 320px;
+    }
+
+    .partnership-content {
+        padding: 22px;
+    }
+
+    .partnership-stats,
+    .partnership-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .partnership-stats > div {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .partnership-stats > div:last-child {
+        border-bottom: 0;
+    }
+
+    .partnership-image img {
         min-height: 320px;
     }
 

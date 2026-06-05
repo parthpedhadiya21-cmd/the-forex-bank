@@ -560,6 +560,24 @@ a.contact-btn {
     color: var(--green);
 }
 
+.myfxbook-terminal-widget {
+    padding: 10px;
+}
+
+.myfxbook-terminal-widget .widget-label,
+.myfxbook-terminal-source .pair-item {
+    font-size: 0.62rem;
+}
+
+.myfxbook-terminal-widget .widget-value,
+.myfxbook-terminal-source .pair-value {
+    font-size: 0.92rem;
+}
+
+.myfxbook-terminal-source {
+    gap: 8px;
+}
+
 .pair-item {
     display: flex;
     align-items: center;

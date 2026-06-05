@@ -439,6 +439,81 @@
         return curve.getPoints(42);
     }
 
+    function createWorldMapTexture() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 2048;
+        canvas.height = 1024;
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = '#0d151d';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = 'rgba(214, 185, 112, 0.12)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += 128) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += 96) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        function point(lng, lat) {
+            return [
+                ((lng + 180) / 360) * canvas.width,
+                ((90 - lat) / 180) * canvas.height
+            ];
+        }
+
+        function drawLand(points) {
+            ctx.beginPath();
+            points.forEach(([lng, lat], index) => {
+                const [x, y] = point(lng, lat);
+                if (index === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        ctx.fillStyle = 'rgba(214, 185, 112, 0.32)';
+        ctx.strokeStyle = 'rgba(242, 221, 154, 0.42)';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = 'rgba(214, 185, 112, 0.28)';
+        ctx.shadowBlur = 18;
+
+        drawLand([[-168, 68], [-142, 72], [-112, 69], [-82, 60], [-58, 50], [-66, 28], [-88, 16], [-116, 22], [-132, 38], [-156, 50]]);
+        drawLand([[-84, 12], [-66, 9], [-48, -7], [-39, -24], [-53, -55], [-69, -50], [-78, -24], [-82, -6]]);
+        drawLand([[-18, 72], [10, 71], [38, 62], [44, 48], [26, 37], [8, 36], [-10, 44], [-24, 58]]);
+        drawLand([[-18, 35], [12, 36], [34, 30], [48, 12], [42, -22], [24, -35], [8, -34], [-8, -18], [-15, 8]]);
+        drawLand([[28, 72], [78, 73], [138, 61], [166, 48], [150, 20], [118, 6], [86, 22], [58, 16], [38, 34], [44, 52]]);
+        drawLand([[68, 28], [90, 28], [104, 10], [98, -4], [78, 7]]);
+        drawLand([[95, 6], [124, 8], [137, -7], [118, -12], [100, -6]]);
+        drawLand([[112, -12], [154, -10], [156, -38], [134, -45], [114, -32]]);
+        drawLand([[166, -34], [180, -38], [176, -46], [166, -43]]);
+        drawLand([[-52, 76], [-30, 72], [-22, 64], [-42, 60], [-58, 66]]);
+        drawLand([[42, 31], [58, 25], [54, 14], [42, 18]]);
+        drawLand([[44, -12], [50, -16], [48, -24], [42, -22]]);
+
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(139, 184, 216, 0.18)';
+        ctx.strokeStyle = 'rgba(139, 184, 216, 0.26)';
+        ctx.lineWidth = 1.5;
+        drawLand([[135, 44], [146, 42], [144, 32], [132, 34]]);
+        drawLand([[120, 24], [123, 21], [121, 18], [118, 21]]);
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.anisotropy = 8;
+        return texture;
+    }
+
     function initGlobalGlobe() {
         const container = $('#global-globe');
         if (!container || typeof THREE === 'undefined') return;
@@ -492,7 +567,8 @@
         const globe = new THREE.Mesh(
             new THREE.SphereGeometry(1, 72, 72),
             new THREE.MeshPhongMaterial({
-                color: 0x101820,
+                color: 0xf2dd9a,
+                map: createWorldMapTexture(),
                 emissive: 0x050608,
                 shininess: 26,
                 transparent: true,
@@ -500,6 +576,17 @@
             })
         );
         group.add(globe);
+
+        const atmosphere = new THREE.Mesh(
+            new THREE.SphereGeometry(1.035, 72, 72),
+            new THREE.MeshBasicMaterial({
+                color: 0x8bb8d8,
+                transparent: true,
+                opacity: 0.08,
+                side: THREE.BackSide
+            })
+        );
+        group.add(atmosphere);
 
         const wire = new THREE.LineSegments(
             new THREE.WireframeGeometry(new THREE.SphereGeometry(1.012, 36, 18)),

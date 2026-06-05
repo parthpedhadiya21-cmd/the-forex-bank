@@ -106,6 +106,7 @@ a.contact-btn {
     place-items: center;
     background: #050608;
     transition: opacity 0.35s ease, visibility 0.35s ease;
+    animation: loading-failsafe 0.35s ease 2.6s forwards;
 }
 
 .loading-screen.is-hidden {
@@ -245,6 +246,14 @@ a.contact-btn {
 @keyframes ticker-scroll {
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
+}
+
+@keyframes loading-failsafe {
+    to {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
 }
 
 .section,

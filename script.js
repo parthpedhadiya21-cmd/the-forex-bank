@@ -422,6 +422,174 @@
         syncTerminalChartPrice();
     }
 
+    function latLngToVector3(lat, lng, radius) {
+        const phi = (90 - lat) * (Math.PI / 180);
+        const theta = (lng + 180) * (Math.PI / 180);
+
+        return new THREE.Vector3(
+            -radius * Math.sin(phi) * Math.cos(theta),
+            radius * Math.cos(phi),
+            radius * Math.sin(phi) * Math.sin(theta)
+        );
+    }
+
+    function makeArc(start, end, lift) {
+        const middle = start.clone().add(end).multiplyScalar(0.5).normalize().multiplyScalar(1 + lift);
+        const curve = new THREE.QuadraticBezierCurve3(start, middle, end);
+        return curve.getPoints(42);
+    }
+
+    function initGlobalGlobe() {
+        const container = $('#global-globe');
+        if (!container || typeof THREE === 'undefined') return;
+
+        const countries = [
+            ['USA', 'USD', 38, -97], ['Canada', 'CAD', 56, -106], ['Mexico', 'MXN', 23, -102],
+            ['Brazil', 'BRL', -14, -52], ['Argentina', 'ARS', -34, -64], ['UK', 'GBP', 55, -3],
+            ['Eurozone', 'EUR', 50, 10], ['Switzerland', 'CHF', 47, 8], ['Norway', 'NOK', 61, 8],
+            ['Sweden', 'SEK', 62, 15], ['Russia', 'RUB', 61, 90], ['UAE', 'AED', 24, 54],
+            ['Saudi', 'SAR', 24, 45], ['South Africa', 'ZAR', -30, 25], ['India', 'INR', 22, 79],
+            ['China', 'CNY', 35, 104], ['Japan', 'JPY', 36, 138], ['Korea', 'KRW', 36, 128],
+            ['Singapore', 'SGD', 1, 104], ['Thailand', 'THB', 15, 101], ['Malaysia', 'MYR', 4, 102],
+            ['Indonesia', 'IDR', -2, 118], ['Australia', 'AUD', -25, 134], ['New Zealand', 'NZD', -41, 174],
+            ['Turkey', 'TRY', 39, 35], ['Egypt', 'EGP', 27, 30], ['Nigeria', 'NGN', 9, 8],
+            ['Kenya', 'KES', 0, 37], ['Pakistan', 'PKR', 30, 70], ['Hong Kong', 'HKD', 22, 114],
+            ['Philippines', 'PHP', 13, 122], ['Vietnam', 'VND', 16, 108]
+        ].map(([name, currency, lat, lng]) => ({
+            name,
+            currency,
+            lat,
+            lng,
+            vector: latLngToVector3(lat, lng, 1.02)
+        }));
+
+        const routePairs = [
+            ['USA', 'UK'], ['USA', 'Japan'], ['USA', 'Singapore'], ['UK', 'India'],
+            ['Eurozone', 'UAE'], ['China', 'Australia'], ['Japan', 'Australia'], ['India', 'Singapore'],
+            ['Brazil', 'USA'], ['South Africa', 'UAE'], ['Canada', 'Eurozone'], ['Hong Kong', 'UK']
+        ];
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+        camera.position.set(0, 0, 4.25);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        container.appendChild(renderer.domElement);
+
+        const labelLayer = document.createElement('div');
+        labelLayer.className = 'globe-label-layer';
+        container.appendChild(labelLayer);
+
+        const caption = document.createElement('div');
+        caption.className = 'globe-caption';
+        caption.innerHTML = '<span>Currency Network</span><span>Live Routes</span>';
+        container.appendChild(caption);
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        const globe = new THREE.Mesh(
+            new THREE.SphereGeometry(1, 72, 72),
+            new THREE.MeshPhongMaterial({
+                color: 0x101820,
+                emissive: 0x050608,
+                shininess: 26,
+                transparent: true,
+                opacity: 0.94
+            })
+        );
+        group.add(globe);
+
+        const wire = new THREE.LineSegments(
+            new THREE.WireframeGeometry(new THREE.SphereGeometry(1.012, 36, 18)),
+            new THREE.LineBasicMaterial({ color: 0xd6b970, transparent: true, opacity: 0.15 })
+        );
+        group.add(wire);
+
+        const pointGeometry = new THREE.SphereGeometry(0.018, 10, 10);
+        const pointMaterial = new THREE.MeshBasicMaterial({ color: 0xf2dd9a });
+        countries.forEach((country) => {
+            const marker = new THREE.Mesh(pointGeometry, pointMaterial);
+            marker.position.copy(country.vector);
+            group.add(marker);
+
+            const label = document.createElement('div');
+            label.className = 'globe-label';
+            label.innerHTML = `<strong>${country.currency}</strong>${country.name}`;
+            labelLayer.appendChild(label);
+            country.label = label;
+        });
+
+        const routes = routePairs.map(([fromName, toName], index) => {
+            const from = countries.find((country) => country.name === fromName);
+            const to = countries.find((country) => country.name === toName);
+            if (!from || !to) return null;
+
+            const geometry = new THREE.BufferGeometry().setFromPoints(makeArc(from.vector, to.vector, 0.28));
+            const line = new THREE.Line(
+                geometry,
+                new THREE.LineBasicMaterial({
+                    color: index % 3 === 0 ? 0x8bb8d8 : 0xd6b970,
+                    transparent: true,
+                    opacity: 0.18
+                })
+            );
+            group.add(line);
+            return line;
+        }).filter(Boolean);
+
+        scene.add(new THREE.AmbientLight(0x9fb2c2, 0.7));
+        const keyLight = new THREE.DirectionalLight(0xf2dd9a, 1.5);
+        keyLight.position.set(3, 2, 4);
+        scene.add(keyLight);
+
+        const rayTarget = new THREE.Vector3();
+
+        function resize() {
+            const { width, height } = container.getBoundingClientRect();
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
+
+        function projectLabels() {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            countries.forEach((country) => {
+                rayTarget.copy(country.vector).applyMatrix4(group.matrixWorld);
+                const projected = rayTarget.clone().project(camera);
+                const facing = rayTarget.normalize().dot(camera.position.clone().normalize());
+                const visible = projected.z < 1 && facing > 0.05;
+
+                country.label.style.opacity = visible ? '1' : '0';
+                country.label.style.transform = `translate(-50%, -50%) scale(${visible ? 1 : 0.82})`;
+                country.label.style.left = `${((projected.x + 1) / 2) * width}px`;
+                country.label.style.top = `${((-projected.y + 1) / 2) * height}px`;
+            });
+        }
+
+        function animate(time) {
+            if (!prefersReducedMotion) {
+                group.rotation.y += 0.0028;
+                group.rotation.x = Math.sin(time * 0.00045) * 0.08;
+            }
+
+            routes.forEach((route, index) => {
+                route.material.opacity = 0.12 + Math.max(0, Math.sin(time * 0.002 + index * 0.72)) * 0.42;
+            });
+
+            renderer.render(scene, camera);
+            projectLabels();
+            requestAnimationFrame(animate);
+        }
+
+        resize();
+        animate(0);
+        window.addEventListener('resize', resize);
+    }
+
     function setTextValue(element, nextValue, formatter) {
         if (!element) return;
         element.dataset.currentValue = String(nextValue);
@@ -496,6 +664,7 @@
         initSmoothScrolling();
         initHeroActions();
         initRevealObserver();
+        initGlobalGlobe();
         initLiveStats();
         initContactForm();
 

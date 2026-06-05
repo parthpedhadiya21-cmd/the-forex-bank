@@ -642,29 +642,78 @@ a.contact-btn {
 }
 
 #global-globe {
+    position: relative;
     min-height: 380px;
+    overflow: hidden;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background:
-        radial-gradient(circle at center, rgba(214, 185, 112, 0.12), transparent 38%),
+        radial-gradient(circle at center, rgba(214, 185, 112, 0.12), transparent 34%),
         linear-gradient(145deg, rgba(255, 255, 255, 0.04), transparent),
         var(--panel-solid);
 }
 
-#global-globe::before {
-    content: "";
+#global-globe canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.globe-label-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.globe-label {
+    position: absolute;
+    z-index: 2;
+    min-width: 58px;
+    border: 1px solid rgba(214, 185, 112, 0.34);
+    border-radius: 4px;
+    background: rgba(8, 11, 15, 0.74);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+    padding: 5px 7px;
+    color: var(--muted);
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
+    text-align: center;
+    text-transform: uppercase;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.globe-label strong {
     display: block;
-    width: min(280px, 70vw);
-    aspect-ratio: 1;
-    margin: 50px auto 0;
-    border: 1px solid rgba(214, 185, 112, 0.32);
-    border-radius: 50%;
-    background:
-        linear-gradient(90deg, transparent 48%, rgba(214, 185, 112, 0.26) 49% 51%, transparent 52%),
-        linear-gradient(0deg, transparent 48%, rgba(214, 185, 112, 0.18) 49% 51%, transparent 52%),
-        repeating-linear-gradient(0deg, transparent 0 34px, rgba(255, 255, 255, 0.08) 35px 36px),
-        repeating-linear-gradient(90deg, transparent 0 34px, rgba(255, 255, 255, 0.08) 35px 36px);
-    box-shadow: inset 0 0 70px rgba(139, 184, 216, 0.08), 0 0 60px rgba(214, 185, 112, 0.08);
+    color: var(--gold-soft);
+    font-size: 0.68rem;
+}
+
+.globe-caption {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 16px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-top: 1px solid rgba(204, 214, 224, 0.1);
+    padding-top: 12px;
+    color: var(--subtle);
+    font-size: 0.64rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.globe-caption span:last-child {
+    color: var(--green);
 }
 
 .market-data {
@@ -1740,6 +1789,27 @@ a.contact-btn {
     .about-image-container,
     .contact-background {
         min-height: 230px;
+    }
+
+    #global-globe {
+        min-height: 340px;
+    }
+
+    .globe-label {
+        min-width: 48px;
+        padding: 4px 6px;
+        font-size: 0.5rem;
+    }
+
+    .globe-label strong {
+        font-size: 0.58rem;
+    }
+
+    .globe-caption {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        font-size: 0.54rem;
     }
 
     .about .section-container,

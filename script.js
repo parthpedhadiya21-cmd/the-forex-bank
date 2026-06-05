@@ -766,6 +766,22 @@
         }, 4200);
     }
 
+    function initMyfxbookWidgetRefresh() {
+        const widget = $('[data-myfxbook-widget]');
+        if (!widget) return;
+
+        const baseUrl = widget.getAttribute('src').replace(/([?&])refresh=\d+(&?)/, (match, prefix, suffix) => suffix ? prefix : '');
+        const refreshWidget = () => {
+            const separator = baseUrl.includes('?') ? '&' : '?';
+            widget.setAttribute('src', `${baseUrl}${separator}refresh=${Date.now()}`);
+        };
+
+        refreshWidget();
+        window.setInterval(() => {
+            if (!document.hidden) refreshWidget();
+        }, 15 * 60 * 1000);
+    }
+
     function initContactForm() {
         const form = $('.contact-form');
         if (!form) return;
@@ -810,6 +826,7 @@
         initRevealObserver();
         initGlobalGlobe();
         initLiveStats();
+        initMyfxbookWidgetRefresh();
         initContactForm();
 
         window.setTimeout(initCharts, 80);

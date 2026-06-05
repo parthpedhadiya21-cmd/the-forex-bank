@@ -482,6 +482,7 @@ a.contact-btn {
 
 .xau-live-chart iframe {
     border: 0;
+    filter: sepia(0.78) saturate(0.68) hue-rotate(348deg) brightness(0.92) contrast(1.05);
 }
 
 .terminal-widgets,

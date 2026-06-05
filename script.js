@@ -40,8 +40,20 @@
 
         const duration = prefersReducedMotion ? 120 : 520;
         const startedAt = performance.now();
+        let isDone = false;
+
+        function finish() {
+            if (isDone) return;
+            isDone = true;
+            progress.style.transform = 'scaleX(1)';
+            screen.classList.add('is-hidden');
+            window.setTimeout(() => {
+                screen.style.display = 'none';
+            }, 360);
+        }
 
         function frame(now) {
+            if (isDone) return;
             const t = clamp((now - startedAt) / duration, 0, 1);
             progress.style.transform = `scaleX(${t})`;
 
@@ -50,13 +62,11 @@
                 return;
             }
 
-            screen.classList.add('is-hidden');
-            window.setTimeout(() => {
-                screen.style.display = 'none';
-            }, 360);
+            finish();
         }
 
         requestAnimationFrame(frame);
+        window.setTimeout(finish, duration + 900);
     }
 
     function initTicker() {

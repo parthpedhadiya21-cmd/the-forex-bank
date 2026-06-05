@@ -819,17 +819,33 @@
     }
 
     function boot() {
-        initLoadingScreen();
-        initTicker();
-        initSmoothScrolling();
-        initHeroActions();
-        initRevealObserver();
-        initGlobalGlobe();
-        initLiveStats();
-        initMyfxbookWidgetRefresh();
-        initContactForm();
+        const bootSteps = [
+            initLoadingScreen,
+            initTicker,
+            initSmoothScrolling,
+            initHeroActions,
+            initRevealObserver,
+            initGlobalGlobe,
+            initLiveStats,
+            initMyfxbookWidgetRefresh,
+            initContactForm
+        ];
 
-        window.setTimeout(initCharts, 80);
+        bootSteps.forEach((step) => {
+            try {
+                step();
+            } catch (error) {
+                console.warn('THE FOREX BANK module skipped:', error);
+            }
+        });
+
+        window.setTimeout(() => {
+            try {
+                initCharts();
+            } catch (error) {
+                console.warn('THE FOREX BANK charts skipped:', error);
+            }
+        }, 80);
     }
 
     document.addEventListener('DOMContentLoaded', boot);

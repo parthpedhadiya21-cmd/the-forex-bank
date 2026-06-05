@@ -74,6 +74,18 @@ a {
     color: inherit;
 }
 
+a.primary-btn,
+a.secondary-btn,
+a.pricing-btn,
+a.submit-btn,
+a.consultation-btn,
+a.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
 .scene-grid {
     position: fixed;
     inset: 0;

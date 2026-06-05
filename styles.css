@@ -179,7 +179,30 @@ a.contact-btn {
     white-space: nowrap;
 }
 
-.logo span {
+.brand-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.brand-logo img {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 auto;
+    border: 1px solid rgba(214, 185, 112, 0.38);
+    border-radius: 999px;
+    object-fit: cover;
+}
+
+.brand-logo span {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.38em;
+    color: var(--text);
+}
+
+.brand-logo strong {
     color: var(--gold-soft);
 }
 
@@ -957,7 +980,7 @@ a.contact-btn {
 }
 
 .gallery-item {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 5 / 3;
 }
 
 .gallery-overlay {
@@ -1238,6 +1261,15 @@ a.contact-btn {
     width: min(var(--max), 100%);
     margin: 0 auto;
     text-align: center;
+}
+
+.footer-logo {
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 16px;
+    border: 1px solid rgba(214, 185, 112, 0.34);
+    border-radius: 999px;
+    object-fit: cover;
 }
 
 .footer h3 {

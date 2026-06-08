@@ -159,21 +159,21 @@
                         <div class="terminal-widgets">
                             <div class="widget profit-widget" data-static-myfxbook>
                                 <div class="widget-label">PROFIT TODAY</div>
-                                <div class="widget-value profit">LIVE</div>
+                                <div class="widget-value profit" data-myfxbook-field="profit">+USC4,990.23</div>
                             </div>
                             <div class="widget equity-widget" data-static-myfxbook>
                                 <div class="widget-label">ACCOUNT EQUITY</div>
-                                <div class="widget-value">MYFXBOOK</div>
+                                <div class="widget-value" data-myfxbook-field="equity">USC68,216.20</div>
                             </div>
                             <div class="widget trades-widget" data-static-myfxbook>
                                 <div class="widget-label">OPEN TRADES</div>
-                                <div class="widget-value">LIVE</div>
+                                <div class="widget-value" data-myfxbook-field="openTrades">9</div>
                             </div>
                             <div class="currency-pairs myfxbook-terminal-source">
-                                <div class="pair-item">Balance <span class="pair-value">REPORT</span></div>
-                                <div class="pair-item">Profit <span class="pair-value">REPORT</span></div>
-                                <div class="pair-item">Drawdown <span class="pair-value">REPORT</span></div>
-                                <div class="pair-item">Updated <span class="pair-value">5 MIN AUTO</span></div>
+                                <div class="pair-item">Balance <span class="pair-value" data-myfxbook-field="balance">USC66,629.22</span></div>
+                                <div class="pair-item">Profit <span class="pair-value" data-myfxbook-field="totalProfit">USC16,634.71</span></div>
+                                <div class="pair-item">Drawdown <span class="pair-value" data-myfxbook-field="drawdown">12.39%</span></div>
+                                <div class="pair-item">Updated <span class="pair-value" data-myfxbook-field="updatedShort">5 MIN AUTO</span></div>
                             </div>
                         </div>
                     </div>
@@ -364,36 +364,36 @@
                     <div class="widget-header">
                         <h3>Gain</h3>
                     </div>
-                    <div class="live-stat-value">Live Chart</div>
-                    <div class="live-stat-label">Gain updates in the Myfxbook chart</div>
+                    <div class="live-stat-value" data-myfxbook-field="gain">+51.64%</div>
+                    <div class="live-stat-label" data-myfxbook-field="absGain">Abs. gain +33.27%</div>
                 </div>
                 <div class="dashboard-widget myfxbook-stat">
                     <div class="widget-header">
                         <h3>Monthly</h3>
                     </div>
-                    <div class="live-stat-value">Myfxbook</div>
-                    <div class="live-stat-label">Open report for latest daily/monthly stats</div>
+                    <div class="live-stat-value" data-myfxbook-field="monthly">51.64%</div>
+                    <div class="live-stat-label" data-myfxbook-field="daily">Daily 2.34%</div>
                 </div>
                 <div class="dashboard-widget myfxbook-stat">
                     <div class="widget-header">
                         <h3>Drawdown</h3>
                     </div>
-                    <div class="live-stat-value">Verified</div>
-                    <div class="live-stat-label">Risk is shown on the live Myfxbook report</div>
+                    <div class="live-stat-value" data-myfxbook-field="drawdown">12.39%</div>
+                    <div class="live-stat-label">Risk shown by Myfxbook</div>
                 </div>
                 <div class="dashboard-widget myfxbook-stat">
                     <div class="widget-header">
                         <h3>Open Trades</h3>
                     </div>
-                    <div class="live-stat-value">Live</div>
-                    <div class="live-stat-label">Open positions update at Myfxbook source</div>
+                    <div class="live-stat-value" data-myfxbook-field="openTrades">9</div>
+                    <div class="live-stat-label">Current open positions</div>
                 </div>
                 <div class="dashboard-widget myfxbook-stat">
                     <div class="widget-header">
                         <h3>Balance</h3>
                     </div>
-                    <div class="live-stat-value">Live</div>
-                    <div class="live-stat-label">Balance/equity update on Myfxbook</div>
+                    <div class="live-stat-value" data-myfxbook-field="balance">USC66,629.22</div>
+                    <div class="live-stat-label" data-myfxbook-field="equityLabel">Equity USC68,216.20</div>
                 </div>
                 <div class="dashboard-widget myfxbook-stat">
                     <div class="widget-header">
@@ -605,7 +605,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=15"></script>
+    <script src="script.js?v=17"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
 </body>
 </html>

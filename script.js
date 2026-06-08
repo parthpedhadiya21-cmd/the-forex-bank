@@ -835,7 +835,7 @@
         const profit = formatCurrencyValue(stats.profit, currency, true);
         const balance = formatCurrencyValue(stats.balance, currency);
         const equity = formatCurrencyValue(stats.equity, currency);
-        const todayProfit = formatCurrencyValue(stats.todayProfit ?? stats.todayProfitApprox, currency, true);
+        const todayProfit = formatCurrencyValue(stats.todayProfit, currency, true);
         const openTrades = Number.isFinite(Number(stats.openTrades)) ? String(Number(stats.openTrades)) : null;
 
         updateMyfxbookField('gain', gain);

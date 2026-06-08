@@ -835,7 +835,7 @@
         const profit = formatCurrencyValue(stats.profit, currency, true);
         const balance = formatCurrencyValue(stats.balance, currency);
         const equity = formatCurrencyValue(stats.equity, currency);
-        const todayProfit = formatCurrencyValue(stats.todayProfit ?? stats.profit, currency, true);
+        const todayProfit = formatCurrencyValue(stats.todayProfit ?? stats.todayProfitApprox, currency, true);
         const openTrades = Number.isFinite(Number(stats.openTrades)) ? String(Number(stats.openTrades)) : null;
 
         updateMyfxbookField('gain', gain);
@@ -847,7 +847,7 @@
         updateMyfxbookField('balance', balance);
         updateMyfxbookField('equity', equity);
         updateMyfxbookField('equityLabel', equity ? `Equity ${equity}` : null);
-        updateMyfxbookField('profit', todayProfit);
+        updateMyfxbookField('todayProfit', todayProfit);
         updateMyfxbookField('totalProfit', profit);
 
         if (stats.lastUpdateDate) {

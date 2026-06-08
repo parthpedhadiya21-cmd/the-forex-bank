@@ -72,7 +72,7 @@ module.exports = async function handler(request, response) {
             throw new Error('Myfxbook login did not return a session.');
         }
 
-        const accountsUrl = `${MYFXBOOK_API}/get-my-accounts.json?session=${encodeURIComponent(session)}`;
+        const accountsUrl = `${MYFXBOOK_API}/get-my-accounts.json?session=${session}`;
         const accountsData = await requestJson(accountsUrl);
         const account = findAccount(accountsData.accounts, accountId, accountName);
 
@@ -82,12 +82,18 @@ module.exports = async function handler(request, response) {
 
         let openTrades = account.openTrades;
         try {
-            const openTradesUrl = `${MYFXBOOK_API}/get-open-trades.json?session=${encodeURIComponent(session)}&id=${encodeURIComponent(account.id)}`;
+            const openTradesUrl = `${MYFXBOOK_API}/get-open-trades.json?session=${session}&id=${encodeURIComponent(account.id)}`;
             const openTradesData = await requestJson(openTradesUrl);
             openTrades = Array.isArray(openTradesData.openTrades) ? openTradesData.openTrades.length : openTrades;
         } catch (error) {
             openTrades = openTrades ?? null;
         }
+
+        const daily = Number(account.daily);
+        const balance = Number(account.balance);
+        const todayProfitApprox = Number.isFinite(daily) && Number.isFinite(balance)
+            ? balance * (daily / 100)
+            : null;
 
         sendJson(response, 200, {
             error: false,
@@ -103,6 +109,7 @@ module.exports = async function handler(request, response) {
             balance: account.balance,
             equity: account.equity,
             profit: account.profit,
+            todayProfitApprox,
             openTrades,
             lastUpdateDate: account.lastUpdateDate
         });
@@ -113,7 +120,7 @@ module.exports = async function handler(request, response) {
         });
     } finally {
         if (session) {
-            const logoutUrl = `${MYFXBOOK_API}/logout.json?session=${encodeURIComponent(session)}`;
+            const logoutUrl = `${MYFXBOOK_API}/logout.json?session=${session}`;
             fetch(logoutUrl).catch(() => {});
         }
     }

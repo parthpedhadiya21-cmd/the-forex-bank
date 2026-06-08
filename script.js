@@ -10,6 +10,7 @@
 
     const PRICE_REFRESH_MS = 60 * 1000;
     const TICKER_UPDATE_MS = 1000;
+    const MYFXBOOK_REFRESH_MS = 5 * 60 * 1000;
     const MARKET_ITEMS = [
         { key: 'eurusd', label: 'EUR/USD', decimals: 4 },
         { key: 'gbpusd', label: 'GBP/USD', decimals: 4 },
@@ -823,16 +824,39 @@
         const widget = $('[data-myfxbook-widget]');
         if (!widget) return;
 
-        const baseUrl = widget.getAttribute('src').replace(/([?&])refresh=\d+(&?)/, (match, prefix, suffix) => suffix ? prefix : '');
+        const status = $('[data-myfxbook-updated]');
+        const baseUrl = widget
+            .getAttribute('src')
+            .replace(/([?&])refresh=\d+(&?)/, (match, prefix, suffix) => suffix ? prefix : '');
+        let lastRefreshedAt = 0;
+
+        const updateStatus = () => {
+            if (!status || !lastRefreshedAt) return;
+
+            const refreshedAt = new Date(lastRefreshedAt).toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            status.textContent = `Latest refresh ${refreshedAt} - updates every 5 min`;
+        };
+
         const refreshWidget = () => {
             const separator = baseUrl.includes('?') ? '&' : '?';
-            widget.setAttribute('src', `${baseUrl}${separator}refresh=${Date.now()}`);
+            lastRefreshedAt = Date.now();
+            widget.setAttribute('src', `${baseUrl}${separator}refresh=${lastRefreshedAt}`);
+            updateStatus();
         };
 
         refreshWidget();
         window.setInterval(() => {
             if (!document.hidden) refreshWidget();
-        }, 15 * 60 * 1000);
+        }, MYFXBOOK_REFRESH_MS);
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden && Date.now() - lastRefreshedAt >= MYFXBOOK_REFRESH_MS) {
+                refreshWidget();
+            }
+        });
     }
 
     function initContactForm() {

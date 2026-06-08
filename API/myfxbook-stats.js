@@ -42,6 +42,19 @@ function findAccount(accounts, configuredId, configuredName) {
     return accounts[0];
 }
 
+function formatDateInput(date) {
+    return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, '0'),
+        String(date.getDate()).padStart(2, '0')
+    ].join('-');
+}
+
+function flattenDailyData(dataDaily) {
+    if (!Array.isArray(dataDaily)) return [];
+    return dataDaily.flatMap((item) => Array.isArray(item) ? item : [item]).filter(Boolean);
+}
+
 module.exports = async function handler(request, response) {
     if (request.method && request.method !== 'GET') {
         sendJson(response, 405, { error: true, message: 'Method not allowed' });
@@ -81,6 +94,7 @@ module.exports = async function handler(request, response) {
         }
 
         let openTrades = account.openTrades;
+        let todayProfit = null;
         try {
             const openTradesUrl = `${MYFXBOOK_API}/get-open-trades.json?session=${session}&id=${encodeURIComponent(account.id)}`;
             const openTradesData = await requestJson(openTradesUrl);
@@ -89,11 +103,18 @@ module.exports = async function handler(request, response) {
             openTrades = openTrades ?? null;
         }
 
-        const daily = Number(account.daily);
-        const balance = Number(account.balance);
-        const todayProfitApprox = Number.isFinite(daily) && Number.isFinite(balance)
-            ? balance * (daily / 100)
-            : null;
+        try {
+            const now = new Date();
+            const start = formatDateInput(new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000));
+            const end = formatDateInput(new Date(now.getTime() + 24 * 60 * 60 * 1000));
+            const dailyDataUrl = `${MYFXBOOK_API}/get-data-daily.json?session=${session}&id=${encodeURIComponent(account.id)}&start=${start}&end=${end}`;
+            const dailyData = await requestJson(dailyDataUrl);
+            const days = flattenDailyData(dailyData.dataDaily);
+            const latestDay = days[days.length - 1];
+            todayProfit = latestDay?.profit ?? null;
+        } catch (error) {
+            todayProfit = null;
+        }
 
         sendJson(response, 200, {
             error: false,
@@ -109,7 +130,7 @@ module.exports = async function handler(request, response) {
             balance: account.balance,
             equity: account.equity,
             profit: account.profit,
-            todayProfitApprox,
+            todayProfit,
             openTrades,
             lastUpdateDate: account.lastUpdateDate
         });

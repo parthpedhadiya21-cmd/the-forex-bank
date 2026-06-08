@@ -825,10 +825,16 @@
         if (!widget) return;
 
         const status = $('[data-myfxbook-updated]');
-        const baseUrl = widget
-            .getAttribute('src')
-            .replace(/([?&])refresh=\d+(&?)/, (match, prefix, suffix) => suffix ? prefix : '');
+        const baseSrc = widget.getAttribute('src');
         let lastRefreshedAt = 0;
+
+        const getFreshWidgetUrl = () => {
+            const url = new URL(baseSrc, window.location.href);
+            ['refresh', 'cache', 'cb', '_'].forEach((key) => url.searchParams.delete(key));
+            url.searchParams.set('refresh', String(Date.now()));
+            url.searchParams.set('cache', String(Math.random()).slice(2));
+            return url.toString();
+        };
 
         const updateStatus = () => {
             if (!status || !lastRefreshedAt) return;
@@ -841,9 +847,11 @@
         };
 
         const refreshWidget = () => {
-            const separator = baseUrl.includes('?') ? '&' : '?';
             lastRefreshedAt = Date.now();
-            widget.setAttribute('src', `${baseUrl}${separator}refresh=${lastRefreshedAt}`);
+            widget.removeAttribute('src');
+            window.setTimeout(() => {
+                widget.setAttribute('src', getFreshWidgetUrl());
+            }, 30);
             updateStatus();
         };
 

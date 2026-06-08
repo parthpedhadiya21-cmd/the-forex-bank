@@ -11,6 +11,7 @@
     const PRICE_REFRESH_MS = 60 * 1000;
     const TICKER_UPDATE_MS = 1000;
     const MYFXBOOK_REFRESH_MS = 5 * 60 * 1000;
+    const MYFXBOOK_STATS_ENDPOINT = '/api/myfxbook-stats';
     const MARKET_ITEMS = [
         { key: 'eurusd', label: 'EUR/USD', decimals: 4 },
         { key: 'gbpusd', label: 'GBP/USD', decimals: 4 },
@@ -790,6 +791,70 @@
         element.textContent = formatter ? formatter(nextValue) : formatNumber(nextValue);
     }
 
+    function formatPercentValue(value, sign = false) {
+        const number = parseMarketNumber(value);
+        if (!Number.isFinite(number)) return null;
+        const prefix = sign && number > 0 ? '+' : '';
+        return `${prefix}${formatNumber(number, 2)}%`;
+    }
+
+    function formatCurrencyValue(value, currency = 'USD', sign = false) {
+        const number = parseMarketNumber(value);
+        if (!Number.isFinite(number)) return null;
+        const prefix = sign && number > 0 ? '+' : '';
+        return `${prefix}${currency}${formatNumber(number, 2)}`;
+    }
+
+    function updateMyfxbookField(name, value) {
+        if (value === null || value === undefined || value === '') return;
+        $$(`[data-myfxbook-field="${name}"]`).forEach((element) => {
+            element.textContent = String(value);
+        });
+    }
+
+    async function fetchMyfxbookStats() {
+        const response = await fetch(`${MYFXBOOK_STATS_ENDPOINT}?refresh=${Date.now()}`, {
+            cache: 'no-store',
+            headers: { accept: 'application/json' }
+        });
+
+        if (!response.ok) throw new Error(`Myfxbook stats request failed: ${response.status}`);
+
+        const data = await response.json();
+        if (data?.error) throw new Error(data.message || 'Myfxbook stats unavailable');
+        return data;
+    }
+
+    function renderMyfxbookStats(stats) {
+        const currency = stats.currency || 'USD';
+        const gain = formatPercentValue(stats.gain, true);
+        const absGain = formatPercentValue(stats.absGain, true);
+        const monthly = formatPercentValue(stats.monthly);
+        const daily = formatPercentValue(stats.daily);
+        const drawdown = formatPercentValue(stats.drawdown);
+        const profit = formatCurrencyValue(stats.profit, currency, true);
+        const balance = formatCurrencyValue(stats.balance, currency);
+        const equity = formatCurrencyValue(stats.equity, currency);
+        const todayProfit = formatCurrencyValue(stats.todayProfit ?? stats.profit, currency, true);
+        const openTrades = Number.isFinite(Number(stats.openTrades)) ? String(Number(stats.openTrades)) : null;
+
+        updateMyfxbookField('gain', gain);
+        updateMyfxbookField('absGain', absGain ? `Abs. gain ${absGain}` : null);
+        updateMyfxbookField('monthly', monthly);
+        updateMyfxbookField('daily', daily ? `Daily ${daily}` : null);
+        updateMyfxbookField('drawdown', drawdown);
+        updateMyfxbookField('openTrades', openTrades);
+        updateMyfxbookField('balance', balance);
+        updateMyfxbookField('equity', equity);
+        updateMyfxbookField('equityLabel', equity ? `Equity ${equity}` : null);
+        updateMyfxbookField('profit', todayProfit);
+        updateMyfxbookField('totalProfit', profit);
+
+        if (stats.lastUpdateDate) {
+            updateMyfxbookField('updatedShort', stats.lastUpdateDate);
+        }
+    }
+
     function initLiveStats() {
         const profitValue = $('.profit-widget .widget-value.profit');
         const equityValue = $('.equity-widget .widget-value');
@@ -818,6 +883,29 @@
             }
             setTextValue(growthValue, growth, (value) => `+${Number(value).toFixed(1)}%`);
         }, 4200);
+    }
+
+    function initMyfxbookStatsRefresh() {
+        const statTargets = $$('[data-myfxbook-field]');
+        if (!statTargets.length) return;
+
+        async function refreshStats() {
+            try {
+                const stats = await fetchMyfxbookStats();
+                renderMyfxbookStats(stats);
+            } catch (error) {
+                console.warn('Myfxbook live stats unavailable', error);
+            }
+        }
+
+        refreshStats();
+        window.setInterval(() => {
+            if (!document.hidden) refreshStats();
+        }, MYFXBOOK_REFRESH_MS);
+
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) refreshStats();
+        });
     }
 
     function initMyfxbookWidgetRefresh() {
@@ -912,6 +1000,7 @@
             initRevealObserver,
             initGlobalGlobe,
             initLiveStats,
+            initMyfxbookStatsRefresh,
             initMyfxbookWidgetRefresh,
             initContactForm
         ];

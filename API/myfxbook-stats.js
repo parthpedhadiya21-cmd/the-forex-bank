@@ -3,6 +3,7 @@ const MYFXBOOK_API = 'https://www.myfxbook.com/api';
 function sendJson(response, statusCode, payload) {
     response.statusCode = statusCode;
     response.setHeader('Content-Type', 'application/json; charset=utf-8');
+    response.setHeader('Access-Control-Allow-Origin', '*');
     response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
     response.setHeader('CDN-Cache-Control', 'no-store');
     response.setHeader('Surrogate-Control', 'no-store');
@@ -71,6 +72,15 @@ function flattenDailyData(dataDaily) {
 }
 
 module.exports = async function handler(request, response) {
+    if (request.method === 'OPTIONS') {
+        response.statusCode = 204;
+        response.setHeader('Access-Control-Allow-Origin', '*');
+        response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+        response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept, Cache-Control, Pragma');
+        response.end();
+        return;
+    }
+
     if (request.method && request.method !== 'GET') {
         sendJson(response, 405, { error: true, message: 'Method not allowed' });
         return;

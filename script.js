@@ -11,7 +11,9 @@
     const PRICE_REFRESH_MS = 60 * 1000;
     const TICKER_UPDATE_MS = 1000;
     const MYFXBOOK_REFRESH_MS = 60 * 1000;
-    const MYFXBOOK_STATS_ENDPOINT = '/api/myfxbook-stats';
+    const MYFXBOOK_STATS_ENDPOINT = window.location.protocol === 'file:'
+        ? 'http://localhost:3000/api/myfxbook-stats'
+        : '/api/myfxbook-stats';
     const MARKET_ITEMS = [
         { key: 'eurusd', label: 'EUR/USD', decimals: 4 },
         { key: 'gbpusd', label: 'GBP/USD', decimals: 4 },
@@ -922,10 +924,9 @@
                 console.warn('Myfxbook live stats unavailable', error);
                 const status = $('[data-myfxbook-updated]');
                 if (status) {
-                    status.dataset.liveStatsText = 'Stats refresh failed - check Myfxbook API';
+                    status.dataset.liveStatsText = 'Stats retrying live refresh';
                     renderMyfxbookStatus();
                 }
-                updateMyfxbookField('updatedShort', 'LIVE API ERROR');
             }
         }
 

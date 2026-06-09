@@ -1332,23 +1332,38 @@ a.contact-btn {
 .footer-social a {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 54px;
     min-height: 34px;
     border: 1px solid rgba(214, 185, 112, 0.32);
     border-radius: 999px;
-    padding: 0 13px;
+    padding: 0;
     color: var(--muted);
     font-size: 0.72rem;
     font-weight: 850;
     letter-spacing: 0.06em;
     text-decoration: none;
     text-transform: uppercase;
-    transition: border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.footer-social img {
+    display: block;
+    filter: invert(79%) sepia(37%) saturate(462%) hue-rotate(2deg) brightness(96%) contrast(91%);
+    opacity: 0.95;
+    transition: filter 0.18s ease, opacity 0.18s ease;
 }
 
 .footer-social a:hover {
+    background: rgba(214, 185, 112, 0.10);
     border-color: var(--gold-soft);
     color: var(--gold-soft);
     transform: translateY(-1px);
+}
+
+.footer-social a:hover img {
+    filter: invert(91%) sepia(31%) saturate(526%) hue-rotate(354deg) brightness(102%) contrast(90%);
+    opacity: 1;
 }
 
 .reveal-ready {

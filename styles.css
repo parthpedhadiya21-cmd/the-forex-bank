@@ -1349,9 +1349,20 @@ a.contact-btn {
 
 .footer-social img {
     display: block;
-    filter: invert(79%) sepia(37%) saturate(462%) hue-rotate(2deg) brightness(96%) contrast(91%);
     opacity: 0.95;
     transition: filter 0.18s ease, opacity 0.18s ease;
+}
+
+.footer-social img[alt="Facebook"] {
+    filter: invert(35%) sepia(88%) saturate(1584%) hue-rotate(199deg) brightness(96%) contrast(95%);
+}
+
+.footer-social img[alt="Instagram"] {
+    filter: invert(38%) sepia(75%) saturate(2527%) hue-rotate(322deg) brightness(96%) contrast(94%);
+}
+
+.footer-social img[alt="Telegram"] {
+    filter: invert(53%) sepia(70%) saturate(1340%) hue-rotate(170deg) brightness(93%) contrast(94%);
 }
 
 .footer-social a:hover {
@@ -1362,7 +1373,6 @@ a.contact-btn {
 }
 
 .footer-social a:hover img {
-    filter: invert(91%) sepia(31%) saturate(526%) hue-rotate(354deg) brightness(102%) contrast(90%);
     opacity: 1;
 }
 

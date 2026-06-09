@@ -49,6 +49,11 @@ function sendStaticFile(filePath, response) {
 
         response.statusCode = 200;
         response.setHeader('Content-Type', MIME_TYPES[path.extname(filePath).toLowerCase()] || 'application/octet-stream');
+        if (['.html', '.js', '.css'].includes(path.extname(filePath).toLowerCase())) {
+            response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+            response.setHeader('Pragma', 'no-cache');
+            response.setHeader('Expires', '0');
+        }
         response.end(content);
     });
 }

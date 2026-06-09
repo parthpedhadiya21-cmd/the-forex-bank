@@ -3,12 +3,27 @@ const MYFXBOOK_API = 'https://www.myfxbook.com/api';
 function sendJson(response, statusCode, payload) {
     response.statusCode = statusCode;
     response.setHeader('Content-Type', 'application/json; charset=utf-8');
-    response.setHeader('Cache-Control', 'no-store, max-age=0');
+    response.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    response.setHeader('CDN-Cache-Control', 'no-store');
+    response.setHeader('Surrogate-Control', 'no-store');
+    response.setHeader('Pragma', 'no-cache');
+    response.setHeader('Expires', '0');
     response.end(JSON.stringify(payload));
 }
 
 async function requestJson(url) {
-    const response = await fetch(url, { cache: 'no-store' });
+    const requestUrl = new URL(url);
+    requestUrl.searchParams.set('_', String(Date.now()));
+
+    const response = await fetch(requestUrl, {
+        cache: 'no-store',
+        headers: {
+            accept: 'application/json',
+            'cache-control': 'no-cache',
+            pragma: 'no-cache',
+            'user-agent': 'TheForexBank/1.0 live dashboard'
+        }
+    });
     if (!response.ok) {
         throw new Error(`Myfxbook request failed: ${response.status}`);
     }
@@ -132,7 +147,8 @@ module.exports = async function handler(request, response) {
             profit: account.profit,
             todayProfit,
             openTrades,
-            lastUpdateDate: account.lastUpdateDate
+            lastUpdateDate: account.lastUpdateDate,
+            fetchedAt: new Date().toISOString()
         });
     } catch (error) {
         sendJson(response, 500, {

@@ -250,10 +250,10 @@
                 renderTicker();
                 renderTerminalPairs();
                 syncTerminalChartPrice();
-            } catch (error) {
-                console.warn('Live market prices unavailable', error);
-                renderTicker();
-            }
+        } catch (error) {
+            console.warn('Live market prices unavailable', error);
+            renderTicker();
+        }
         }
 
         seedTickerPrices();
@@ -925,6 +925,7 @@
                     status.dataset.liveStatsText = 'Stats refresh failed - check Myfxbook API';
                     renderMyfxbookStatus();
                 }
+                updateMyfxbookField('updatedShort', 'LIVE API ERROR');
             }
         }
 

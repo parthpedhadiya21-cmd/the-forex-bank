@@ -10,7 +10,7 @@
 
     const PRICE_REFRESH_MS = 60 * 1000;
     const TICKER_UPDATE_MS = 1000;
-    const MYFXBOOK_REFRESH_MS = 5 * 60 * 1000;
+    const MYFXBOOK_REFRESH_MS = 60 * 1000;
     const MYFXBOOK_STATS_ENDPOINT = '/api/myfxbook-stats';
     const MARKET_ITEMS = [
         { key: 'eurusd', label: 'EUR/USD', decimals: 4 },
@@ -812,10 +812,26 @@
         });
     }
 
+    function renderMyfxbookStatus() {
+        const status = $('[data-myfxbook-updated]');
+        if (!status) return;
+
+        const parts = [
+            status.dataset.liveStatsText,
+            status.dataset.chartRefreshText
+        ].filter(Boolean);
+
+        status.textContent = parts.length ? parts.join(' | ') : 'Refreshing live every 1 min';
+    }
+
     async function fetchMyfxbookStats() {
         const response = await fetch(`${MYFXBOOK_STATS_ENDPOINT}?refresh=${Date.now()}`, {
             cache: 'no-store',
-            headers: { accept: 'application/json' }
+            headers: {
+                accept: 'application/json',
+                'cache-control': 'no-cache',
+                pragma: 'no-cache'
+            }
         });
 
         if (!response.ok) throw new Error(`Myfxbook stats request failed: ${response.status}`);
@@ -852,6 +868,15 @@
 
         if (stats.lastUpdateDate) {
             updateMyfxbookField('updatedShort', stats.lastUpdateDate);
+        }
+
+        const status = $('[data-myfxbook-updated]');
+        if (status) {
+            const fetchedAt = stats.fetchedAt ? new Date(stats.fetchedAt) : new Date();
+            const fetchedText = fetchedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const sourceText = stats.lastUpdateDate ? `Myfxbook ${stats.lastUpdateDate}` : 'Myfxbook latest';
+            status.dataset.liveStatsText = `Stats ${fetchedText} - ${sourceText}`;
+            renderMyfxbookStatus();
         }
     }
 
@@ -895,6 +920,11 @@
                 renderMyfxbookStats(stats);
             } catch (error) {
                 console.warn('Myfxbook live stats unavailable', error);
+                const status = $('[data-myfxbook-updated]');
+                if (status) {
+                    status.dataset.liveStatsText = 'Stats refresh failed - check Myfxbook API';
+                    renderMyfxbookStatus();
+                }
             }
         }
 
@@ -931,7 +961,8 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            status.textContent = `Latest refresh ${refreshedAt} - updates every 5 min`;
+            status.dataset.chartRefreshText = `Chart ${refreshedAt}`;
+            renderMyfxbookStatus();
         };
 
         const refreshWidget = () => {

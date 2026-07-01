@@ -88,7 +88,7 @@ module.exports = async function handler(request, response) {
 
     const email = process.env.MYFXBOOK_EMAIL;
     const password = process.env.MYFXBOOK_PASSWORD;
-    const accountId = process.env.MYFXBOOK_ACCOUNT_ID || '12049136';
+    const accountId = process.env.MYFXBOOK_ACCOUNT_ID || '12096259';
     const accountName = process.env.MYFXBOOK_ACCOUNT_NAME;
 
     if (!email || !password) {

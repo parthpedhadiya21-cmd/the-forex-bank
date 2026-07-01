@@ -11,6 +11,23 @@
     const PRICE_REFRESH_MS = 60 * 1000;
     const TICKER_UPDATE_MS = 1000;
     const MYFXBOOK_REFRESH_MS = 60 * 1000;
+    const MYFXBOOK_FALLBACK_STATS = {
+        error: false,
+        id: 12096259,
+        name: 'THE FOREX BANK',
+        currency: 'USC',
+        gain: 12.1,
+        absGain: 12.1,
+        daily: 0.88,
+        monthly: 12.1,
+        drawdown: 5.44,
+        balance: 112104,
+        equity: 111414.49,
+        profit: 12104,
+        todayProfit: -5109.4,
+        openTrades: 3,
+        lastUpdateDate: '07/01/2026 04:41'
+    };
     const MYFXBOOK_STATS_ENDPOINTS = (() => {
         const localEndpoint = 'http://localhost:3000/api/myfxbook-stats';
 
@@ -22,7 +39,7 @@
         const isLocalPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
         if (isLocalPreview && window.location.port !== '3000') {
-            return [sameOriginEndpoint, localEndpoint];
+            return [localEndpoint, sameOriginEndpoint];
         }
 
         return [sameOriginEndpoint];
@@ -816,8 +833,9 @@
     function formatCurrencyValue(value, currency = 'USD', sign = false) {
         const number = parseMarketNumber(value);
         if (!Number.isFinite(number)) return null;
-        const prefix = sign && number > 0 ? '+' : '';
-        return `${prefix}${currency}${formatNumber(number, 2)}`;
+        const prefix = sign && number > 0 ? '+' : sign && number < 0 ? '-' : '';
+        const displayNumber = sign ? Math.abs(number) : number;
+        return `${prefix}${currency}${formatNumber(displayNumber, 2)}`;
     }
 
     function updateMyfxbookField(name, value) {
@@ -844,14 +862,18 @@
 
         for (const endpoint of MYFXBOOK_STATS_ENDPOINTS) {
             try {
+                const controller = new AbortController();
+                const timeout = window.setTimeout(() => controller.abort(), 8000);
                 const response = await fetch(`${endpoint}?refresh=${Date.now()}`, {
                     cache: 'no-store',
+                    signal: controller.signal,
                     headers: {
                         accept: 'application/json',
                         'cache-control': 'no-cache',
                         pragma: 'no-cache'
                     }
                 });
+                window.clearTimeout(timeout);
 
                 if (!response.ok) throw new Error(`Myfxbook stats request failed: ${response.status}`);
 
@@ -945,9 +967,13 @@
                 renderMyfxbookStats(stats);
             } catch (error) {
                 console.warn('Myfxbook live stats unavailable', error);
+                renderMyfxbookStats({
+                    ...MYFXBOOK_FALLBACK_STATS,
+                    fetchedAt: new Date().toISOString()
+                });
                 const status = $('[data-myfxbook-updated]');
                 if (status) {
-                    status.dataset.liveStatsText = 'Stats retrying live refresh';
+                    status.dataset.liveStatsText = 'Stats fallback shown';
                     renderMyfxbookStatus();
                 }
             }

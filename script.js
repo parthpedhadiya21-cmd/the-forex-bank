@@ -11,9 +11,22 @@
     const PRICE_REFRESH_MS = 60 * 1000;
     const TICKER_UPDATE_MS = 1000;
     const MYFXBOOK_REFRESH_MS = 60 * 1000;
-    const MYFXBOOK_STATS_ENDPOINT = window.location.protocol === 'file:'
-        ? 'http://localhost:3000/api/myfxbook-stats'
-        : '/api/myfxbook-stats';
+    const MYFXBOOK_STATS_ENDPOINTS = (() => {
+        const localEndpoint = 'http://localhost:3000/api/myfxbook-stats';
+
+        if (window.location.protocol === 'file:') {
+            return [localEndpoint];
+        }
+
+        const sameOriginEndpoint = '/api/myfxbook-stats';
+        const isLocalPreview = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+
+        if (isLocalPreview && window.location.port !== '3000') {
+            return [sameOriginEndpoint, localEndpoint];
+        }
+
+        return [sameOriginEndpoint];
+    })();
     const MARKET_ITEMS = [
         { key: 'eurusd', label: 'EUR/USD', decimals: 4 },
         { key: 'gbpusd', label: 'GBP/USD', decimals: 4 },
@@ -53,7 +66,7 @@
     }
 
     function formatNumber(value, decimals = 2) {
-        return Number(value).toLocaleString(undefined, {
+        return Number(value).toLocaleString('en-US', {
             minimumFractionDigits: decimals,
             maximumFractionDigits: decimals
         });
@@ -827,20 +840,30 @@
     }
 
     async function fetchMyfxbookStats() {
-        const response = await fetch(`${MYFXBOOK_STATS_ENDPOINT}?refresh=${Date.now()}`, {
-            cache: 'no-store',
-            headers: {
-                accept: 'application/json',
-                'cache-control': 'no-cache',
-                pragma: 'no-cache'
+        let lastError = null;
+
+        for (const endpoint of MYFXBOOK_STATS_ENDPOINTS) {
+            try {
+                const response = await fetch(`${endpoint}?refresh=${Date.now()}`, {
+                    cache: 'no-store',
+                    headers: {
+                        accept: 'application/json',
+                        'cache-control': 'no-cache',
+                        pragma: 'no-cache'
+                    }
+                });
+
+                if (!response.ok) throw new Error(`Myfxbook stats request failed: ${response.status}`);
+
+                const data = await response.json();
+                if (data?.error) throw new Error(data.message || 'Myfxbook stats unavailable');
+                return data;
+            } catch (error) {
+                lastError = error;
             }
-        });
+        }
 
-        if (!response.ok) throw new Error(`Myfxbook stats request failed: ${response.status}`);
-
-        const data = await response.json();
-        if (data?.error) throw new Error(data.message || 'Myfxbook stats unavailable');
-        return data;
+        throw lastError || new Error('Myfxbook stats unavailable');
     }
 
     function renderMyfxbookStats(stats) {

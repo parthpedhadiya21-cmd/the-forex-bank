@@ -10,7 +10,9 @@
 
     const PRICE_REFRESH_MS = 60 * 1000;
     const TICKER_UPDATE_MS = 1000;
-    const MYFXBOOK_REFRESH_MS = 60 * 1000;
+    const MYFXBOOK_STATS_REFRESH_MS = 15 * 1000;
+    const MYFXBOOK_WIDGET_REFRESH_MS = 20 * 1000;
+    const MYFXBOOK_WATCHDOG_MS = 5 * 1000;
     const MYFXBOOK_FALLBACK_STATS = {
         error: false,
         id: 12096259,
@@ -978,8 +980,14 @@
     function initMyfxbookStatsRefresh() {
         const statTargets = $$('[data-myfxbook-field]');
         if (!statTargets.length) return;
+        let isRefreshing = false;
+        let lastRefreshStartedAt = 0;
 
-        async function refreshStats() {
+        async function refreshStats(force = false) {
+            if (isRefreshing && !force) return;
+            isRefreshing = true;
+            lastRefreshStartedAt = Date.now();
+
             try {
                 const stats = await fetchMyfxbookStats();
                 renderMyfxbookStats(stats);
@@ -994,17 +1002,28 @@
                     status.dataset.liveStatsText = 'Stats fallback shown';
                     renderMyfxbookStatus();
                 }
+            } finally {
+                isRefreshing = false;
             }
         }
 
-        refreshStats();
+        refreshStats(true);
         window.setInterval(() => {
-            if (!document.hidden) refreshStats();
-        }, MYFXBOOK_REFRESH_MS);
+            refreshStats();
+        }, MYFXBOOK_STATS_REFRESH_MS);
+
+        window.setInterval(() => {
+            if (Date.now() - lastRefreshStartedAt >= MYFXBOOK_STATS_REFRESH_MS + MYFXBOOK_WATCHDOG_MS) {
+                refreshStats();
+            }
+        }, MYFXBOOK_WATCHDOG_MS);
 
         document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) refreshStats();
+            refreshStats(true);
         });
+        window.addEventListener('focus', () => refreshStats(true));
+        window.addEventListener('online', () => refreshStats(true));
+        window.addEventListener('pageshow', () => refreshStats(true));
     }
 
     function initMyfxbookWidgetRefresh() {
@@ -1014,12 +1033,14 @@
         const status = $('[data-myfxbook-updated]');
         const baseSrc = widget.getAttribute('src');
         let lastRefreshedAt = 0;
+        let refreshCount = 0;
 
         const getFreshWidgetUrl = () => {
             const url = new URL(baseSrc, window.location.href);
-            ['refresh', 'cache', 'cb', '_'].forEach((key) => url.searchParams.delete(key));
+            ['refresh', 'cache', 'cb', '_', 'loop'].forEach((key) => url.searchParams.delete(key));
             url.searchParams.set('refresh', String(Date.now()));
             url.searchParams.set('cache', String(Math.random()).slice(2));
+            url.searchParams.set('loop', String(refreshCount));
             return url.toString();
         };
 
@@ -1035,6 +1056,7 @@
         };
 
         const refreshWidget = () => {
+            refreshCount += 1;
             lastRefreshedAt = Date.now();
             widget.removeAttribute('src');
             window.setTimeout(() => {
@@ -1045,14 +1067,21 @@
 
         refreshWidget();
         window.setInterval(() => {
-            if (!document.hidden) refreshWidget();
-        }, MYFXBOOK_REFRESH_MS);
+            refreshWidget();
+        }, MYFXBOOK_WIDGET_REFRESH_MS);
 
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden && Date.now() - lastRefreshedAt >= MYFXBOOK_REFRESH_MS) {
+        window.setInterval(() => {
+            if (Date.now() - lastRefreshedAt >= MYFXBOOK_WIDGET_REFRESH_MS + MYFXBOOK_WATCHDOG_MS) {
                 refreshWidget();
             }
+        }, MYFXBOOK_WATCHDOG_MS);
+
+        document.addEventListener('visibilitychange', () => {
+            refreshWidget();
         });
+        window.addEventListener('focus', refreshWidget);
+        window.addEventListener('online', refreshWidget);
+        window.addEventListener('pageshow', refreshWidget);
     }
 
     function initContactForm() {

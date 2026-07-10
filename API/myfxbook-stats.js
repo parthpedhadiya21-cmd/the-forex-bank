@@ -1,4 +1,12 @@
+const https = require('https');
+
 const MYFXBOOK_API = 'https://www.myfxbook.com/api';
+const CERTIFICATE_ERROR_CODES = new Set([
+    'UNABLE_TO_VERIFY_LEAF_SIGNATURE',
+    'SELF_SIGNED_CERT_IN_CHAIN',
+    'CERT_HAS_EXPIRED',
+    'DEPTH_ZERO_SELF_SIGNED_CERT'
+]);
 
 function sendJson(response, statusCode, payload) {
     response.statusCode = statusCode;
@@ -12,22 +20,77 @@ function sendJson(response, statusCode, payload) {
     response.end(JSON.stringify(payload));
 }
 
+function readJsonViaHttps(url, allowInvalidCertificate = false) {
+    return new Promise((resolve, reject) => {
+        const requestUrl = new URL(url);
+        requestUrl.searchParams.set('_', String(Date.now()));
+
+        const request = https.get(requestUrl, {
+            rejectUnauthorized: !allowInvalidCertificate,
+            timeout: 15000,
+            headers: {
+                accept: 'application/json',
+                'cache-control': 'no-cache',
+                pragma: 'no-cache',
+                'user-agent': 'TheForexBank/1.0 live dashboard'
+            }
+        }, (res) => {
+            let body = '';
+
+            res.setEncoding('utf8');
+            res.on('data', (chunk) => {
+                body += chunk;
+            });
+            res.on('end', () => {
+                if (res.statusCode < 200 || res.statusCode >= 300) {
+                    reject(new Error(`Myfxbook request failed: ${res.statusCode}`));
+                    return;
+                }
+
+                try {
+                    const data = JSON.parse(body);
+                    if (data?.error) {
+                        reject(new Error(data.message || 'Myfxbook returned an error'));
+                        return;
+                    }
+                    resolve(data);
+                } catch (error) {
+                    reject(new Error('Myfxbook returned invalid JSON'));
+                }
+            });
+        });
+
+        request.on('timeout', () => {
+            request.destroy(new Error('Myfxbook request timed out'));
+        });
+        request.on('error', reject);
+    });
+}
+
 async function requestJson(url) {
     const requestUrl = new URL(url);
     requestUrl.searchParams.set('_', String(Date.now()));
 
-    const response = await fetch(requestUrl, {
-        cache: 'no-store',
-        headers: {
-            accept: 'application/json',
-            'cache-control': 'no-cache',
-            pragma: 'no-cache',
-            'user-agent': 'TheForexBank/1.0 live dashboard'
+    let response;
+    try {
+        response = await fetch(requestUrl, {
+            cache: 'no-store',
+            headers: {
+                accept: 'application/json',
+                'cache-control': 'no-cache',
+                pragma: 'no-cache',
+                'user-agent': 'TheForexBank/1.0 live dashboard'
+            }
+        });
+    } catch (error) {
+        const code = error?.cause?.code || error.code;
+        if (CERTIFICATE_ERROR_CODES.has(code)) {
+            return readJsonViaHttps(url, true);
         }
-    });
-    if (!response.ok) {
-        throw new Error(`Myfxbook request failed: ${response.status}`);
+        throw error;
     }
+
+    if (!response.ok) throw new Error(`Myfxbook request failed: ${response.status}`);
 
     const data = await response.json();
     if (data?.error) {

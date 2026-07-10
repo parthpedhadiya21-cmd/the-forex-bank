@@ -1047,6 +1047,97 @@ a.contact-btn {
     color: var(--muted);
 }
 
+.open-account {
+    padding-top: 44px;
+}
+
+.broker-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.broker-card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 18px;
+    min-height: 148px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+        linear-gradient(145deg, rgba(214, 185, 112, 0.1), transparent 34%),
+        var(--panel);
+    box-shadow: var(--shadow);
+    padding: clamp(18px, 2vw, 26px);
+    text-decoration: none;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.broker-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(214, 185, 112, 0.44);
+    background:
+        linear-gradient(145deg, rgba(139, 184, 216, 0.12), transparent 42%),
+        var(--panel-solid);
+}
+
+.broker-logo {
+    display: grid;
+    width: 74px;
+    height: 74px;
+    place-items: center;
+    border: 1px solid rgba(214, 185, 112, 0.42);
+    border-radius: 8px;
+    background: #090d12;
+    color: var(--gold-soft);
+    font-size: 1.55rem;
+    font-weight: 950;
+    letter-spacing: 0;
+}
+
+.vantage-logo {
+    color: #f04c4c;
+}
+
+.cxm-logo {
+    color: var(--blue);
+    font-size: 1.05rem;
+}
+
+.broker-copy {
+    display: grid;
+    gap: 7px;
+    min-width: 0;
+}
+
+.broker-copy strong {
+    color: var(--text);
+    font-size: clamp(1.28rem, 2vw, 1.8rem);
+    line-height: 1.05;
+}
+
+.broker-copy span {
+    color: var(--muted);
+    font-size: 0.84rem;
+    font-weight: 750;
+}
+
+.broker-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border: 1px solid rgba(214, 185, 112, 0.52);
+    border-radius: 4px;
+    padding: 0 14px;
+    color: var(--gold-soft);
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
 .partnership {
     padding-top: 92px;
 }
@@ -1711,6 +1802,10 @@ a.contact-btn {
         min-height: 560px;
     }
 
+    .broker-grid {
+        grid-template-columns: 1fr;
+    }
+
     .gallery-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
@@ -1827,6 +1922,15 @@ a.contact-btn {
 
     .myfxbook-stat {
         min-height: 150px;
+    }
+
+    .broker-card {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .broker-action {
+        grid-column: 1 / -1;
+        width: 100%;
     }
 
     .title-main {

@@ -281,15 +281,18 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            z-index: 50;
+            z-index: 900 !important;
+            display: block !important;
             width: min(48vw, 640px);
+            height: auto;
             aspect-ratio: 1;
             transform: translate(-50%, -50%);
-            background: url("the-forex-bank-logo-gold.png") center / contain no-repeat;
-            opacity: 0.065;
-            filter: grayscale(0.25) sepia(0.28) brightness(0.9);
+            object-fit: contain;
+            opacity: 0.14 !important;
+            filter: saturate(0.72) brightness(1.08);
             mix-blend-mode: screen;
             pointer-events: none;
+            user-select: none;
         }
 
         body > section,
@@ -376,7 +379,7 @@
         }
 
         @media (max-width: 760px) {
-            .site-watermark { width: 82vw; opacity: 0.05; }
+            .site-watermark { width: 82vw; opacity: 0.1 !important; }
             #legal .terms-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -417,7 +420,7 @@
     </div>
 
     <div class="scene-grid"></div>
-    <div class="site-watermark" aria-hidden="true"></div>
+    <img class="site-watermark" src="the-forex-bank-logo-gold.png?v=watermark-2" alt="" aria-hidden="true">
 
     <!-- Live Ticker -->
     <div class="ticker-strip">

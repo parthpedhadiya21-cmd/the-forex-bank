@@ -235,6 +235,45 @@
             }
         }
     </style>
+    <style id="main-strategies-fix">
+        #strategies {
+            scroll-margin-top: 110px;
+            padding: clamp(72px, 7vw, 120px) var(--content-gutter) clamp(70px, 6vw, 110px) !important;
+            background:
+                radial-gradient(circle at 50% 0, rgba(214, 185, 112, 0.08), transparent 30rem),
+                rgba(6, 8, 11, 0.3);
+        }
+
+        #strategies .strategy-section-lead {
+            max-width: 760px;
+            margin: -16px 0 34px;
+            color: #aeb7c2;
+            font-size: 0.96rem;
+        }
+
+        #strategies .strategy-cards {
+            align-items: stretch;
+        }
+
+        #strategies .strategy-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #strategies .strategy-card-body {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+        }
+
+        #strategies .strategy-points {
+            flex: 1;
+        }
+
+        @media (max-width: 1100px) {
+            #strategies .strategy-cards { grid-template-columns: 1fr !important; }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         window.setTimeout(function () {
@@ -290,6 +329,7 @@
                 <li><a href="#features">WHY CHOOSE US</a></li>
                 <li><a href="#global">GLOBAL MARKETS</a></li>
                 <li><a href="#how-it-works">HOW IT WORKS</a></li>
+                <li><a href="#strategies">STRATEGIES</a></li>
                 <li><a href="#dashboard">PERFORMANCE</a></li>
                 <li><a href="#partnership">PARTNERSHIP</a></li>
                 <li><a href="#contact">CONTACT</a></li>
@@ -366,6 +406,82 @@
             </div>
         </div>
         
+    </section>
+
+    <!-- Copy Trading Strategies -->
+    <section id="strategies" class="strategy-section section homepage-strategies">
+        <div class="section-container">
+            <span class="strategy-label">Capital Profiles</span>
+            <h2 class="section-title">VIEW OUR COPY TRADING STRATEGIES</h2>
+            <p class="strategy-section-lead">Choose from three disciplined copy trading profiles built around defined markets, growth targets, and risk controls.</p>
+            <div class="strategy-cards">
+                <article class="strategy-card featured-strategy">
+                    <div class="strategy-media">
+                        <img class="broker-strategy-image" src="vantage-logo.webp" alt="Vantage copy trading" loading="lazy" decoding="async">
+                        <div class="strategy-media-overlay"><span>Strategy 01</span><strong>Hyper Growth Finance</strong></div>
+                    </div>
+                    <div class="strategy-card-body">
+                        <div class="strategy-card-header">
+                            <div><span class="strategy-label">Vantage Copy Trading</span><h2>Hyper Growth Finance</h2></div>
+                            <span class="risk-badge medium-risk">Medium Risk</span>
+                        </div>
+                        <p class="strategy-copy">A Vantage copy trading profile targeting consistent monthly growth with disciplined risk management.</p>
+                        <div class="strategy-metrics">
+                            <div class="metric-box"><span class="metric-label">Monthly Growth</span><strong>8-12%</strong></div>
+                            <div class="metric-box"><span class="metric-label">Drawdown Zone</span><strong>25-35%</strong></div>
+                            <div class="metric-box"><span class="metric-label">Market Coverage</span><strong>25+ Pairs</strong></div>
+                            <div class="metric-box"><span class="metric-label">Protection</span><strong>SL / TP</strong></div>
+                        </div>
+                        <ul class="strategy-points"><li>Balanced execution for active copy trading accounts.</li><li>Every position uses stop loss and take profit logic.</li></ul>
+                        <a class="primary-btn strategy-action" href="https://www.vantagemarkets.com/open-live-account/?sub1=spid_MTMxOTA0NQ%3D%3D&amp;c=Zjr65MltkdsIqSEgwnjvLQ%3D%3D&amp;affid=27868159&amp;platform=copytrading&amp;autoCertification=false" target="_blank" rel="noopener">COPY STRATEGY 01</a>
+                    </div>
+                </article>
+
+                <article class="strategy-card">
+                    <div class="strategy-media">
+                        <img class="broker-strategy-image" src="cxm-logo.png" alt="CXM copy trading" loading="lazy" decoding="async">
+                        <div class="strategy-media-overlay"><span>Strategy 02</span><strong>THE FOREX BANK</strong></div>
+                    </div>
+                    <div class="strategy-card-body">
+                        <div class="strategy-card-header">
+                            <div><span class="strategy-label">CXM Copy Trading</span><h2>THE FOREX BANK</h2></div>
+                            <span class="risk-badge low-risk">Low Risk</span>
+                        </div>
+                        <p class="strategy-copy">A CXM copy trading profile built for measured monthly returns and controlled execution.</p>
+                        <div class="strategy-metrics">
+                            <div class="metric-box"><span class="metric-label">Monthly Growth</span><strong>8-15%</strong></div>
+                            <div class="metric-box"><span class="metric-label">Drawdown Zone</span><strong>25-35%</strong></div>
+                            <div class="metric-box"><span class="metric-label">Market Coverage</span><strong>25+ Pairs</strong></div>
+                            <div class="metric-box"><span class="metric-label">Protection</span><strong>SL / TP</strong></div>
+                        </div>
+                        <ul class="strategy-points"><li>Balanced profile for steady copy trading participation.</li><li>Designed for clients prioritizing controlled drawdown.</li></ul>
+                        <a class="secondary-btn strategy-action" href="https://socialtradingranking.cxmth.com/widgets/ratings/21961?widgetKey=social_platform_ratings&amp;theme=light&amp;lang=en&amp;preview=P3U9NDkyYzAwJmE9MjQ5NTQmcD0yMTk2MSZ3PTE=" target="_blank" rel="noopener">COPY STRATEGY 02</a>
+                    </div>
+                </article>
+
+                <article class="strategy-card featured-strategy">
+                    <div class="strategy-media">
+                        <img class="broker-strategy-image" src="vantage-logo.webp" alt="Vantage gold copy trading" loading="lazy" decoding="async">
+                        <div class="strategy-media-overlay"><span>Strategy 03</span><strong>Gold Reserve Bank</strong></div>
+                    </div>
+                    <div class="strategy-card-body">
+                        <div class="strategy-card-header">
+                            <div><span class="strategy-label">Vantage Copy Trading</span><h2>Gold Reserve Bank</h2></div>
+                            <span class="risk-badge medium-risk">Medium Risk</span>
+                        </div>
+                        <p class="strategy-copy">A gold-focused copy trading profile designed for disciplined growth with controlled risk management.</p>
+                        <div class="strategy-metrics">
+                            <div class="metric-box"><span class="metric-label">Monthly Growth</span><strong>10-12%</strong></div>
+                            <div class="metric-box"><span class="metric-label">Drawdown Zone</span><strong>20-25%</strong></div>
+                            <div class="metric-box"><span class="metric-label">Market Coverage</span><strong>Gold / XAUUSD</strong></div>
+                            <div class="metric-box"><span class="metric-label">Protection</span><strong>SL / TP</strong></div>
+                        </div>
+                        <ul class="strategy-points"><li>Specialized gold-market copy trading strategy.</li><li>Designed around a controlled 20-25% drawdown range.</li></ul>
+                        <a class="primary-btn strategy-action" href="https://www.vantagemarkets.com/open-live-account/?sub1=spid_MTMxOTA0NQ%3D%3D&amp;c=Zjr65MltkdsIqSEgwnjvLQ%3D%3D&amp;affid=27868159&amp;platform=copytrading&amp;autoCertification=false" target="_blank" rel="noopener">COPY STRATEGY 03</a>
+                    </div>
+                </article>
+            </div>
+        </div>
     </section>
 
     <!-- About Us Section -->
@@ -501,7 +617,7 @@
                         <div class="step-number">03</div>
                         <h3>Activate Copy Trading</h3>
                         <p>Choose your strategy and risk parameters</p>
-                        <a class="step-link primary-btn" href="./strategies.html">JOIN HERE</a>
+                        <a class="step-link primary-btn" href="#strategies">JOIN HERE</a>
                     </div>
                 </div>
                 <div class="timeline-connector"></div>

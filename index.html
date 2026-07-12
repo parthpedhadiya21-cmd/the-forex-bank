@@ -279,18 +279,20 @@
 
         .site-watermark {
             position: fixed;
-            top: 50%;
+            top: 52%;
             left: 50%;
-            z-index: 900 !important;
+            z-index: 0 !important;
             display: block !important;
-            width: min(48vw, 640px);
+            width: min(32vw, 420px);
             height: auto;
             aspect-ratio: 1;
             transform: translate(-50%, -50%);
             object-fit: contain;
-            opacity: 0.14 !important;
-            filter: saturate(0.72) brightness(1.08);
-            mix-blend-mode: screen;
+            border-radius: 50%;
+            clip-path: circle(48% at 50% 50%);
+            opacity: 0.038 !important;
+            filter: grayscale(0.35) sepia(0.22) brightness(1.1) contrast(0.9);
+            mix-blend-mode: luminosity;
             pointer-events: none;
             user-select: none;
         }
@@ -298,7 +300,7 @@
         body > section,
         body > footer,
         body > .scene-grid {
-            z-index: 1;
+            z-index: 1 !important;
         }
 
         #legal {
@@ -379,7 +381,7 @@
         }
 
         @media (max-width: 760px) {
-            .site-watermark { width: 82vw; opacity: 0.1 !important; }
+            .site-watermark { width: 58vw; opacity: 0.03 !important; }
             #legal .terms-grid { grid-template-columns: 1fr; }
         }
     </style>

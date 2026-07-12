@@ -1120,6 +1120,44 @@
         });
     }
 
+    function initMarketSessionStatus() {
+        const marketItems = $$('[data-market-timezone]');
+        if (!marketItems.length) return;
+
+        const updateStatuses = () => {
+            const now = new Date();
+
+            marketItems.forEach((item) => {
+                const timezone = item.dataset.marketTimezone;
+                const openHour = Number(item.dataset.marketOpen);
+                const closeHour = Number(item.dataset.marketClose);
+                const parts = new Intl.DateTimeFormat('en-US', {
+                    timeZone: timezone,
+                    weekday: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hourCycle: 'h23'
+                }).formatToParts(now);
+                const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+                const minutes = Number(values.hour) * 60 + Number(values.minute);
+                const weekday = !['Sat', 'Sun'].includes(values.weekday);
+                const isLive = weekday && minutes >= openHour * 60 && minutes < closeHour * 60;
+                const status = $('.market-value', item);
+
+                if (status) {
+                    status.textContent = isLive ? 'LIVE' : 'CLOSED';
+                    status.classList.toggle('is-closed', !isLive);
+                }
+            });
+        };
+
+        updateStatuses();
+        window.setInterval(updateStatuses, 60 * 1000);
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) updateStatuses();
+        });
+    }
+
     function boot() {
         const bootSteps = [
             initLoadingScreen,
@@ -1128,6 +1166,7 @@
             initHeroActions,
             initRevealObserver,
             initGlobalGlobe,
+            initMarketSessionStatus,
             initLiveStats,
             initMyfxbookStatsRefresh,
             initMyfxbookWidgetRefresh,

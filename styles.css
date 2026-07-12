@@ -213,7 +213,8 @@ a.contact-btn {
 .logo-mark-circle img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    filter: brightness(1.16) contrast(1.08);
 }
 
 .brand-logo span {
@@ -1624,10 +1625,14 @@ a.contact-btn {
 
 .strategy-media img.broker-strategy-image {
     object-fit: contain;
-    padding: 44px 54px 72px;
-    background: radial-gradient(circle at center, rgba(214, 185, 112, 0.12), transparent 64%), #080b10;
+    padding: 32px 48px 74px;
+    background: #ffffff;
     filter: none;
     transform: none;
+}
+
+.strategy-media:has(.broker-strategy-image)::after {
+    background: linear-gradient(180deg, transparent 0 42%, rgba(6, 8, 11, 0.2) 58%, rgba(6, 8, 11, 0.96) 100%);
 }
 
 .strategy-media::after {

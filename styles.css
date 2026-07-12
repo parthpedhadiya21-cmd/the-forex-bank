@@ -1578,7 +1578,7 @@ a.contact-btn {
 
 .strategy-cards {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
 }
 
@@ -1620,6 +1620,14 @@ a.contact-btn {
     object-fit: cover;
     filter: saturate(0.8) contrast(1.08);
     transform: scale(1.02);
+}
+
+.strategy-media img.broker-strategy-image {
+    object-fit: contain;
+    padding: 44px 54px 72px;
+    background: radial-gradient(circle at center, rgba(214, 185, 112, 0.12), transparent 64%), #080b10;
+    filter: none;
+    transform: none;
 }
 
 .strategy-media::after {

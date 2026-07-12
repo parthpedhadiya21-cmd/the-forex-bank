@@ -14,7 +14,7 @@
     --green: #67d19a;
     --red: #e07171;
     --blue: #8bb8d8;
-    --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+    --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);a
     --radius: 8px;
     --max: clamp(1180px, 86vw, 2200px);
     --content-gutter: clamp(16px, 3vw, 64px);
@@ -695,6 +695,11 @@ a.contact-btn {
     min-height: auto;
 }
 
+.global-markets .globe-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+}
+
 #global-globe {
     position: relative;
     min-height: 380px;
@@ -773,6 +778,7 @@ a.contact-btn {
 .market-data {
     display: grid;
     gap: 12px;
+    min-height: 380px;
     padding: 22px;
 }
 
@@ -786,6 +792,14 @@ a.contact-btn {
 
 .market-item:last-child {
     border-bottom: 0;
+}
+
+.market-value {
+    color: var(--green);
+}
+
+.market-value.is-closed {
+    color: #e07171;
 }
 
 .market-label {
@@ -1807,6 +1821,10 @@ a.contact-btn {
         grid-template-columns: 1fr;
     }
 
+    .global-markets .globe-section {
+        grid-template-columns: 1fr;
+    }
+
     .hero-right {
         max-width: 720px;
     }
@@ -2165,6 +2183,10 @@ a.contact-btn {
     }
 
     #global-globe {
+        min-height: 340px;
+    }
+
+    .market-data {
         min-height: 340px;
     }
 

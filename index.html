@@ -5,6 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE FOREX BANK - Institutional Forex Capital Desk</title>
     <link rel="stylesheet" href="styles.css?v=19">
+    <style id="about-layout-fix">
+        @media (min-width: 1101px) {
+            #about .section-container {
+                height: 520px !important;
+                min-height: 520px !important;
+                align-items: stretch !important;
+            }
+
+            #about .about-left,
+            #about .about-right {
+                height: 520px !important;
+                min-height: 520px !important;
+                max-height: 520px !important;
+                overflow: hidden !important;
+            }
+
+            #about .about-image-container {
+                position: relative !important;
+                width: 100% !important;
+                height: 520px !important;
+                min-height: 520px !important;
+                max-height: 520px !important;
+                overflow: hidden !important;
+            }
+
+            #about .about-image {
+                position: absolute !important;
+                inset: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                object-position: center 38% !important;
+            }
+
+            #about .about-right {
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            #about .about-right .section-title {
+                flex: 0 0 auto !important;
+                margin-bottom: 24px !important;
+            }
+
+            #about .glass-cards {
+                flex: 1 !important;
+                min-height: 0 !important;
+                grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+            }
+
+            #about .glass-card {
+                min-height: 0 !important;
+                padding: 20px 24px !important;
+            }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         window.setTimeout(function () {

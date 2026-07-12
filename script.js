@@ -355,20 +355,12 @@
 
     function initHeroActions() {
         const viewStrategyBtn = $('#viewStrategyBtn');
-        const openCapitalAccessBtn = $('#openCapitalAccessBtn');
         const bookPrivateCallBtn = $('#bookPrivateCallBtn');
 
         if (viewStrategyBtn) {
             viewStrategyBtn.addEventListener('click', (event) => {
                 event.preventDefault();
                 window.location.href = './strategies.html';
-            });
-        }
-
-        if (openCapitalAccessBtn) {
-            openCapitalAccessBtn.addEventListener('click', (event) => {
-                event.preventDefault();
-                scrollToOpenAccount();
             });
         }
 
@@ -381,7 +373,7 @@
     }
 
     function initRevealObserver() {
-        const targets = $$('.section, .dashboard-widget, .premium-card, .glass-card, .gallery-item, .timeline-step, .pricing-card-premium, .partnership-content, .partnership-image, .contact-content');
+        const targets = $$('.section, .dashboard-widget, .premium-card, .glass-card, .gallery-item, .timeline-step, .partnership-content, .partnership-image, .contact-content');
         targets.forEach((item) => item.classList.add('reveal-ready'));
 
         if (!('IntersectionObserver' in window) || prefersReducedMotion) {

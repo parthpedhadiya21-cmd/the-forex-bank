@@ -281,13 +281,14 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            z-index: 0;
-            width: min(54vw, 720px);
+            z-index: 50;
+            width: min(48vw, 640px);
             aspect-ratio: 1;
             transform: translate(-50%, -50%);
             background: url("the-forex-bank-logo-gold.png") center / contain no-repeat;
-            opacity: 0.025;
-            filter: grayscale(0.15) sepia(0.25);
+            opacity: 0.065;
+            filter: grayscale(0.25) sepia(0.28) brightness(0.9);
+            mix-blend-mode: screen;
             pointer-events: none;
         }
 
@@ -375,7 +376,7 @@
         }
 
         @media (max-width: 760px) {
-            .site-watermark { width: 88vw; opacity: 0.022; }
+            .site-watermark { width: 82vw; opacity: 0.05; }
             #legal .terms-grid { grid-template-columns: 1fr; }
         }
     </style>

@@ -274,6 +274,111 @@
             #strategies .strategy-cards { grid-template-columns: 1fr !important; }
         }
     </style>
+    <style id="legal-watermark-fix">
+        body { isolation: isolate; }
+
+        .site-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 0;
+            width: min(54vw, 720px);
+            aspect-ratio: 1;
+            transform: translate(-50%, -50%);
+            background: url("the-forex-bank-logo-gold.png") center / contain no-repeat;
+            opacity: 0.025;
+            filter: grayscale(0.15) sepia(0.25);
+            pointer-events: none;
+        }
+
+        body > section,
+        body > footer,
+        body > .scene-grid {
+            z-index: 1;
+        }
+
+        #legal {
+            scroll-margin-top: 110px;
+            padding-top: clamp(70px, 6vw, 110px);
+        }
+
+        #legal .legal-content {
+            width: min(1180px, calc(100% - (var(--content-gutter) * 2)));
+            padding: clamp(24px, 3vw, 48px);
+        }
+
+        #legal .legal-title {
+            margin-bottom: 22px;
+            color: #f4f1ea;
+            font-size: clamp(1.65rem, 2.5vw, 2.5rem);
+        }
+
+        #legal .legal-title::after {
+            content: "";
+            display: block;
+            width: 64px;
+            height: 2px;
+            margin-top: 12px;
+            background: #d6b970;
+        }
+
+        #legal p {
+            margin-top: 14px;
+            color: #aeb7c2;
+        }
+
+        #legal .legal-value {
+            margin: 24px 0 38px;
+            border-left: 3px solid #d6b970;
+            background: rgba(214, 185, 112, 0.06);
+            padding: 16px 18px;
+            color: #f2dd9a;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        #terms,
+        #privacy {
+            scroll-margin-top: 110px;
+        }
+
+        #legal .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        #legal .term-item {
+            border: 1px solid rgba(204, 214, 224, 0.13);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.022);
+            padding: 18px;
+        }
+
+        #legal .term-item h4 {
+            color: #f2dd9a;
+            font-size: 0.94rem;
+        }
+
+        #legal .term-item p {
+            margin-top: 8px;
+            font-size: 0.88rem;
+        }
+
+        #legal .legal-confirmation,
+        #legal .privacy-block {
+            margin-top: 30px;
+            border-top: 1px solid rgba(204, 214, 224, 0.13);
+            padding-top: 24px;
+        }
+
+        @media (max-width: 760px) {
+            .site-watermark { width: 88vw; opacity: 0.022; }
+            #legal .terms-grid { grid-template-columns: 1fr; }
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         window.setTimeout(function () {
@@ -299,6 +404,7 @@
     </div>
 
     <div class="scene-grid"></div>
+    <div class="site-watermark" aria-hidden="true"></div>
 
     <!-- Live Ticker -->
     <div class="ticker-strip">
@@ -833,7 +939,36 @@
     <!-- Legal -->
     <section id="legal" class="legal section">
         <div class="legal-content">
-            <strong>RISK DISCLAIMER:</strong> Forex trading involves substantial risk and may not be suitable for all investors. Past performance does not guarantee future results. Only trade with capital you can afford to lose.
+            <h2 class="legal-title">RISK DISCLAIMER</h2>
+            <p>The information, trading strategies, and copy trading services provided by THE FOREX BANK are for educational and informational purposes only and do not constitute financial, investment, or trading advice.</p>
+            <p>Forex and CFD trading involve a high level of risk and may not be suitable for all investors. Past performance is not indicative of future results. There is no guarantee that any trading strategy or copied trade will generate profits or avoid losses.</p>
+            <p>By participating in copy trading, you acknowledge that all trading decisions and associated risks remain solely your responsibility. THE FOREX BANK, its partners, affiliates, and representatives shall not be held liable for any losses, damages, or financial consequences arising from the use of our copy trading services.</p>
+            <p>Clients should carefully consider their financial situation, investment objectives, and risk tolerance before engaging in any trading activity. If necessary, seek independent financial advice before making investment decisions.</p>
+            <div class="legal-value">Transparency Is Our Brand Value.</div>
+
+            <div id="terms">
+                <h2 class="legal-title">THE FOREX BANK – COPY TRADING TERMS &amp; CONDITIONS</h2>
+                <div class="terms-grid">
+                    <article class="term-item"><h4>1. Risk Acknowledgement</h4><p>Client acknowledges that Forex, CFDs, Commodities, Indices, and other financial instruments involve substantial risk and may result in partial or total loss of invested capital.</p></article>
+                    <article class="term-item"><h4>2. No Profit Guarantee</h4><p>THE FOREX BANK does not guarantee any specific profit, return, or trading outcome. Past performance is not a reliable indicator of future results.</p></article>
+                    <article class="term-item"><h4>3. Client Responsibility</h4><p>All investment and trading decisions remain solely the responsibility of the client. The client understands and accepts all risks associated with copy trading.</p></article>
+                    <article class="term-item"><h4>4. Execution Differences</h4><p>Due to market conditions, liquidity, broker execution speed, spread variations, slippage, leverage differences, and account settings, copied trades may produce different results from the master account.</p></article>
+                    <article class="term-item"><h4>5. Drawdown Acceptance</h4><p>The client understands that periods of drawdown and losses are a normal part of trading. Temporary or prolonged losses may occur.</p></article>
+                    <article class="term-item"><h4>6. No Financial Advice</h4><p>THE FOREX BANK provides copy trading services for informational and execution purposes only and does not provide financial, investment, tax, or legal advice.</p></article>
+                    <article class="term-item"><h4>7. Account Security</h4><p>The client is responsible for maintaining the confidentiality and security of their trading account credentials and personal information.</p></article>
+                    <article class="term-item"><h4>8. Service Modification</h4><p>THE FOREX BANK reserves the right to modify, suspend, or terminate any copy trading service at any time without prior notice.</p></article>
+                    <article class="term-item"><h4>9. Limitation of Liability</h4><p>THE FOREX BANK, its owners, partners, employees, and affiliates shall not be liable for any direct, indirect, incidental, or consequential losses arising from the use of copy trading services.</p></article>
+                    <article class="term-item"><h4>10. Independent Decision</h4><p>By subscribing to our copy trading service, the client confirms that participation is voluntary and based on their own independent judgment.</p></article>
+                    <article class="term-item"><h4>11. Withdrawal &amp; Broker Policies</h4><p>Clients remain subject to the terms, conditions, and policies of their respective brokers. THE FOREX BANK is not responsible for broker-related issues including execution, withdrawal delays, account restrictions, or account closures.</p></article>
+                    <article class="term-item"><h4>12. Acceptance of Terms</h4><p>By subscribing to or using THE FOREX BANK Copy Trading Service, the client confirms that they have read, understood, and agreed to these Terms &amp; Conditions.</p></article>
+                </div>
+                <p class="legal-confirmation">By joining our copy trading service, you confirm that you understand the risks involved and accept full responsibility for your trading and investment decisions.</p>
+            </div>
+
+            <div id="privacy" class="privacy-block">
+                <h2 class="legal-title">PRIVACY</h2>
+                <p>THE FOREX BANK values your privacy. Personal information collected through our website or services is used solely for service delivery, communication, and support purposes. We do not sell or share your personal data with third parties without your consent, except where required by law.</p>
+            </div>
         </div>
     </section>
 

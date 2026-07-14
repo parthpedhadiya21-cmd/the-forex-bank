@@ -319,14 +319,51 @@
             z-index: 1 !important;
         }
 
+        body.legal-modal-open { overflow: hidden; }
+
         #legal {
-            scroll-margin-top: 110px;
-            padding-top: clamp(70px, 6vw, 110px);
+            position: fixed;
+            inset: 0;
+            z-index: 10000 !important;
+            display: none;
+            place-items: center;
+            overflow-y: auto;
+            background: rgba(2, 4, 7, 0.86);
+            padding: clamp(18px, 4vw, 64px);
+            backdrop-filter: blur(12px);
         }
 
+        #legal.is-open { display: grid; }
+
         #legal .legal-content {
+            position: relative;
             width: min(1180px, calc(100% - (var(--content-gutter) * 2)));
+            max-height: 88vh;
+            overflow-y: auto;
+            border: 1px solid rgba(214, 185, 112, 0.26);
+            border-radius: 10px;
+            background: #0b1118;
+            box-shadow: 0 36px 120px rgba(0, 0, 0, 0.72);
             padding: clamp(24px, 3vw, 48px);
+        }
+
+        #legal .legal-panel { display: none; }
+        #legal .legal-panel.is-active { display: block; }
+
+        #legal .legal-close {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            float: right;
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(214, 185, 112, 0.34);
+            border-radius: 50%;
+            background: #111821;
+            color: #f2dd9a;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
         }
 
         #legal .legal-title {
@@ -360,11 +397,6 @@
             text-transform: uppercase;
         }
 
-        #terms,
-        #privacy {
-            scroll-margin-top: 110px;
-        }
-
         #legal .terms-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -389,15 +421,22 @@
             font-size: 0.88rem;
         }
 
-        #legal .legal-confirmation,
-        #legal .privacy-block {
+        #legal .legal-confirmation {
             margin-top: 30px;
             border-top: 1px solid rgba(204, 214, 224, 0.13);
             padding-top: 24px;
         }
 
+        #legal .privacy-block {
+            margin-top: 0;
+            border-top: 0;
+            padding-top: 0;
+        }
+
         @media (max-width: 760px) {
             .site-watermark { width: 58vw; opacity: 0.03 !important; }
+            #legal { padding: 12px; }
+            #legal .legal-content { width: 100%; max-height: 94vh; padding: 22px 18px; }
             #legal .terms-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -969,16 +1008,19 @@
     </section>
 
     <!-- Legal -->
-    <section id="legal" class="legal section">
+    <section id="legal" aria-hidden="true" aria-modal="true" aria-label="Legal information" role="dialog">
         <div class="legal-content">
-            <h2 class="legal-title">RISK DISCLAIMER</h2>
-            <p>The information, trading strategies, and copy trading services provided by THE FOREX BANK are for educational and informational purposes only and do not constitute financial, investment, or trading advice.</p>
-            <p>Forex and CFD trading involve a high level of risk and may not be suitable for all investors. Past performance is not indicative of future results. There is no guarantee that any trading strategy or copied trade will generate profits or avoid losses.</p>
-            <p>By participating in copy trading, you acknowledge that all trading decisions and associated risks remain solely your responsibility. THE FOREX BANK, its partners, affiliates, and representatives shall not be held liable for any losses, damages, or financial consequences arising from the use of our copy trading services.</p>
-            <p>Clients should carefully consider their financial situation, investment objectives, and risk tolerance before engaging in any trading activity. If necessary, seek independent financial advice before making investment decisions.</p>
-            <div class="legal-value">Transparency Is Our Brand Value.</div>
+            <button class="legal-close" type="button" aria-label="Close legal information">&times;</button>
+            <div id="risk-disclaimer" class="legal-panel">
+                <h2 id="legal-modal-title" class="legal-title">RISK DISCLAIMER</h2>
+                <p>The information, trading strategies, and copy trading services provided by THE FOREX BANK are for educational and informational purposes only and do not constitute financial, investment, or trading advice.</p>
+                <p>Forex and CFD trading involve a high level of risk and may not be suitable for all investors. Past performance is not indicative of future results. There is no guarantee that any trading strategy or copied trade will generate profits or avoid losses.</p>
+                <p>By participating in copy trading, you acknowledge that all trading decisions and associated risks remain solely your responsibility. THE FOREX BANK, its partners, affiliates, and representatives shall not be held liable for any losses, damages, or financial consequences arising from the use of our copy trading services.</p>
+                <p>Clients should carefully consider their financial situation, investment objectives, and risk tolerance before engaging in any trading activity. If necessary, seek independent financial advice before making investment decisions.</p>
+                <div class="legal-value">Transparency Is Our Brand Value.</div>
+            </div>
 
-            <div id="terms">
+            <div id="terms" class="legal-panel">
                 <h2 class="legal-title">THE FOREX BANK – COPY TRADING TERMS &amp; CONDITIONS</h2>
                 <div class="terms-grid">
                     <article class="term-item"><h4>1. Risk Acknowledgement</h4><p>Client acknowledges that Forex, CFDs, Commodities, Indices, and other financial instruments involve substantial risk and may result in partial or total loss of invested capital.</p></article>
@@ -997,7 +1039,7 @@
                 <p class="legal-confirmation">By joining our copy trading service, you confirm that you understand the risks involved and accept full responsibility for your trading and investment decisions.</p>
             </div>
 
-            <div id="privacy" class="privacy-block">
+            <div id="privacy" class="privacy-block legal-panel">
                 <h2 class="legal-title">PRIVACY</h2>
                 <p>THE FOREX BANK values your privacy. Personal information collected through our website or services is used solely for service delivery, communication, and support purposes. We do not sell or share your personal data with third parties without your consent, except where required by law.</p>
             </div>
@@ -1011,9 +1053,9 @@
             <h3>THE FOREX BANK</h3>
             <p>Premium Forex Copy Trading Services</p>
             <div class="footer-links">
-                <a href="#legal">Risk Disclaimer</a>
-                <a href="#terms">Terms</a>
-                <a href="#privacy">Privacy</a>
+                <a href="#risk-disclaimer" data-legal-target="risk-disclaimer">RISK DISCLAIMER</a>
+                <a href="#terms" data-legal-target="terms">TERMS</a>
+                <a href="#privacy" data-legal-target="privacy">PRIVACY</a>
             </div>
 <div class="footer-social" aria-label="Follow THE FOREX BANK">
     <span>Follow Us</span>
@@ -1024,6 +1066,55 @@
         </div>
     </footer>
 
+    <script>
+        (function () {
+            var modal = document.getElementById('legal');
+            if (!modal) return;
+
+            var panels = modal.querySelectorAll('.legal-panel');
+            var closeButton = modal.querySelector('.legal-close');
+            var lastTrigger = null;
+
+            function openLegalPanel(panelId, trigger) {
+                var activePanel = document.getElementById(panelId);
+                if (!activePanel || !activePanel.classList.contains('legal-panel')) return;
+
+                panels.forEach(function (panel) {
+                    panel.classList.toggle('is-active', panel === activePanel);
+                });
+
+                lastTrigger = trigger || null;
+                modal.classList.add('is-open');
+                modal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('legal-modal-open');
+                closeButton.focus();
+            }
+
+            function closeLegalPanel() {
+                modal.classList.remove('is-open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('legal-modal-open');
+                panels.forEach(function (panel) { panel.classList.remove('is-active'); });
+                if (lastTrigger) lastTrigger.focus();
+            }
+
+            document.querySelectorAll('[data-legal-target]').forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    openLegalPanel(link.getAttribute('data-legal-target'), link);
+                });
+            });
+
+            closeButton.addEventListener('click', closeLegalPanel);
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) closeLegalPanel();
+            });
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape' && modal.classList.contains('is-open')) closeLegalPanel();
+            });
+        }());
+    </script>
     <script src="script.js?v=25"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
 </body>

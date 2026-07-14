@@ -64,12 +64,16 @@
     <style id="hero-layout-fix">
         @media (min-width: 1101px) {
             #home .hero-container {
-                grid-template-columns: minmax(0, 1.12fr) minmax(520px, 0.88fr) !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
                 gap: clamp(34px, 4vw, 72px) !important;
+                align-items: stretch !important;
             }
 
             #home .hero-left {
                 position: relative !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
                 max-width: none !important;
                 min-width: 0 !important;
                 border: 1px solid rgba(214, 185, 112, 0.22) !important;
@@ -113,14 +117,24 @@
                 white-space: nowrap !important;
             }
 
+            #home .title-sub {
+                display: block !important;
+                font-size: clamp(1.35rem, 1.8vw, 2.15rem) !important;
+                line-height: 1.1 !important;
+                white-space: nowrap !important;
+            }
+
             #home .trading-terminal,
             #home .hero-right {
                 width: 100% !important;
+                height: 100% !important;
                 max-width: none !important;
             }
 
             #home .trading-terminal {
                 position: relative !important;
+                display: flex !important;
+                flex-direction: column !important;
                 border: 1px solid rgba(214, 185, 112, 0.34) !important;
                 border-radius: 10px !important;
                 background: #0a0e13 !important;
@@ -179,15 +193,17 @@
             }
 
             #home .terminal-content {
-                display: block !important;
+                display: flex !important;
+                flex: 1 !important;
                 grid-template-columns: none !important;
                 width: 100% !important;
+                min-height: 0 !important;
                 padding: 0 !important;
             }
 
             #home .terminal-chart {
                 width: 100% !important;
-                height: clamp(460px, 33vw, 590px) !important;
+                height: 100% !important;
                 min-height: clamp(460px, 33vw, 590px) !important;
                 border: 1px solid rgba(204, 214, 224, 0.1) !important;
                 border-radius: 6px !important;
@@ -466,7 +482,6 @@
         <div class="hero-container">
             <!-- Left Side -->
             <div class="hero-left">
-                <div class="hero-kicker">Private Capital Desk</div>
                 <h1 class="hero-title">
                     <span class="title-main">THE FOREX BANK</span>
                     <span class="title-sub">Institutional Forex Capital Desk</span>

@@ -1593,7 +1593,8 @@ a.contact-btn {
 
 .strategy-cards {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(340px, 460px));
+    justify-content: center;
     gap: 18px;
 }
 
@@ -1855,9 +1856,12 @@ a.contact-btn {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .strategy-hero-grid,
-    .strategy-cards {
+    .strategy-hero-grid {
         grid-template-columns: 1fr;
+    }
+
+    .strategy-cards {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .strategy-summary {

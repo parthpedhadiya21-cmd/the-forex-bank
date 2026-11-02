@@ -14,7 +14,7 @@
     --green: #67d19a;
     --red: #e07171;
     --blue: #8bb8d8;
-    --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);a
+    --shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
     --radius: 8px;
     --max: clamp(1180px, 86vw, 2200px);
     --content-gutter: clamp(16px, 3vw, 64px);
@@ -2417,7 +2417,27 @@ a.contact-btn {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ===== GTC logo fixes ===== */
 .gtc-logo {
     background: #0b1c46;
 }
- 
+
+/* Open Account card: GTC logo fills the box */
+.broker-logo.gtc-logo {
+    padding: 0;
+    overflow: hidden;
+}
+
+.broker-logo.gtc-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Strategy card: GTC image full-bleed, no white padding */
+.strategy-media img.broker-strategy-image[src*="gtcfx"] {
+    object-fit: cover;
+    padding: 0;
+    background: #0b1c46;
+}
